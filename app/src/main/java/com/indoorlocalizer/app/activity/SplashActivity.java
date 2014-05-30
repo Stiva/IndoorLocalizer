@@ -8,9 +8,9 @@ import android.os.SystemClock;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
-
-import com.indoorlocalizer.R;
 import com.indoorlocalizer.app.LocatorSelector;
+import com.indoorlocalizer.app.R;
+
 import java.lang.ref.WeakReference;
 
 /**
@@ -56,7 +56,7 @@ public class SplashActivity extends Activity {
             }
 
         }
-    };
+    }
 
     public void goAhead() {
         Intent intent=new Intent(this,LocatorSelector.class);
