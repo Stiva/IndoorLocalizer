@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">IndoorLocalizer</string>
+    <string name="action_settings">Settings</string>
+    <string name="login_activity_label">Login</string>
+    <string name="register_activity_label">Registration</string>
+    <string name="hugo_logo">Application Logo</string>
+    <string name="button_anonymous">Anonymous</string>
+    <string name="button_register">Register</string>
+    <string name="button_login">Login</string>
+    <string name="do_login">Login</string>
+    <string name="new_data_button_label">Insert new data</string>
+    <string name="old_data_button_label">View old data</string>
+    <string name="remote_data_button_label">View remote data</string>
+    <string name="username_label">Username</string>
+    <string name="password_label">Password</string>
+    <string name="email_label">E-mail</string>
+    <string name="birth_date_label">Birth Date</string>
+    <string name="location_label">Location</string>
+    <string name="confirm_button_label">Confirm</string>
+    <!-- Error messages -->
+    <string name="mandatory_field_error">The field %1$s is mandatory</string>
+    <string name="wrong_credential_error">Wrong credentials! Please try again.</string>
+    <string name="title_activity_locator_selector">LocatorSelector</string>
+    <string name="hello_world">Hello world!</string>
+
+</resources>

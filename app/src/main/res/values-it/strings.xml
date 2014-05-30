@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="button_anonymous">Anonimo</string>
+    <string name="button_register">Registrati</string>
+    <string name="birth_date_label">Data di nascita</string>
+    <string name="location_label">Posizione</string>
+    <string name="confirm_button_label">Conferma</string>
+
+    <!-- Error messages -->
+    <string name="mandatory_field_error">Il campo %1$s is obbligatorio</string>
+    <string name="wrong_credential_error">Account o password errati! Riprova di nuovo.</string>
+
+</resources>
