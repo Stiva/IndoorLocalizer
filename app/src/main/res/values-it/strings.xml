@@ -5,9 +5,15 @@
     <string name="birth_date_label">Data di nascita</string>
     <string name="location_label">Posizione</string>
     <string name="confirm_button_label">Conferma</string>
+    <string name="WiFi_status_text">"Perché la localizzazione funzioni il WiFi deve essere abilitato</string>
 
     <!-- Error messages -->
     <string name="mandatory_field_error">Il campo %1$s is obbligatorio</string>
     <string name="wrong_credential_error">Account o password errati! Riprova di nuovo.</string>
+    <string name="data_retriving_button_text">Raccogli Dati</string>
+    <string name="localize_button_text">Localizzami!</string>
+
+    <!-- Button Text -->
+    <string name="scan_button_text">Scansiona!</string>
 
 </resources>

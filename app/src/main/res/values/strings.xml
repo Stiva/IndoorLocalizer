@@ -24,5 +24,26 @@
     <string name="wrong_credential_error">Wrong credentials! Please try again.</string>
     <string name="title_activity_locator_selector">LocatorSelector</string>
     <string name="hello_world">Hello world!</string>
+    <string name="WiFi_status_text">For a good localization Wifi must be enabled</string>
+    <string name="data_retriving_button_text">Retrive Data</string>
+    <string name="localize_button_text">Get Location</string>
+    <string name="title_activity_retrive_data">RetriveData</string>
+    <string name="title_activity_wifi_scanner">wifiScanner</string>
+    <!-- WiFi Label -->
+    <string name="scan_for_new_datas"><![CDATA[No WiFi found, please tap Menu>Scan for get some results]]></string>
+    <!-- Show data labels -->
+    <string name="ssid_value_pattern">SSID : %1$s</string>
+    <string name="bssid_value_pattern">BSSID : %1$s</string>
+    <string name="capabilities_value_pattern">Capabilities : %1$s</string>
+    <string name="level_value_pattern">Level : %1$d</string>
+    <string name="frequency_value_pattern">Frequency : %1$d Hz</string>
+    <string name="timestamp_value_pattern">Timestamp : %1$d</string>
+    <string name="update_list_message">Update List</string>
+    <string name="title_activity_simple_tracker">SimpleTracker</string>
+    <string name="empty_list_message">Searching for some networks near your position…</string>
+    <string name="title_activity_map">MapActivity</string>
+    <string name="title_activity_save_data">SaveData</string>
+    <!-- Button Text -->
+    <string name="scan_button_text">Scan!</string>
 
 </resources>
