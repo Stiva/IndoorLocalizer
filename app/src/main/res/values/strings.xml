@@ -45,5 +45,16 @@
     <string name="title_activity_save_data">SaveData</string>
     <!-- Button Text -->
     <string name="scan_button_text">Scan!</string>
+    <!-- Placeholders -->
+    <string name="placeholder_list_item_ssid">SSID: Casa Stivani</string>
+    <string name="placeholder_bssid">BSSID : 23:00:bb:22:00:11</string>
+    <string name="placeholder_capabilities">Capabilities: [WPA-PSK][WPA2-TKIP][WEP]</string>
+    <string name="placeholder_level">Level : 4</string>
+    <string name="placeholder_frequency">Frequency : 3000Hz</string>
+    <string name="placeholder_timestamp">timestamp : 74495686</string>
+    <string name="save_fingerprint_option_label">Save fingerprint!</string>
+    <string name="get_fingerprint_option_label">Get Saved AP</string>
+    <string name="title_activity_list_aps">ListAps</string>
+    <string name="refresh_list_option_label">Refresh</string>
 
 </resources>

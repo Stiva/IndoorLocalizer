@@ -34,8 +34,8 @@ public class LocatorSelector extends Activity {
                 toggleWifi();
             }
         });
-        final Button dataRetriveButton=(Button) findViewById(R.id.data_retriving_button);
-        dataRetriveButton.setOnClickListener(new View.OnClickListener() {
+        final Button dataRetrieveButton=(Button) findViewById(R.id.data_retriving_button);
+        dataRetrieveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 retriveData();

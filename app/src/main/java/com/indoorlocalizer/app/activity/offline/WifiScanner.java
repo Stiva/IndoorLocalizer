@@ -9,15 +9,22 @@ import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.indoorlocalizer.app.R;
+import com.indoorlocalizer.app.activity.common.AccessPoint;
+import com.indoorlocalizer.app.activity.common.ListAps;
+import com.indoorlocalizer.app.activity.db.DbManager;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -51,7 +58,7 @@ public class WifiScanner extends ListActivity {
                 switch (view.getId()) {
                     case R.id.list_item_ssid:
                         String ssid = (String) o;
-                        outputTextView.setText(getResources().getString(R.string.ssid_value_pattern,ssid));
+                        outputTextView.setText(getResources().getString(R.string.ssid_value_pattern, ssid));
                         break;
                     case R.id.list_item_bssid:
                         String bssid = (String) o;
@@ -70,8 +77,8 @@ public class WifiScanner extends ListActivity {
                         outputTextView.setText(getResources().getString(R.string.frequency_value_pattern, frequency));
                         break;
                     case R.id.list_item_timestamp:
-                        Integer timestamp= (Integer) o;
-                        outputTextView.setText(getResources().getString(R.string.timestamp_value_pattern,timestamp));
+                        Integer timestamp = (Integer) o;
+                        outputTextView.setText(getResources().getString(R.string.timestamp_value_pattern, timestamp));
                         break;
                 }
                 return true;
@@ -82,8 +89,7 @@ public class WifiScanner extends ListActivity {
         mainWifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
 
         // Check for wifi is disabled
-        if (!mainWifi.isWifiEnabled())
-        {
+        if (!mainWifi.isWifiEnabled()) {
             // If wifi disabled then enable it
             Toast.makeText(getApplicationContext(), "wifi is disabled..making it enabled",
                     Toast.LENGTH_LONG).show();
@@ -100,16 +106,47 @@ public class WifiScanner extends ListActivity {
         mainWifi.startScan();
     }
 
+    private void showFingerPrints(){
+        Intent showAPs=new Intent(this,ListAps.class);
+        startActivity(showAPs);
+    }
+
+    public void saveFingerprint() {
+        DbManager dbManager=new DbManager(getApplicationContext());
+        try {
+            dbManager.open();
+            for(ScanResult res:wifiList){
+                dbManager.addWifi(new AccessPoint(res.SSID,res.BSSID,res.capabilities,res.level,res.frequency));
+            }
+            dbManager.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public boolean onCreateOptionsMenu(Menu menu) {
-        menu.add(0, 0, 0, "Refresh");
-        return super.onCreateOptionsMenu(menu);
+        MenuInflater menuInflater=getMenuInflater();
+        menuInflater.inflate(R.menu.wifi_scanner,menu);
+        return true;
     }
 
     public boolean onMenuItemSelected(int featureId, MenuItem item) {
-        mainWifi.startScan();
-        mModel.clear();
-        mAdapter.notifyDataSetChanged();
-        return super.onMenuItemSelected(featureId, item);
+        switch (item.getItemId()) {
+            case R.id.refresh_list_option:
+                Toast.makeText(this, "Refresh in action", Toast.LENGTH_SHORT).show();
+                mainWifi.startScan();
+                mModel.clear();
+                mAdapter.notifyDataSetChanged();
+                return true;
+            case R.id.save_fingerprint_option:
+                saveFingerprint();
+                return true;
+
+            case R.id.get_stored_fingerprint_option:
+                showFingerPrints();
+                return true;
+        }
+            return super.onMenuItemSelected(featureId, item);
     }
 
     protected void onPause() {
@@ -139,7 +176,7 @@ public class WifiScanner extends ListActivity {
                 item.put("level", result.level);
                 item.put("frequency", result.frequency);
                 //Sometimes i get a compatibility error... dunno why... for now set min api lvl 17
-                item.put("timestamp",result.timestamp);
+                //item.put("timestamp",result.timestamp);
                 mModel.add(item);
             }
             mAdapter.notifyDataSetChanged();
@@ -149,7 +186,6 @@ public class WifiScanner extends ListActivity {
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
         Toast.makeText(getApplicationContext(), "Selected position: " + position, Toast.LENGTH_SHORT).show();
-        final Intent saveIntent = new Intent(this, SaveData.class);
-        startActivity(saveIntent);
     }
+
 }
