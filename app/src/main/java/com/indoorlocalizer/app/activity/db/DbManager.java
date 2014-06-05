@@ -6,10 +6,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import com.indoorlocalizer.app.activity.common.AccessPoint;
+import com.indoorlocalizer.app.activity.common.model.AccessPoint;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 /**
  * Created by federicostivani on 01/06/14.
@@ -23,16 +22,7 @@ public class DbManager{
 
     // Database Version
     private static final String DATABASE_TABLE = "aps";
-    // Data structure;
-    private static final String KEY_ID = "_id";
-    private static final String KEY_SSID = "ssid";
-    private static final String KEY_BSSID = "bssid";
-    private static final String KEY_CAPABILITIES = "capabilities";
-    private static final String KEY_LEVEL = "level";
-    private static final String KEY_FREQUENCY = "frequency";
-
-
-    private static final String[] COLUMNS = {KEY_ID,KEY_SSID,KEY_BSSID,KEY_CAPABILITIES,KEY_LEVEL,KEY_FREQUENCY};
+    private String[] COLUMNS = {DatabaseHelper.KEY_ID,DatabaseHelper.KEY_SSID,DatabaseHelper.KEY_BSSID,DatabaseHelper.KEY_CAPABILITIES,DatabaseHelper.KEY_LEVEL,DatabaseHelper.KEY_FREQUENCY};
 
     public DbManager(Context context){
         this.context=context;
@@ -50,11 +40,11 @@ public class DbManager{
     }
     private ContentValues createContentValues(String ssid, String bssid, String capabilities, int level, int frequency){
         ContentValues values=new ContentValues();
-        values.put(KEY_SSID,ssid);
-        values.put(KEY_BSSID,bssid);
-        values.put(KEY_CAPABILITIES,capabilities);
-        values.put(KEY_LEVEL,level);
-        values.put(KEY_FREQUENCY,frequency);
+        values.put(DatabaseHelper.KEY_SSID,ssid);
+        values.put(DatabaseHelper.KEY_BSSID,bssid);
+        values.put(DatabaseHelper.KEY_CAPABILITIES,capabilities);
+        values.put(DatabaseHelper.KEY_LEVEL,level);
+        values.put(DatabaseHelper.KEY_FREQUENCY,frequency);
         return values;
     }
 
@@ -69,7 +59,7 @@ public class DbManager{
         return db.query(DATABASE_TABLE,COLUMNS,null,null,null,null,null);
     }
     public Cursor getAccessPoint(String  ssid){
-        return db.query(DATABASE_TABLE,COLUMNS,KEY_SSID+"="+ssid,null,null,null,null);
+        return db.query(DATABASE_TABLE,COLUMNS,DatabaseHelper.KEY_SSID+"="+ssid,null,null,null,null);
     }
 
 }

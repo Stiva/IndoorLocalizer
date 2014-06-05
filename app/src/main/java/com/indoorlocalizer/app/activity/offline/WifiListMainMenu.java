@@ -12,35 +12,33 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.indoorlocalizer.app.R;
-import com.indoorlocalizer.app.activity.common.AccessPoint;
+import com.indoorlocalizer.app.activity.common.model.AccessPoint;
 import com.indoorlocalizer.app.activity.common.ListAps;
+import com.indoorlocalizer.app.activity.db.DatabaseHelper;
 import com.indoorlocalizer.app.activity.db.DbManager;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 @SuppressWarnings("NullableProblems")
-public class WifiScanner extends ListActivity {
+public class WifiListMainMenu extends ListActivity {
 
-    WifiManager mainWifi;
-    WifiReceiver receiverWifi;
-    List<ScanResult> wifiList;
+    private static final String[] FROM = {DatabaseHelper.KEY_SSID,DatabaseHelper.KEY_BSSID,DatabaseHelper.KEY_CAPABILITIES, DatabaseHelper.KEY_LEVEL,DatabaseHelper.KEY_FREQUENCY};
 
-    private static final String[] FROM = {"ssid", "bssid", "capabilities", "level", "frequency","timestamp"};
+    private static final int[] TO = {R.id.ssid, R.id.bssid, R.id.capabilities,
+            R.id.level,R.id.frequency};
 
-    private static final int[] TO = {R.id.list_item_ssid, R.id.list_item_bssid, R.id.list_item_capabilities,
-            R.id.list_item_level, R.id.list_item_timestamp};
-
+    private WifiManager mainWifi;
+    private WifiReceiver receiverWifi;
+    private List<ScanResult> wifiList;
     private SimpleAdapter mAdapter;
     private List<Map<String, Object>> mModel = new LinkedList<Map<String, Object>>();
 
@@ -56,29 +54,25 @@ public class WifiScanner extends ListActivity {
                 final TextView outputTextView = (TextView) view;
                 // We have to detect which is the item and show it
                 switch (view.getId()) {
-                    case R.id.list_item_ssid:
+                    case R.id.ssid:
                         String ssid = (String) o;
                         outputTextView.setText(getResources().getString(R.string.ssid_value_pattern, ssid));
                         break;
-                    case R.id.list_item_bssid:
+                    case R.id.bssid:
                         String bssid = (String) o;
                         outputTextView.setText(getResources().getString(R.string.bssid_value_pattern, bssid));
                         break;
-                    case R.id.list_item_capabilities:
+                    case R.id.capabilities:
                         String capabilities = (String) o;
                         outputTextView.setText(getResources().getString(R.string.capabilities_value_pattern, capabilities));
                         break;
-                    case R.id.list_item_level:
+                    case R.id.level:
                         Integer level = (Integer) o;
                         outputTextView.setText(getResources().getString(R.string.level_value_pattern, level));
                         break;
-                    case R.id.list_item_frequency:
+                    case R.id.frequency:
                         Integer frequency = (Integer) o;
                         outputTextView.setText(getResources().getString(R.string.frequency_value_pattern, frequency));
-                        break;
-                    case R.id.list_item_timestamp:
-                        Integer timestamp = (Integer) o;
-                        outputTextView.setText(getResources().getString(R.string.timestamp_value_pattern, timestamp));
                         break;
                 }
                 return true;
@@ -109,6 +103,10 @@ public class WifiScanner extends ListActivity {
     private void showFingerPrints(){
         Intent showAPs=new Intent(this,ListAps.class);
         startActivity(showAPs);
+    }
+    private void createRP(){
+        Intent createRP=new Intent(this,DataRetriever.class);
+        startActivity(createRP);
     }
 
     public void saveFingerprint() {
@@ -144,6 +142,9 @@ public class WifiScanner extends ListActivity {
 
             case R.id.get_stored_fingerprint_option:
                 showFingerPrints();
+                return true;
+            case R.id.create_rp_option:
+                createRP();
                 return true;
         }
             return super.onMenuItemSelected(featureId, item);

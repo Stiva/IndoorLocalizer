@@ -1,4 +1,4 @@
-package com.indoorlocalizer.app.activity.common;
+package com.indoorlocalizer.app.activity.common.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -12,6 +12,7 @@ public class AccessPoint implements Parcelable{
     private String capabilities;
     private int level;
     private int frequency;
+    private int hits;
 
     public AccessPoint() {
         this.SSID="";
@@ -19,6 +20,7 @@ public class AccessPoint implements Parcelable{
         this.capabilities="";
         this.level=-1;
         this.frequency=-1;
+        this.hits=-1;
     }
 
     public AccessPoint(String SSID, String BSSID, String capabilities, int level, int frequency) {
@@ -27,6 +29,7 @@ public class AccessPoint implements Parcelable{
         this.capabilities = capabilities;
         this.level = level;
         this.frequency = frequency;
+        this.hits=0;
     }
 
     public String getSSID() {
@@ -81,5 +84,13 @@ public class AccessPoint implements Parcelable{
                 this.capabilities,
                 String.valueOf(this.level),
                 String.valueOf(this.frequency)});
+    }
+
+    public void hit() {
+        hits++;
+    }
+
+    public int getHits() {
+        return hits;
     }
 }

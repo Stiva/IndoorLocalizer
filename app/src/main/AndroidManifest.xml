@@ -29,13 +29,23 @@
             android:label="@string/title_activity_locator_selector" >
         </activity>
         <activity
-            android:name=".activity.offline.WifiScanner"
+            android:name=".activity.offline.WifiListMainMenu"
             android:label="@string/title_activity_wifi_scanner" >
         </activity>
         <activity
             android:name=".activity.common.ListAps"
             android:label="@string/title_activity_list_aps" >
         </activity>
+        <activity
+            android:name=".activity.offline.DataRetriever"
+            android:label="@string/title_activity_data_retriever"
+            android:theme="@style/Theme.AppCompat" >
+        </activity>
+
+        <service android:name=".activity.offline.ScannerService"
+            android:exported="true"
+            android:enabled="true" >
+        </service>
     </application>
 
 </manifest>

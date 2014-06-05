@@ -56,5 +56,8 @@
     <string name="get_fingerprint_option_label">Get Saved AP</string>
     <string name="title_activity_list_aps">ListAps</string>
     <string name="refresh_list_option_label">Refresh</string>
+    <string name="title_activity_data_retriever">DataRetriever</string>
+    <string name="create_rp_option_label">Evaluate a Reference Point here</string>
+    <string name="stop_rp_button_label">Stop Retrieving</string>
 
 </resources>

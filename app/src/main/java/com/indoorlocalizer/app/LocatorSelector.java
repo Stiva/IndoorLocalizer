@@ -11,7 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ToggleButton;
 
-import com.indoorlocalizer.app.activity.offline.WifiScanner;
+import com.indoorlocalizer.app.activity.offline.WifiListMainMenu;
 
 
 public class LocatorSelector extends Activity {
@@ -72,7 +72,7 @@ public class LocatorSelector extends Activity {
         return id == R.id.action_settings || super.onOptionsItemSelected(item);
     }
     private void retriveData(){
-        Intent retrieveDataIntent=new Intent(this,WifiScanner.class);
+        Intent retrieveDataIntent=new Intent(this,WifiListMainMenu.class);
         startActivity(retrieveDataIntent);
     }
 }

@@ -13,6 +13,9 @@
         android:id="@+id/get_stored_fingerprint_option"
         android:title="@string/get_fingerprint_option_label"/>
     <item
+        android:id="@+id/create_rp_option"
+        android:title="@string/create_rp_option_label"/>
+    <item
         android:id="@+id/refresh_list_option"
         android:title="@string/refresh_list_option_label"/>
 </menu>

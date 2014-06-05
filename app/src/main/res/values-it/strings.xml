@@ -15,5 +15,6 @@
 
     <!-- Button Text -->
     <string name="scan_button_text">Scansiona!</string>
+    <string name="create_rp_option_label">Genera un Reference point qui</string>
 
 </resources>

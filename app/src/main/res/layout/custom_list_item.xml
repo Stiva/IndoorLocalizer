@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/placeholder_list_item_ssid"
-        android:id="@+id/list_item_ssid"
+        android:id="@+id/ssid"
         android:textColor="@color/white"
         android:background="@color/dark_gray"
         android:layout_gravity="center"/>
@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:textColor="@color/white"
         android:text="@string/placeholder_bssid"
-        android:id="@+id/list_item_bssid"
+        android:id="@+id/bssid"
         android:layout_gravity="center"/>
 
     <TextView
@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         android:text="@string/placeholder_capabilities"
         android:textColor="@color/white"
-        android:id="@+id/list_item_capabilities"
+        android:id="@+id/capabilities"
         android:layout_gravity="center"/>
 
     <TextView
@@ -35,22 +35,13 @@
         android:layout_height="wrap_content"
         android:textColor="@color/white"
         android:text="@string/placeholder_level"
-        android:id="@+id/list_item_level"
+        android:id="@+id/level"
         android:layout_gravity="center"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@color/white"
         android:text="@string/placeholder_frequency"
-        android:id="@+id/list_item_frequency"
+        android:id="@+id/frequency"
         android:layout_gravity="center"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@color/white"
-        android:text="@string/placeholder_timestamp"
-        android:id="@+id/list_item_timestamp"
-        android:layout_gravity="center"/>
-
-
 </LinearLayout>

@@ -9,8 +9,15 @@ import android.util.Log;
  * Created by federicostivani on 01/06/14.
  */
 public class DatabaseHelper extends SQLiteOpenHelper {
-    private static final String DB_NAME ="access_points.db";
-    private static final int DB_VERSION = 2;
+    public static final String DB_NAME ="access_points.db";
+    public static final String KEY_ID = "_id";
+    public static final String KEY_SSID = "ssid";
+    public static final String KEY_BSSID = "bssid";
+    public static final String KEY_CAPABILITIES = "capabilities";
+    public static final String KEY_LEVEL = "level";
+    public static final String KEY_FREQUENCY = "frequency";
+
+    private static final int DB_VERSION = 1;
     public DatabaseHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
     }
