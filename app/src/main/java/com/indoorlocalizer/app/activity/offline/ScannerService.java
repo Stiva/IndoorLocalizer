@@ -84,8 +84,8 @@ public class ScannerService extends IntentService {
             mainWifi.setWifiEnabled(true);
         }
         SimpleWifiReceiver actualWifi = new SimpleWifiReceiver(mainWifi);
-        List<AccessPoint> scanValue=actualWifi.receiveWifi();
-        for(AccessPoint ap:scanValue){
+        referencePoint=actualWifi.receiveWifi();
+        for(AccessPoint ap:referencePoint.values()){
             if(referencePoint.containsKey(ap.getSSID())){
                 referencePoint.get(ap.getSSID()).hit();
                 //Updating AP LVL, after finishing this procedure, the level must be updated at avg level (level/hits);
@@ -99,7 +99,7 @@ public class ScannerService extends IntentService {
             referencePoint.get(ap.getSSID()).setLevel(ap.getLevel()/ap.getHits());
         }
         saveToDb(referencePoint.values());
-        Toast.makeText(getApplicationContext(),"Data saved to DB",Toast.LENGTH_LONG);
+        Toast.makeText(getApplicationContext(),"Data saved to DB",Toast.LENGTH_LONG).show();
     }
 
     private void saveToDb(Collection<AccessPoint> values) {
