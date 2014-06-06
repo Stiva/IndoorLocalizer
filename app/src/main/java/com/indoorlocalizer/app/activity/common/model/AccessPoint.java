@@ -10,6 +10,7 @@ public class AccessPoint implements Parcelable{
     private String SSID;
     private String BSSID;
     private String capabilities;
+    private int rp;
     private int level;
     private int frequency;
     private int hits;
@@ -17,14 +18,16 @@ public class AccessPoint implements Parcelable{
     public AccessPoint() {
         this.SSID="";
         this.BSSID="";
+        this.rp=-1;
         this.capabilities="";
         this.level=-1;
         this.frequency=-1;
         this.hits=-1;
     }
 
-    public AccessPoint(String SSID, String BSSID, String capabilities, int level, int frequency) {
+    public AccessPoint(String SSID, int rp, String BSSID, String capabilities, int level, int frequency) {
         this.SSID = SSID;
+        this.rp=rp;
         this.BSSID = BSSID;
         this.capabilities = capabilities;
         this.level = level;
@@ -71,7 +74,7 @@ public class AccessPoint implements Parcelable{
     public void setFrequency(int frequency) {
         this.frequency = frequency;
     }
-
+    public int getRp() { return this.rp;}
     @Override
     public int describeContents() {
         return 0;
@@ -80,10 +83,12 @@ public class AccessPoint implements Parcelable{
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeStringArray(new String[] {this.SSID,
+                String.valueOf(this.rp),
                 this.BSSID,
                 this.capabilities,
                 String.valueOf(this.level),
-                String.valueOf(this.frequency)});
+                String.valueOf(this.frequency),
+                String.valueOf(this.hits)});
     }
 
     public void hit() {

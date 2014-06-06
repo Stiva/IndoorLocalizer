@@ -23,12 +23,11 @@ public class LocalDataCursor extends SQLiteCursor {
     public String getSsid() {
         return getString(getColumnIndex(DatabaseHelper.KEY_SSID));
     }
+    public int getRpId() { return getInt(getColumnIndex(DatabaseHelper.KEY_REFERENCE_POINT));}
     public String getBssid() {
         return getString(getColumnIndex(DatabaseHelper.KEY_BSSID));
     }
-    public String getCapabilities() {
-        return getString(getColumnIndex(DatabaseHelper.KEY_CAPABILITIES));
-    }
+    public String getCapabilities() { return getString(getColumnIndex(DatabaseHelper.KEY_CAPABILITIES)); }
     public int getLevel() {
         return getInt(getColumnIndex(DatabaseHelper.KEY_LEVEL));
     }
@@ -36,7 +35,6 @@ public class LocalDataCursor extends SQLiteCursor {
         return getInt(getColumnIndex(DatabaseHelper.KEY_FREQUENCY));
     }
     public AccessPoint asAccessPoint(){
-        return new AccessPoint(getSsid(),getBssid(),getCapabilities(),getLevel(),getFrequency());
+        return new AccessPoint(getSsid(),getRpId(),getBssid(),getCapabilities(),getLevel(),getFrequency());
     }
-
 }

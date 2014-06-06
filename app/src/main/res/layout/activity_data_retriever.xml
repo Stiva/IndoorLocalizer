@@ -29,7 +29,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Small Text"
+        android:text="@string/rp_id_label"
         android:id="@+id/textView"
         android:layout_below="@+id/progressBar"
         android:layout_centerHorizontal="true"
@@ -43,5 +43,14 @@
         android:layout_below="@+id/data_retriving_button"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="32dp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/rp_id_editText"
+        android:layout_above="@+id/data_retriving_button"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

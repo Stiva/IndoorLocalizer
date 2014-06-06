@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 
 import com.indoorlocalizer.app.R;
 
@@ -18,7 +19,10 @@ public class DataRetriever extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_data_retriever);
         final Button dataRetrieveButton=(Button) findViewById(R.id.data_retriving_button);
+        final EditText rpValueText=(EditText)findViewById(R.id.rp_id_editText);
+        int rpValue=Integer.parseInt(rpValueText.getText().toString());
         scanService=new Intent(this.getApplicationContext(),ScannerService.class);
+        scanService.putExtra("rpID",rpValue);
         dataRetrieveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

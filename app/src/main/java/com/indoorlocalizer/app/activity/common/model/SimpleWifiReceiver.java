@@ -17,12 +17,11 @@ public class SimpleWifiReceiver{
     public SimpleWifiReceiver(WifiManager wifiMng){
         this.mainWifi=wifiMng;
     }
-    // This method call when number of wifi connections changed
-    public Map<String,AccessPoint> receiveWifi() {
+    // Scan wifi at a determined Reference point rp
+    public Map<String,AccessPoint> receiveWifi(int rp) {
         List<ScanResult> wifiList = mainWifi.getScanResults();
         for (ScanResult result: wifiList) {
-            AccessPoint ap=new AccessPoint(result.SSID,result.BSSID,result.capabilities,result.level,result.frequency);
-            Map<String,AccessPoint> tempMap=new HashMap<String, AccessPoint>();
+            AccessPoint ap=new AccessPoint(result.SSID,rp,result.BSSID,result.capabilities,result.level,result.frequency);
             mModel.put(ap.getSSID(),ap);
         }
         return mModel;

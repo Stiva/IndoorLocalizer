@@ -59,5 +59,6 @@
     <string name="title_activity_data_retriever">DataRetriever</string>
     <string name="create_rp_option_label">Evaluate a Reference Point here</string>
     <string name="stop_rp_button_label">Stop Retrieving</string>
+    <string name="rp_id_label">Insert a valid RP ID for your rilevation</string>
 
 </resources>
