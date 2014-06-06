@@ -19,7 +19,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String KEY_FREQUENCY = "frequency";
     public static final String KEY_HITS="hits";
 
-    private static final int DB_VERSION = 3;
+    private static final int DB_VERSION = 1;
     public DatabaseHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
     }
@@ -29,7 +29,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // SQL statement to create APs table
         String CREATE_APS_TABLE = "CREATE TABLE aps ( " +
                 "_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                "reference_point INTEGER"+
+                "reference_point INTEGER,"+
                 "ssid TEXT, " +
                 "bssid TEXT, "+
                 "capabilities TEXT, "+

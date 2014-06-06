@@ -21,7 +21,7 @@ public class DbManager{
     private DatabaseHelper dbHelper;
 
     private static final String DATABASE_TABLE = "aps";
-    private String[] COLUMNS = {DatabaseHelper.KEY_ID,DatabaseHelper.KEY_SSID,DatabaseHelper.KEY_BSSID,DatabaseHelper.KEY_CAPABILITIES,DatabaseHelper.KEY_LEVEL,DatabaseHelper.KEY_FREQUENCY,DatabaseHelper.KEY_HITS};
+    private String[] COLUMNS = {DatabaseHelper.KEY_ID,DatabaseHelper.KEY_REFERENCE_POINT,DatabaseHelper.KEY_SSID,DatabaseHelper.KEY_BSSID,DatabaseHelper.KEY_CAPABILITIES,DatabaseHelper.KEY_LEVEL,DatabaseHelper.KEY_FREQUENCY,DatabaseHelper.KEY_HITS};
 
     public DbManager(Context context){
         this.context=context;
@@ -37,10 +37,10 @@ public class DbManager{
     public void close() {
         dbHelper.close();
     }
-    private ContentValues createContentValues(String ssid, int rp, String bssid, String capabilities, int level, int frequency,int hits){
+    private ContentValues createContentValues(int rp, String ssid, String bssid, String capabilities, int level, int frequency,int hits){
         ContentValues values=new ContentValues();
-        values.put(DatabaseHelper.KEY_SSID,ssid);
         values.put(DatabaseHelper.KEY_REFERENCE_POINT,rp);
+        values.put(DatabaseHelper.KEY_SSID,ssid);
         values.put(DatabaseHelper.KEY_BSSID,bssid);
         values.put(DatabaseHelper.KEY_CAPABILITIES,capabilities);
         values.put(DatabaseHelper.KEY_LEVEL,level);
@@ -53,7 +53,7 @@ public class DbManager{
         //for logging
         Log.d("addAccessPoint", ap.toString());
         Log.d("[WRITING AP TO DB]","AP: "+ ap.getSSID()+" "+ap.getBSSID()+" "+ap.getCapabilities()+" "+ap.getLevel()+" "+ap.getFrequency()+" "+ap.getHits());
-        ContentValues value=createContentValues(ap.getSSID(),ap.getRp(),ap.getBSSID(),ap.getCapabilities(),ap.getLevel(),ap.getFrequency(),ap.getHits());
+        ContentValues value=createContentValues(ap.getRp(),ap.getSSID(),ap.getBSSID(),ap.getCapabilities(),ap.getLevel(),ap.getFrequency(),ap.getHits());
         return db.insertOrThrow(DATABASE_TABLE,null,value);
     }
     public Cursor getAllAccessPoints () {

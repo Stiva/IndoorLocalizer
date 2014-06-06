@@ -32,12 +32,14 @@
     <!-- WiFi Label -->
     <string name="scan_for_new_datas"><![CDATA[No WiFi found, please tap Menu>Scan for get some results]]></string>
     <!-- Show data labels -->
+    <string name="rp_value_pattern">RP : %1$d</string>
     <string name="ssid_value_pattern">SSID : %1$s</string>
     <string name="bssid_value_pattern">BSSID : %1$s</string>
     <string name="capabilities_value_pattern">Capabilities : %1$s</string>
     <string name="level_value_pattern">Level : %1$d</string>
     <string name="frequency_value_pattern">Frequency : %1$d Hz</string>
     <string name="timestamp_value_pattern">Timestamp : %1$d</string>
+    <string name="hits_value_pattern">Hits : %1$d</string>
     <string name="update_list_message">Update List</string>
     <string name="title_activity_simple_tracker">SimpleTracker</string>
     <string name="empty_list_message">Searching for some networks near your position…</string>
@@ -46,12 +48,14 @@
     <!-- Button Text -->
     <string name="scan_button_text">Scan!</string>
     <!-- Placeholders -->
+    <string name="placeholder_list_item_rp">RP: -1</string>
     <string name="placeholder_list_item_ssid">SSID: Casa Stivani</string>
     <string name="placeholder_bssid">BSSID : 23:00:bb:22:00:11</string>
     <string name="placeholder_capabilities">Capabilities: [WPA-PSK][WPA2-TKIP][WEP]</string>
     <string name="placeholder_level">Level : 4</string>
     <string name="placeholder_frequency">Frequency : 3000Hz</string>
-    <string name="placeholder_timestamp">timestamp : 74495686</string>
+    <string name="placeholder_timestamp">Timestamp : 74495686</string>
+    <string name="placeholder_hits">Hits : 0</string>
     <string name="save_fingerprint_option_label">Save fingerprint!</string>
     <string name="get_fingerprint_option_label">Get Saved AP</string>
     <string name="title_activity_list_aps">ListAps</string>
