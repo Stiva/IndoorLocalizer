@@ -4,7 +4,6 @@ import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
 
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -18,10 +17,10 @@ public class SimpleWifiReceiver{
         this.mainWifi=wifiMng;
     }
     // Scan wifi at a determined Reference point rp
-    public Map<String,AccessPoint> receiveWifi(int rp) {
+    public Map<String,AccessPoint> receiveWifi(String map,int rp) {
         List<ScanResult> wifiList = mainWifi.getScanResults();
         for (ScanResult result: wifiList) {
-            AccessPoint ap=new AccessPoint(result.SSID,rp,result.BSSID,result.capabilities,result.level,result.frequency);
+            AccessPoint ap=new AccessPoint(map,rp,result.SSID,result.BSSID,result.capabilities,result.level,result.frequency);
             mModel.put(ap.getSSID(),ap);
         }
         return mModel;

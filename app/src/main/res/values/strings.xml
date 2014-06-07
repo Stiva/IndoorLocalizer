@@ -32,6 +32,7 @@
     <!-- WiFi Label -->
     <string name="scan_for_new_datas"><![CDATA[No WiFi found, please tap Menu>Scan for get some results]]></string>
     <!-- Show data labels -->
+    <string name="map_value_pattern">Map : %1$s</string>
     <string name="rp_value_pattern">RP : %1$d</string>
     <string name="ssid_value_pattern">SSID : %1$s</string>
     <string name="bssid_value_pattern">BSSID : %1$s</string>
@@ -42,12 +43,14 @@
     <string name="hits_value_pattern">Hits : %1$d</string>
     <string name="update_list_message">Update List</string>
     <string name="title_activity_simple_tracker">SimpleTracker</string>
-    <string name="empty_list_message">Searching for some networks near your position…</string>
+    <string name="search_wifi_message">Searching for some networks near your position…</string>
+    <string name="empty_list_message">No WiFi found in the database.</string>
     <string name="title_activity_map">MapActivity</string>
     <string name="title_activity_save_data">SaveData</string>
     <!-- Button Text -->
     <string name="scan_button_text">Scan!</string>
     <!-- Placeholders -->
+    <string name="placeholder_list_item_map">Map: Stiva's home</string>
     <string name="placeholder_list_item_rp">RP: -1</string>
     <string name="placeholder_list_item_ssid">SSID: Casa Stivani</string>
     <string name="placeholder_bssid">BSSID : 23:00:bb:22:00:11</string>
@@ -62,7 +65,10 @@
     <string name="refresh_list_option_label">Refresh</string>
     <string name="title_activity_data_retriever">DataRetriever</string>
     <string name="create_rp_option_label">Evaluate a Reference Point here</string>
-    <string name="stop_rp_button_label">Stop Retrieving</string>
+    <string name="stop_rp_button_label">Stop</string>
     <string name="rp_id_label">Insert a valid RP ID for your rilevation</string>
+    <string name="placeholder_map_name_editText">Room name (e.g. Bathroom)</string>
+    <string name="data_retrieving_button_text">Create</string>
+    <string name="number_hint">e.g. 4</string>
 
 </resources>

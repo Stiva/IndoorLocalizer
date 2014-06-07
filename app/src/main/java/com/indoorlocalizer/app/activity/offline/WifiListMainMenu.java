@@ -114,7 +114,7 @@ public class WifiListMainMenu extends ListActivity {
         try {
             dbManager.open();
             for(ScanResult res:wifiList){
-                dbManager.addWifi(new AccessPoint(res.SSID,-1,res.BSSID,res.capabilities,res.level,res.frequency));
+                dbManager.addWifi(new AccessPoint("foo",-1,res.SSID,res.BSSID,res.capabilities,res.level,res.frequency));
             }
             dbManager.close();
         } catch (SQLException e) {

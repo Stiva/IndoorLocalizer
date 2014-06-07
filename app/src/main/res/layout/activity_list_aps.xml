@@ -15,6 +15,7 @@
         android:layout_gravity="center"
         tools:listitem="@layout/custom_list_item"/>
     <TextView
+        android:visibility="invisible"
         android:id="@+id/emptyListElem"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"

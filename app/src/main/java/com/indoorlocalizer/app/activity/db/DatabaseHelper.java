@@ -11,6 +11,7 @@ import android.util.Log;
 public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String DB_NAME ="access_points.db";
     public static final String KEY_ID = "_id";
+    public static final String KEY_MAP = "map";
     public static final String KEY_REFERENCE_POINT="reference_point";
     public static final String KEY_SSID = "ssid";
     public static final String KEY_BSSID = "bssid";
@@ -29,6 +30,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // SQL statement to create APs table
         String CREATE_APS_TABLE = "CREATE TABLE aps ( " +
                 "_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "map TEXT, "+
                 "reference_point INTEGER,"+
                 "ssid TEXT, " +
                 "bssid TEXT, "+

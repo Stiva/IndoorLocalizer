@@ -8,6 +8,7 @@ import android.os.Parcelable;
  */
 public class AccessPoint implements Parcelable{
     private String SSID;
+    private String map;
     private String BSSID;
     private String capabilities;
     private int rp;
@@ -16,24 +17,31 @@ public class AccessPoint implements Parcelable{
     private int hits;
 
     public AccessPoint() {
+        this.map="";
+        this.rp=-1;
         this.SSID="";
         this.BSSID="";
-        this.rp=-1;
         this.capabilities="";
         this.level=-1;
         this.frequency=-1;
         this.hits=-1;
     }
 
-    public AccessPoint(String SSID, int rp, String BSSID, String capabilities, int level, int frequency) {
-        this.SSID = SSID;
+    public AccessPoint(String map, int rp, String ssid, String bssid, String capabilities, int level, int frequency) {
+        this.map=map;
+
         this.rp=rp;
-        this.BSSID = BSSID;
+        this.SSID = ssid;
+        this.BSSID = bssid;
         this.capabilities = capabilities;
         this.level = level;
         this.frequency = frequency;
         this.hits=0;
     }
+
+    public String getMap() { return this.map;  }
+
+    public int getRp() { return this.rp;}
 
     public String getSSID() {
         return SSID;
@@ -70,11 +78,9 @@ public class AccessPoint implements Parcelable{
     public int getFrequency() {
         return frequency;
     }
-
     public void setFrequency(int frequency) {
         this.frequency = frequency;
     }
-    public int getRp() { return this.rp;}
     @Override
     public int describeContents() {
         return 0;

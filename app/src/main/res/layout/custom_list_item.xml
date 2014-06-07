@@ -7,6 +7,14 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="@string/placeholder_list_item_map"
+        android:id="@+id/map"
+        android:textColor="@color/white"
+        android:background="@color/dark_gray"
+        android:layout_gravity="center"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:text="@string/placeholder_list_item_rp"
         android:id="@+id/reference_point"
         android:textColor="@color/white"

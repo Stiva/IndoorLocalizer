@@ -28,6 +28,7 @@ public class ScannerService extends IntentService {
     private NotificationCompat.Builder mBuilder;
     private Map<String,AccessPoint> referencePoint;
     private int rpId;
+    private String mapName;
 
     public ScannerService() {
         super("ScannerService");
@@ -47,6 +48,7 @@ public class ScannerService extends IntentService {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         rpId=intent.getExtras().getInt("rpID");
+        mapName=intent.getExtras().getString("mapName");
         ScheduledExecutorService scheduleTaskExecutor = Executors.newScheduledThreadPool(5);
         // This schedule a runnable task every 2 minutes
         scheduleTaskExecutor.scheduleAtFixedRate(new Runnable() {
@@ -91,7 +93,7 @@ public class ScannerService extends IntentService {
             mainWifi.setWifiEnabled(true);
         }
         SimpleWifiReceiver actualWifi = new SimpleWifiReceiver(mainWifi);
-        Map<String,AccessPoint>scannedWifi=actualWifi.receiveWifi(rpId);
+        Map<String,AccessPoint>scannedWifi=actualWifi.receiveWifi(mapName,rpId);
         for(AccessPoint ap:scannedWifi.values()){
             if(referencePoint.containsKey(ap.getSSID())){
                 referencePoint.get(ap.getSSID()).hit();

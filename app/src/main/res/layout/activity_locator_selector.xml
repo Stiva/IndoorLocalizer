@@ -16,14 +16,14 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="68dp"
-        android:layout_toRightOf="@+id/data_retriving_button"
+        android:layout_toRightOf="@+id/data_retrieving_button"
         android:checked="false" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/data_retriving_button_text"
-        android:id="@+id/data_retriving_button"
+        android:id="@+id/data_retrieving_button"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
 
@@ -32,9 +32,9 @@
         android:layout_height="wrap_content"
         android:text="@string/localize_button_text"
         android:id="@+id/localize_button"
-        android:layout_below="@+id/data_retriving_button"
-        android:layout_alignLeft="@+id/data_retriving_button"
-        android:layout_alignStart="@+id/data_retriving_button"
+        android:layout_below="@+id/data_retrieving_button"
+        android:layout_alignLeft="@+id/data_retrieving_button"
+        android:layout_alignStart="@+id/data_retrieving_button"
         android:layout_marginTop="47dp" />
 
     <TextView
@@ -44,6 +44,6 @@
         android:text="@string/WiFi_status_text"
         android:id="@+id/wifiInfoText"
         android:layout_alignTop="@+id/wifi_toggleButton"
-        android:layout_alignRight="@+id/data_retriving_button"
-        android:layout_alignEnd="@+id/data_retriving_button" />
+        android:layout_alignRight="@+id/data_retrieving_button"
+        android:layout_alignEnd="@+id/data_retrieving_button" />
 </RelativeLayout>

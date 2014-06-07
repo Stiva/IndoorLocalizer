@@ -16,7 +16,7 @@ public class LocalDataCursor extends SQLiteCursor {
     public LocalDataCursor(SQLiteCursorDriver driver, String editTable, SQLiteQuery query) {
         super(driver, editTable, query);
     }
-
+    public String getMap() { return  getString(getColumnIndex(DatabaseHelper.KEY_MAP));}
     public long getId() {
         return getLong(getColumnIndex(DatabaseHelper.KEY_ID));
     }
@@ -35,6 +35,6 @@ public class LocalDataCursor extends SQLiteCursor {
         return getInt(getColumnIndex(DatabaseHelper.KEY_FREQUENCY));
     }
     public AccessPoint asAccessPoint(){
-        return new AccessPoint(getSsid(),getRpId(),getBssid(),getCapabilities(),getLevel(),getFrequency());
+        return new AccessPoint(getMap(),getRpId(),getSsid(),getBssid(),getCapabilities(),getLevel(),getFrequency());
     }
 }

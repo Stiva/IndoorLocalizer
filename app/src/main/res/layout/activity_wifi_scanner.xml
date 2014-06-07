@@ -17,7 +17,6 @@
         android:textSize="25sp"
         android:textColor="@color/red"
         android:layout_gravity="center|center"
-
         android:id="@android:id/empty"
-        android:text="@string/empty_list_message"/>
+        android:text="@string/search_wifi_message"/>
 </FrameLayout>
