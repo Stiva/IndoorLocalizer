@@ -38,7 +38,7 @@ public class ListAps extends ListActivity{
             e.printStackTrace();
         }
         if(mCursor.getCount()>0) {
-            SimpleCursorAdapter mAdapter = new SimpleCursorAdapter(getApplicationContext(), R.layout.custom_list_item, mCursor, FROM, TO, 0);
+            SimpleCursorAdapter mAdapter = new SimpleCursorAdapter(getApplicationContext(), R.layout.wifi_list_item, mCursor, FROM, TO, 0);
             mAdapter.setViewBinder(new SimpleCursorAdapter.ViewBinder() {
 
                 @Override
@@ -50,6 +50,7 @@ public class ListAps extends ListActivity{
                         case R.id.map:
                             String map = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.KEY_MAP));
                             outputTextView.setText(getResources().getString(R.string.map_value_pattern, map));
+                            break;
                         case R.id.reference_point:
                             Integer rp = cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.KEY_REFERENCE_POINT));
                             outputTextView.setText(getResources().getString(R.string.rp_value_pattern, rp));
@@ -80,36 +81,6 @@ public class ListAps extends ListActivity{
                             break;
                     }
                     return true;
-
-
-                    /* VERSION 2.0
-                    final LocalDataCursor localDataCursor=(LocalDataCursor) cursor;
-
-                    // We have to detect which is the item and show it
-                    switch (view.getId()) {
-                        case R.id.ssid:
-                            String ssid = localDataCursor.getSsid();
-                            outputTextView.setText(getResources().getString(R.string.ssid_value_pattern, ssid));
-                            break;
-                        case R.id.bssid:
-                            String bssid = localDataCursor.getBssid();
-                            outputTextView.setText(getResources().getString(R.string.bssid_value_pattern, bssid));
-                            break;
-                        case R.id.capabilities:
-                            String capabilities = localDataCursor.getCapabilities();
-                            outputTextView.setText(getResources().getString(R.string.capabilities_value_pattern, capabilities));
-                            break;
-                        case R.id.level:
-                            Integer level = localDataCursor.getLevel();
-                            outputTextView.setText(getResources().getString(R.string.level_value_pattern, level));
-                            break;
-                        case R.id.frequency:
-                            Integer frequency = localDataCursor.getFrequency();
-                            outputTextView.setText(getResources().getString(R.string.frequency_value_pattern, frequency));
-                            break;
-                    }
-                    return true;
-                    */
                 }
             });
             setListAdapter(mAdapter);

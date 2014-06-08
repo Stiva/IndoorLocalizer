@@ -16,17 +16,6 @@ public class AccessPoint implements Parcelable{
     private int frequency;
     private int hits;
 
-    public AccessPoint() {
-        this.map="";
-        this.rp=-1;
-        this.SSID="";
-        this.BSSID="";
-        this.capabilities="";
-        this.level=-1;
-        this.frequency=-1;
-        this.hits=-1;
-    }
-
     public AccessPoint(String map, int rp, String ssid, String bssid, String capabilities, int level, int frequency) {
         this.map=map;
 
@@ -47,24 +36,12 @@ public class AccessPoint implements Parcelable{
         return SSID;
     }
 
-    public void setSSID(String SSID) {
-        this.SSID = SSID;
-    }
-
     public String getBSSID() {
         return BSSID;
     }
 
-    public void setBSSID(String BSSID) {
-        this.BSSID = BSSID;
-    }
-
     public String getCapabilities() {
         return capabilities;
-    }
-
-    public void setCapabilities(String capabilities) {
-        this.capabilities = capabilities;
     }
 
     public int getLevel() {
@@ -78,9 +55,7 @@ public class AccessPoint implements Parcelable{
     public int getFrequency() {
         return frequency;
     }
-    public void setFrequency(int frequency) {
-        this.frequency = frequency;
-    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -88,13 +63,15 @@ public class AccessPoint implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeStringArray(new String[] {this.SSID,
-                String.valueOf(this.rp),
-                this.BSSID,
-                this.capabilities,
-                String.valueOf(this.level),
-                String.valueOf(this.frequency),
-                String.valueOf(this.hits)});
+        parcel.writeStringArray(new String[] {
+                getMap(),
+                String.valueOf(getRp()),
+                getSSID(),
+                getBSSID(),
+                getCapabilities(),
+                String.valueOf(getLevel()),
+                String.valueOf(getFrequency()),
+                String.valueOf(getHits())});
     }
 
     public void hit() {

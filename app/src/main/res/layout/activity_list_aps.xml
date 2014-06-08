@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:id="@android:id/list"
         android:layout_gravity="center"
-        tools:listitem="@layout/custom_list_item"/>
+        tools:listitem="@layout/wifi_list_item"/>
     <TextView
         android:visibility="invisible"
         android:id="@+id/emptyListElem"

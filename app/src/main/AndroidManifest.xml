@@ -42,10 +42,16 @@
             android:theme="@style/Theme.AppCompat" >
         </activity>
 
-        <service android:name=".activity.offline.ScannerService"
-            android:exported="true"
-            android:enabled="true" >
+        <service
+            android:name=".activity.offline.ScannerService"
+            android:enabled="true"
+            android:exported="true" >
         </service>
+
+        <activity
+            android:name=".activity.offline.ShowWifi"
+            android:label="@string/title_activity_show_wifi" >
+        </activity>
     </application>
 
 </manifest>

@@ -31,7 +31,8 @@
     <string name="title_activity_wifi_scanner">wifiScanner</string>
     <!-- WiFi Label -->
     <string name="scan_for_new_datas"><![CDATA[No WiFi found, please tap Menu>Scan for get some results]]></string>
-    <!-- Show data labels -->
+
+    <!-- Patterns -->
     <string name="map_value_pattern">Map : %1$s</string>
     <string name="rp_value_pattern">RP : %1$d</string>
     <string name="ssid_value_pattern">SSID : %1$s</string>
@@ -41,16 +42,20 @@
     <string name="frequency_value_pattern">Frequency : %1$d Hz</string>
     <string name="timestamp_value_pattern">Timestamp : %1$d</string>
     <string name="hits_value_pattern">Hits : %1$d</string>
+    <string name="option_description_pattern">%1$s</string>
+    <string name="option_name_pattern">%1$s</string>
+    <!-- Show data labels -->
     <string name="update_list_message">Update List</string>
     <string name="title_activity_simple_tracker">SimpleTracker</string>
     <string name="search_wifi_message">Searching for some networks near your position…</string>
     <string name="empty_list_message">No WiFi found in the database.</string>
     <string name="title_activity_map">MapActivity</string>
     <string name="title_activity_save_data">SaveData</string>
+
     <!-- Button Text -->
     <string name="scan_button_text">Scan!</string>
     <!-- Placeholders -->
-    <string name="placeholder_list_item_map">Map: Stiva's home</string>
+    <string name="placeholder_list_item_map">Map: Stiva\'s home</string>
     <string name="placeholder_list_item_rp">RP: -1</string>
     <string name="placeholder_list_item_ssid">SSID: Casa Stivani</string>
     <string name="placeholder_bssid">BSSID : 23:00:bb:22:00:11</string>
@@ -70,5 +75,9 @@
     <string name="placeholder_map_name_editText">Room name (e.g. Bathroom)</string>
     <string name="data_retrieving_button_text">Create</string>
     <string name="number_hint">e.g. 4</string>
+    <string name="placeholder_option_name">Option 1</string>
+    <string name="placeholder_option_description">Description, lore ipsum bla bla</string>
+    <string name="option_icon_description">Icon for option item</string>
+    <string name="title_activity_show_wifi">ShowWifi</string>
 
 </resources>

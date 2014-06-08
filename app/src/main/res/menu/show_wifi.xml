@@ -1,0 +1,10 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".activity.offline.ShowWifi" >
+    <item
+        android:id="@+id/refresh_list_option"
+        android:title="@string/refresh_list_option_label"/>
+    <item
+        android:id="@+id/save_fingerprint_option"
+        android:title="@string/save_fingerprint_option_label"/>
+</menu>

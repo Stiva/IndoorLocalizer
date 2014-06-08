@@ -1,6 +1,6 @@
 package com.indoorlocalizer.app;
 
-import android.app.Activity;
+import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.wifi.WifiManager;
@@ -8,51 +8,71 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
+import android.widget.ListView;
+import android.widget.SimpleAdapter;
+import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import com.indoorlocalizer.app.activity.offline.WifiListMainMenu;
 
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
-public class LocatorSelector extends Activity {
+
+public class LocatorSelector extends ListActivity {
+    private ToggleButton toggleWifi;
+    private WifiManager wifiManager;
+    private static final String[] FROM = {"option_name","option_description"};
+    private static final int[] TO = {R.id.option_name, R.id.option_description};
+    private List<Map<String, Object>> mModel = new LinkedList<Map<String, Object>>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_locator_selector);
-        ToggleButton toggleWifi=(ToggleButton)findViewById(R.id.wifi_toggleButton);
-        WifiManager wifiManager = (WifiManager) this
-                .getSystemService(Context.WIFI_SERVICE);
+        toggleWifi=(ToggleButton)findViewById(R.id.wifi_toggleButton);
+        wifiManager = (WifiManager) this.getSystemService(Context.WIFI_SERVICE);
         if (wifiManager.getWifiState()==WifiManager.WIFI_STATE_ENABLED) {
-            toggleWifi.setTextOn("ON");
-        } else if(wifiManager.getWifiState()==WifiManager.WIFI_STATE_DISABLED){
-            toggleWifi.setTextOn("OFF");
+            toggleWifi.toggle();
         }
-        toggleWifi.setOnClickListener(new View.OnClickListener(){
+        toggleWifi.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
+            public void onClick(View view) {
                 toggleWifi();
             }
         });
-        final Button dataRetrieveButton=(Button) findViewById(R.id.data_retrieving_button);
-        dataRetrieveButton.setOnClickListener(new View.OnClickListener() {
+        createOptionList();
+        SimpleAdapter mAdapter = new SimpleAdapter(this, mModel, R.layout.option_list_item, FROM, TO);
+        mAdapter.setViewBinder(new SimpleAdapter.ViewBinder() {
             @Override
-            public void onClick(View v) {
-                retriveData();
+            public boolean setViewValue(View view, Object o, String s) {
+                final TextView outputTextView = (TextView) view;
+                // We have to detect which is the item and show it
+                switch (view.getId()) {
+                    case R.id.option_name:
+                        String optionName = (String) o;
+                        outputTextView.setText(getResources().getString(R.string.option_name_pattern, optionName));
+                        break;
+                    case R.id.option_description:
+                        String optionDescription = (String) o;
+                        outputTextView.setText(getResources().getString(R.string.option_description_pattern, optionDescription));
+                        break;
+                }
+                return true;
             }
         });
+        getListView().setAdapter(mAdapter);
     }
 
     private void toggleWifi() {
-        ToggleButton toggleWifi=(ToggleButton)findViewById(R.id.wifi_toggleButton);
-        WifiManager wifiManager = (WifiManager) this
-                .getSystemService(Context.WIFI_SERVICE);
         if (wifiManager.getWifiState()==WifiManager.WIFI_STATE_ENABLED) {
             wifiManager.setWifiEnabled(false);
-            toggleWifi.setTextOn("OFF");
+            toggleWifi.toggle();
         } else if(wifiManager.getWifiState()==WifiManager.WIFI_STATE_DISABLED){
             wifiManager.setWifiEnabled(true);
-            toggleWifi.setTextOn("ON");
+            toggleWifi.toggle();
         }
     }
 
@@ -65,14 +85,37 @@ public class LocatorSelector extends Activity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         return id == R.id.action_settings || super.onOptionsItemSelected(item);
     }
-    private void retriveData(){
+
+    @Override
+    protected void onListItemClick(ListView l, View v, int position, long id) {
+        switch (position){
+            case 0:
+                retrieveData();
+                break;
+            case 1:
+                localize();
+                break;
+        }
+    }
+
+    private void retrieveData(){
         Intent retrieveDataIntent=new Intent(this,WifiListMainMenu.class);
         startActivity(retrieveDataIntent);
+    }
+
+    private void localize(){
+
+    }
+
+    private void createOptionList(){
+        Map<String, Object> item = new HashMap<String, Object>();
+        //TODO: Database integration for option menu persistence
+        item.put("option_name","Retrieve");
+        item.put("option_description","Retrieve data for a new map/reference point");
+        mModel.add(item);
+
     }
 }
