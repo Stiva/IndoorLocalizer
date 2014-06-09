@@ -13,13 +13,14 @@ import android.widget.TextView;
 
 import com.indoorlocalizer.app.R;
 import com.indoorlocalizer.app.activity.common.ListAps;
+import com.indoorlocalizer.app.activity.common.model.OptionElement;
 import com.indoorlocalizer.app.activity.common.xml.XmlParser;
 
 import org.xmlpull.v1.XmlPullParserException;
-import org.xmlpull.v1.XmlPullParserFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -105,17 +106,16 @@ public class OfflineOptionsListMainMenu extends ListActivity {
     }
 
     private void createOptionListXML(){
-        XmlPullParserFactory pullParserFactory;
+        List results=new ArrayList<OptionElement>();
         try {
             XmlParser parser=new XmlParser();
             InputStream in_s = getApplicationContext().getAssets().open("optionsMenu.xml");
-            List results = parser.parse(in_s);
+            results = parser.parse(in_s);
         } catch (XmlPullParserException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
     private void showWifi(){
         Intent showWifi=new Intent(this.getApplicationContext(),ShowWifi.class);
