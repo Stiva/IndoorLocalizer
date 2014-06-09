@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu>
-    <title type="text">Offline Options List Main Menu</title>
     <option>
         <name type="text">Show Wifi</name>
         <description type="text">Shows WiFi Access Point on your location</description>

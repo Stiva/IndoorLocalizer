@@ -17,9 +17,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.indoorlocalizer.app.R;
-import com.indoorlocalizer.app.activity.common.model.AccessPoint;
 import com.indoorlocalizer.app.activity.common.db.DatabaseHelper;
 import com.indoorlocalizer.app.activity.common.db.DbManager;
+import com.indoorlocalizer.app.activity.common.model.AccessPoint;
 
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -124,7 +124,7 @@ public class ShowWifi extends ListActivity {
                 mAdapter.notifyDataSetChanged();
                 return true;
             case R.id.save_fingerprint_option:
-                //TODO: popup with the EditText where i can put the map name...
+                //TODO: Dialog! with the EditText where i can put the map name...
                 saveFingerprint();
 
         }

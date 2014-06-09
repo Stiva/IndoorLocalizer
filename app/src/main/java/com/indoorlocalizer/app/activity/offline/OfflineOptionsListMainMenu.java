@@ -25,6 +25,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+
 /*
  * Main activity for the offline options.
  */
@@ -87,26 +88,11 @@ public class OfflineOptionsListMainMenu extends ListActivity {
                 break;
         }
     }
-
-    private void createOptionList() {
-
-        Map<String, Object> item = new HashMap<String, Object>();
-        Map<String, Object> item2 = new HashMap<String, Object>();
-        Map<String, Object> item3 = new HashMap<String, Object>();
-        //TODO: XML integration for option menu persistence
-        item.put("option_name","Show WiFi");
-        item.put("option_description","Shows WiFi Access Point on your location");
-        item2.put("option_name","Get stored fingerprints");
-        item2.put("option_description","Retrieve fingerprints that are previously stored into the Database");
-        item3.put("option_name","Create reference point");
-        item3.put("option_description","Use your current position to retrieve network status and store a new fingerprint");
-        mModel.add(item);
-        mModel.add(item2);
-        mModel.add(item3);
-    }
-
+    /*
+     * You can easy manage the menu by adding a new tag to optionsMenu.xml contained in assets folder
+     */
     private void createOptionListXML(){
-        List results=new ArrayList<OptionElement>();
+        ArrayList<OptionElement> results=new ArrayList<OptionElement>();
         try {
             XmlParser parser=new XmlParser();
             InputStream in_s = getApplicationContext().getAssets().open("optionsMenu.xml");
@@ -116,6 +102,15 @@ public class OfflineOptionsListMainMenu extends ListActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        if(!results.isEmpty()){
+            for(OptionElement element:results){
+                HashMap<String,Object> temp=new HashMap<String, Object>();
+                temp.put("option_name",element.getOptionName());
+                temp.put("option_description",element.getOptionDescription());
+                mModel.add(temp);
+            }
+        }
+
     }
     private void showWifi(){
         Intent showWifi=new Intent(this.getApplicationContext(),ShowWifi.class);
