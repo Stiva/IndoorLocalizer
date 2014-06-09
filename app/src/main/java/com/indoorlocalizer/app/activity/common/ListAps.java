@@ -10,8 +10,8 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
 import com.indoorlocalizer.app.R;
-import com.indoorlocalizer.app.activity.db.DatabaseHelper;
-import com.indoorlocalizer.app.activity.db.DbManager;
+import com.indoorlocalizer.app.activity.common.db.DatabaseHelper;
+import com.indoorlocalizer.app.activity.common.db.DbManager;
 
 import java.sql.SQLException;
 

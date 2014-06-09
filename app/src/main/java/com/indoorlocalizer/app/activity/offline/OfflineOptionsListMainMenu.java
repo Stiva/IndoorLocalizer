@@ -18,7 +18,10 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-public class WifiListMainMenu extends ListActivity {
+/*
+ * Main activity for the offline options.
+ */
+public class OfflineOptionsListMainMenu extends ListActivity {
 
     private static final String[] FROM = {"option_name","option_description"};
     private static final int[] TO = {R.id.option_name, R.id.option_description};
@@ -79,10 +82,11 @@ public class WifiListMainMenu extends ListActivity {
     }
 
     private void createOptionList() {
+
         Map<String, Object> item = new HashMap<String, Object>();
         Map<String, Object> item2 = new HashMap<String, Object>();
         Map<String, Object> item3 = new HashMap<String, Object>();
-        //TODO: Database integration for option menu persistence
+        //TODO: XML integration for option menu persistence
         item.put("option_name","Show WiFi");
         item.put("option_description","Shows WiFi Access Point on your location");
         item2.put("option_name","Get stored fingerprints");
@@ -92,6 +96,10 @@ public class WifiListMainMenu extends ListActivity {
         mModel.add(item);
         mModel.add(item2);
         mModel.add(item3);
+    }
+
+    private void createOptionListXML(){
+
     }
     private void showWifi(){
         Intent showWifi=new Intent(this.getApplicationContext(),ShowWifi.class);

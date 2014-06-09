@@ -1,11 +1,11 @@
-package com.indoorlocalizer.app.activity.db.model;
+package com.indoorlocalizer.app.activity.common.db.model;
 
 import android.database.sqlite.SQLiteCursor;
 import android.database.sqlite.SQLiteCursorDriver;
 import android.database.sqlite.SQLiteQuery;
 
 import com.indoorlocalizer.app.activity.common.model.AccessPoint;
-import com.indoorlocalizer.app.activity.db.DatabaseHelper;
+import com.indoorlocalizer.app.activity.common.db.DatabaseHelper;
 
 /**
  * Created by federicostivani on 03/06/14.

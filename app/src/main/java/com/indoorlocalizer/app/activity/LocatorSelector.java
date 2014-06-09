@@ -1,4 +1,4 @@
-package com.indoorlocalizer.app;
+package com.indoorlocalizer.app.activity;
 
 import android.app.ListActivity;
 import android.content.Context;
@@ -13,21 +13,31 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
-import com.indoorlocalizer.app.activity.offline.WifiListMainMenu;
+import com.indoorlocalizer.app.R;
+import com.indoorlocalizer.app.activity.online.Localization;
+import com.indoorlocalizer.app.activity.offline.OfflineOptionsListMainMenu;
 
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-
+/*
+ * This activity is the first that appear when splash images gets off.
+ * It gives you the possibility to choose between the offline and the online services of the
+ * Android indoor localizer.
+ * OFFLINE MENU:
+ * Data retrieving, Database management, Fingerprint creation
+ * ONLINE MENU:
+ * Localization on the map
+ */
 public class LocatorSelector extends ListActivity {
     private ToggleButton toggleWifi;
     private WifiManager wifiManager;
     private static final String[] FROM = {"option_name","option_description"};
     private static final int[] TO = {R.id.option_name, R.id.option_description};
     private List<Map<String, Object>> mModel = new LinkedList<Map<String, Object>>();
-
+    //TODO: Toggle visual update doesn't work.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -102,17 +112,18 @@ public class LocatorSelector extends ListActivity {
     }
 
     private void retrieveData(){
-        Intent retrieveDataIntent=new Intent(this,WifiListMainMenu.class);
+        Intent retrieveDataIntent=new Intent(this,OfflineOptionsListMainMenu.class);
         startActivity(retrieveDataIntent);
     }
 
     private void localize(){
-
+        Intent localizationIntent=new Intent(this.getApplicationContext(),Localization.class);
+        startActivity(localizationIntent);
     }
 
     private void createOptionList(){
         Map<String, Object> item = new HashMap<String, Object>();
-        //TODO: Database integration for option menu persistence
+        //TODO: XML integration for option menu persistence
         item.put("option_name","Retrieve");
         item.put("option_description","Retrieve data for a new map/reference point");
         mModel.add(item);

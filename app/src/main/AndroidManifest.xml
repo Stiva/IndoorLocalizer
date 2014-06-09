@@ -25,11 +25,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".LocatorSelector"
+            android:name=".activity.LocatorSelector"
             android:label="@string/title_activity_locator_selector" >
         </activity>
         <activity
-            android:name=".activity.offline.WifiListMainMenu"
+            android:name=".activity.offline.OfflineOptionsListMainMenu"
             android:label="@string/title_activity_wifi_scanner" >
         </activity>
         <activity

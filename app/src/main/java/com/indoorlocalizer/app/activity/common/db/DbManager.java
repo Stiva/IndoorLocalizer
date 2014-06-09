@@ -1,4 +1,4 @@
-package com.indoorlocalizer.app.activity.db;
+package com.indoorlocalizer.app.activity.common.db;
 
 import android.content.ContentValues;
 import android.content.Context;

@@ -8,7 +8,7 @@ import android.os.SystemClock;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
-import com.indoorlocalizer.app.LocatorSelector;
+
 import com.indoorlocalizer.app.R;
 
 import java.lang.ref.WeakReference;
@@ -17,10 +17,12 @@ import java.lang.ref.WeakReference;
  * Created by federicostivani on 08/11/13.
  */
 public class SplashActivity extends Activity {
-
+    /*
+     * MIN_WAIT_INTERVAL and MAX_WAIT interval contains the ms value that enable the click on image to skip the SplashActivity (after MAX_WAIT the SplashActivity terms anyway)
+     */
     private static final long MIN_WAIT_INTERVAL=1500L;
     private static final long MAX_WAIT_INTERVAL=3000L;
-    private static final int GO_AHEAD_WHAT=1; //status che l'handler deve interpretare per far partire il metodo goAhead();
+    private static final int GO_AHEAD_WHAT=1; //status that the handler must evaluate to let goAHead() method run
 
     //Gestione dello stato dell'applicazione:
     private static final String IS_DONE_KEY="com.fstiva.ugho.key.IS_DONE_KEY";
@@ -31,8 +33,8 @@ public class SplashActivity extends Activity {
     private UiHandler mHandler;
 
     private static class UiHandler extends Handler {
-        /* Per evitare un eccessivo memory leak, che il garbage collector non riesce a ben interpretare utilizzo un referenziamento weak fra l'handler
-         * e l'attivita'. Questa modifica disaccoppia notevolmente l'Activity dall'handler, che deve comunque avviarla in fase di "creazione".
+        /*
+         * To avoid memory leak, that the garbage collector can't evaluate, i use a weak reference between the handler and the activity
          */
         private WeakReference<SplashActivity> mActivityRef;
         public UiHandler(final SplashActivity srcActivity) {
@@ -61,7 +63,7 @@ public class SplashActivity extends Activity {
     public void goAhead() {
         Intent intent=new Intent(this,LocatorSelector.class);
         startActivity(intent);
-        finish(); //siccome non vogliamo che da una schermata successiva si torni alla splash invochiamo finish() che termina l'activity SplashActivity.
+        finish(); //finish() method terms the activity, so we can't go back to this layout by pressing the "Back" button
     }
 
     @Override
@@ -89,22 +91,22 @@ public class SplashActivity extends Activity {
     @Override
     public void onStart() {
         super.onStart();
-        //Controllo effettivamente che sia il primo avvio, altrimenti mando il messaggio con il vecchio valore
+        //Check that it's really the first launch, otherwise i send the message with the old value
         if(mStartTime==-1){
             mStartTime= SystemClock.uptimeMillis();
         }
-        mStartTime= SystemClock.uptimeMillis(); //setto il tempo di start dell'app all'uptime del dispositivo
-        final Message goAheadMessage=mHandler.obtainMessage(GO_AHEAD_WHAT); // preparo il messaggio da mandare all'handler per attivarlo sulla procedura corretta da richiamare
-        mHandler.sendMessageAtTime(goAheadMessage,mStartTime+MAX_WAIT_INTERVAL); //quando il tempo massimo e' trascorso, ovvero a mStartTime+MAX_WAIT_INTERVAL faccio scattare automaticamente il msg.
+        mStartTime= SystemClock.uptimeMillis(); //set the application start time at System time value
+        final Message goAheadMessage=mHandler.obtainMessage(GO_AHEAD_WHAT);
+        mHandler.sendMessageAtTime(goAheadMessage,mStartTime+MAX_WAIT_INTERVAL); //After waiting for max time, mStartTime+MAX_WAIT_INTERVALg.
     }
-    //Salvataggio dello stato delle variabili
+    //Saving status when necessary to save (e.g. putting the app in background/rotating screen)
     @Override
     public void onSaveInstanceState(Bundle outState){
         super.onSaveInstanceState(outState);
         outState.putBoolean(IS_DONE_KEY,mIsDone);
         outState.putLong(START_TIME_KEY,mStartTime);
     }
-    //Ripristino della variabile mIsDone
+    //Restoring the variable mIsDone, to keep track of the spent time
     @Override
     public void onRestoreInstanceState(Bundle savedInstance){
         super.onRestoreInstanceState(savedInstance);

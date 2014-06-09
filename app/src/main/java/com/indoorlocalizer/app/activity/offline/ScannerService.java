@@ -11,7 +11,7 @@ import android.widget.Toast;
 import com.indoorlocalizer.app.R;
 import com.indoorlocalizer.app.activity.common.model.AccessPoint;
 import com.indoorlocalizer.app.activity.common.model.SimpleWifiReceiver;
-import com.indoorlocalizer.app.activity.db.DbManager;
+import com.indoorlocalizer.app.activity.common.db.DbManager;
 
 import java.sql.SQLException;
 import java.util.Collection;
@@ -37,7 +37,7 @@ public class ScannerService extends IntentService {
     public void onCreate(){
         mBuilder=
                 new NotificationCompat.Builder(this)
-                        .setSmallIcon(R.drawable.notification_icon)
+                        .setSmallIcon(R.drawable.ic_launcher)
                         .setContentTitle("Evaluating a reference point, don't move!");
         mNotificationManager= (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         progress=-1;
