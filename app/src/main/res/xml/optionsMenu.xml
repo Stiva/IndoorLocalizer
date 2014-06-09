@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu>
+    <title type="text">Offline Options List Main Menu</title>
+    <option>
+        <name type="text">Show Wifi</name>
+        <description type="text">Shows WiFi Access Point on your location</description>
+        <iconPath>Fuffa per ora</iconPath>
+    </option>
+    <option>
+        <name type="text">Get stored fingerprints</name>
+        <description type="text">Retrieve fingerprints that are previously stored into the Database</description>
+        <iconPath>Fuffa per ora</iconPath>
+    </option>
+    <option>
+        <name type="text">Create reference point</name>
+        <description type="text">Use your current position to retrieve network status and store a new fingerprint</description>
+        <iconPath>Fuffa per ora</iconPath>
+    </option>
+</menu>

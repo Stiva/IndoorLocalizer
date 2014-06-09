@@ -13,7 +13,13 @@ import android.widget.TextView;
 
 import com.indoorlocalizer.app.R;
 import com.indoorlocalizer.app.activity.common.ListAps;
+import com.indoorlocalizer.app.activity.common.xml.XmlParser;
 
+import org.xmlpull.v1.XmlPullParserException;
+import org.xmlpull.v1.XmlPullParserFactory;
+
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -31,7 +37,7 @@ public class OfflineOptionsListMainMenu extends ListActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wifi_scanner);
-        createOptionList();
+        createOptionListXML();
         SimpleAdapter mAdapter = new SimpleAdapter(this, mModel, R.layout.option_list_item, FROM, TO);
         mAdapter.setViewBinder(new SimpleAdapter.ViewBinder() {
             @Override
@@ -99,6 +105,16 @@ public class OfflineOptionsListMainMenu extends ListActivity {
     }
 
     private void createOptionListXML(){
+        XmlPullParserFactory pullParserFactory;
+        try {
+            XmlParser parser=new XmlParser();
+            InputStream in_s = getApplicationContext().getAssets().open("optionsMenu.xml");
+            List results = parser.parse(in_s);
+        } catch (XmlPullParserException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
     private void showWifi(){

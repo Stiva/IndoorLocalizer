@@ -31,27 +31,26 @@ public class XmlParser {
     private List readFeed(XmlPullParser parser) throws XmlPullParserException, IOException {
         List entries = new ArrayList();
 
-        parser.require(XmlPullParser.START_TAG, ns, "feed");
+        parser.require(XmlPullParser.START_TAG, ns, "menu");
         while (parser.next() != XmlPullParser.END_TAG) {
             if (parser.getEventType() != XmlPullParser.START_TAG) {
                 continue;
             }
             String name = parser.getName();
             // Starts by looking for the entry tag
-            if (name.equals("entry")) {
+            if (name.equals("option")) {
                 entries.add(readEntry(parser));
-            } else {
-                //skip(parser);
             }
         }
         return entries;
     }
 
     private OptionElement readEntry(XmlPullParser parser) throws XmlPullParserException, IOException {
-        parser.require(XmlPullParser.START_TAG, ns, "entry");
+        parser.require(XmlPullParser.START_TAG, ns, "option");
         String name = null;
         String description = null;
         String iconPath = null;
+        String name2="";
         while (parser.next() != XmlPullParser.END_TAG) {
             if (parser.getEventType() != XmlPullParser.START_TAG) {
                 continue;
@@ -59,6 +58,7 @@ public class XmlParser {
             String mTag = parser.getName();
             if (mTag.equals("name")) {
                 name = readName(parser);
+                name2 = readText(parser);
             } else if (mTag.equals("description")) {
                 description = readIconPath(parser);
             } else if (mTag.equals("iconPath")) {
@@ -72,34 +72,26 @@ public class XmlParser {
 
     // Processes title tags in the feed.
     private String readName(XmlPullParser parser) throws IOException, XmlPullParserException {
-        parser.require(XmlPullParser.START_TAG, ns, "title");
+        parser.require(XmlPullParser.START_TAG, ns, "name");
         String title = readText(parser);
-        parser.require(XmlPullParser.END_TAG, ns, "title");
+        parser.require(XmlPullParser.END_TAG, ns, "name");
         return title;
     }
 
     // Processes link tags in the feed.
     private String readDescription(XmlPullParser parser) throws IOException, XmlPullParserException {
-        String link = "";
         parser.require(XmlPullParser.START_TAG, ns, "link");
-        String tag = parser.getName();
-        String relType = parser.getAttributeValue(null, "rel");
-        if (tag.equals("link")) {
-            if (relType.equals("alternate")){
-                link = parser.getAttributeValue(null, "href");
-                parser.nextTag();
-            }
-        }
+        String link=readText(parser);
         parser.require(XmlPullParser.END_TAG, ns, "link");
         return link;
     }
 
     // Processes summary tags in the feed.
     private String readIconPath(XmlPullParser parser) throws IOException, XmlPullParserException {
-        parser.require(XmlPullParser.START_TAG, ns, "summary");
-        String summary = readText(parser);
-        parser.require(XmlPullParser.END_TAG, ns, "summary");
-        return summary;
+        parser.require(XmlPullParser.START_TAG, ns, "iconPath");
+        String icPath = readText(parser);
+        parser.require(XmlPullParser.END_TAG, ns, "iconPath");
+        return icPath;
     }
 
     // For the tags title and summary, extracts their text values.
