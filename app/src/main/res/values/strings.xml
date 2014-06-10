@@ -79,5 +79,9 @@
     <string name="placeholder_option_description">Description, lore ipsum bla bla</string>
     <string name="option_icon_description">Icon for option item</string>
     <string name="title_activity_show_wifi">ShowWifi</string>
+    <string name="cancel">Cancel</string>
+    <string name="save_map_name">Save</string>
+    <string name="dialog_save_map_name">Insert map name</string>
+    <string name="map_name_dialog">Insert Map Name</string>
 
 </resources>

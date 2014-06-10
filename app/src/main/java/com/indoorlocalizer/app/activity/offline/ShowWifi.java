@@ -1,5 +1,6 @@
 package com.indoorlocalizer.app.activity.offline;
 
+import android.app.DialogFragment;
 import android.app.ListActivity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -11,6 +12,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
@@ -27,7 +29,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-public class ShowWifi extends ListActivity {
+public class ShowWifi extends ListActivity implements InsertMapNameDialog.InsertMapNameDialogListener{
 
     private static final String[] FROM = {DatabaseHelper.KEY_SSID,DatabaseHelper.KEY_BSSID,DatabaseHelper.KEY_CAPABILITIES, DatabaseHelper.KEY_LEVEL,DatabaseHelper.KEY_FREQUENCY};
 
@@ -97,12 +99,12 @@ public class ShowWifi extends ListActivity {
         mainWifi.startScan();
     }
     //rpID=-1 means that the RP isn't set.
-    public void saveFingerprint() {
+    public void saveFingerprint(String mapName) {
         DbManager dbManager=new DbManager(getApplicationContext());
         try {
             dbManager.open();
             for(ScanResult res:wifiList){
-                dbManager.addWifi(new AccessPoint("foo",1,res.SSID,res.BSSID,res.capabilities,res.level,res.frequency));
+                dbManager.addWifi(new AccessPoint(mapName,1,res.SSID,res.BSSID,res.capabilities,res.level,res.frequency));
             }
             dbManager.close();
         } catch (SQLException e) {
@@ -125,8 +127,8 @@ public class ShowWifi extends ListActivity {
                 return true;
             case R.id.save_fingerprint_option:
                 //TODO: Dialog! with the EditText where i can put the map name...
-                saveFingerprint();
-
+                InsertMapNameDialog dialog=new InsertMapNameDialog();
+                dialog.show(getFragmentManager(),"Insert map name");
         }
         return super.onMenuItemSelected(featureId, item);
     }
@@ -139,6 +141,18 @@ public class ShowWifi extends ListActivity {
     protected void onResume() {
         registerReceiver(receiverWifi, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
         super.onResume();
+    }
+
+    @Override
+    public void onDialogPositiveClick(DialogFragment dialog) {
+        EditText edit=(EditText)dialog.getDialog().findViewById(R.id.map_name_editText);
+        String mapName=edit.getText().toString();
+        saveFingerprint(mapName);
+    }
+
+    @Override
+    public void onDialogNegativeClick(DialogFragment dialog) {
+        dialog.dismiss();
     }
 
     // Broadcast receiver class called its receive method
@@ -157,8 +171,6 @@ public class ShowWifi extends ListActivity {
                 item.put("capabilities", result.capabilities);
                 item.put("level", result.level);
                 item.put("frequency", result.frequency);
-                //Sometimes i get a compatibility error... dunno why...
-                //item.put("timestamp",result.timestamp);
                 mModel.add(item);
             }
             mAdapter.notifyDataSetChanged();
@@ -169,5 +181,4 @@ public class ShowWifi extends ListActivity {
     protected void onListItemClick(ListView l, View v, int position, long id) {
         Toast.makeText(getApplicationContext(), "Selected position: " + position, Toast.LENGTH_SHORT).show();
     }
-
 }
