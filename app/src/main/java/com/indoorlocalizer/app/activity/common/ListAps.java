@@ -28,7 +28,7 @@ public class ListAps extends ListActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_aps);
-        final TextView emptyListMsg=(TextView)findViewById(R.id.emptyListElem);
+        final TextView emptyListMsg=(TextView)findViewById(R.id.empty_list_message);
         DbManager dbManager=new DbManager(getApplicationContext());
         try{
             dbManager.open();

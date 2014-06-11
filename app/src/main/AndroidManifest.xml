@@ -34,7 +34,8 @@
         </activity>
         <activity
             android:name=".activity.common.ListAps"
-            android:label="@string/title_activity_list_aps" >
+            android:label="@string/title_activity_list_aps"
+            android:theme="@style/Theme.AppCompat.Light">
         </activity>
         <activity
             android:name=".activity.offline.DataRetriever"
