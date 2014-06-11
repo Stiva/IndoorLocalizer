@@ -126,7 +126,6 @@ public class ShowWifi extends ListActivity implements InsertMapNameDialog.Insert
                 mAdapter.notifyDataSetChanged();
                 return true;
             case R.id.save_fingerprint_option:
-                //TODO: Dialog! with the EditText where i can put the map name...
                 InsertMapNameDialog dialog=new InsertMapNameDialog();
                 dialog.show(getFragmentManager(),"Insert map name");
         }
