@@ -7,6 +7,8 @@ import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.Button;
 
 import com.indoorlocalizer.app.R;
 
@@ -17,6 +19,7 @@ public class InsertMapNameDialog extends DialogFragment {
     public interface InsertMapNameDialogListener {
         public void onDialogPositiveClick(DialogFragment dialog);
         public void onDialogNegativeClick(DialogFragment dialog);
+        public void onButtonClick(DialogFragment dialog);
     }
     InsertMapNameDialogListener mListener;
 
@@ -39,8 +42,16 @@ public class InsertMapNameDialog extends DialogFragment {
         // Use the Builder class for convenient dialog construction
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
+        View view = inflater.inflate(R.layout. insert_map_name_dialog, null);
+        Button mButton=(Button)view.findViewById(R.id.button_image_upload);
+        mButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                mListener.onButtonClick(InsertMapNameDialog.this);
+            }
+        });
         // Create the AlertDialog object and return it
-        builder.setView(inflater.inflate(R.layout.insert_map_name_dialog,null))
+        builder.setView(view)
                 .setPositiveButton(R.string.save_map_name, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         // Send the positive button event back to the host activity
@@ -53,6 +64,7 @@ public class InsertMapNameDialog extends DialogFragment {
                         mListener.onDialogNegativeClick(InsertMapNameDialog.this);
                     }
                 });
+
         return builder.create();
     }
 }

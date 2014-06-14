@@ -72,7 +72,7 @@
     <string name="create_rp_option_label">Evaluate a Reference Point here</string>
     <string name="stop_rp_button_label">Stop</string>
     <string name="rp_id_label">Insert a valid RP ID for your rilevation</string>
-    <string name="placeholder_map_name_editText">Room name (e.g. Bathroom)</string>
+    <string name="placeholder_map_name_editText">Map Name (e.g. Home)</string>
     <string name="data_retrieving_button_text">Create</string>
     <string name="number_hint">e.g. 4</string>
     <string name="placeholder_option_name">Option 1</string>
@@ -83,5 +83,9 @@
     <string name="save_map_name">Save</string>
     <string name="dialog_save_map_name">Insert map name</string>
     <string name="map_name_dialog">Insert Map Name</string>
+    <string name="title_activity_show_saved_maps">ShowSavedMaps</string>
+    <string name="image_button_descriptor">Image Button</string>
+    <string name="placeholder_map_name">Map Name</string>
+    <string name="button_image_upload_text">Upload an image to use it as a map</string>
 
 </resources>

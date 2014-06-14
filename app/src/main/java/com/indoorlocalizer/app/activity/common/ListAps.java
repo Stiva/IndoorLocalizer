@@ -16,7 +16,7 @@ import com.indoorlocalizer.app.activity.common.db.DbManager;
 import java.sql.SQLException;
 
 public class ListAps extends ListActivity{
-    private static final String[] FROM = {  DatabaseHelper.KEY_MAP,DatabaseHelper.KEY_REFERENCE_POINT,
+    private static final String[] FROM = {  DatabaseHelper.KEY_MAP_NAME,DatabaseHelper.KEY_REFERENCE_POINT,
                                             DatabaseHelper.KEY_ID,DatabaseHelper.KEY_SSID,
                                             DatabaseHelper.KEY_BSSID,DatabaseHelper.KEY_CAPABILITIES, DatabaseHelper.KEY_LEVEL,
                                             DatabaseHelper.KEY_FREQUENCY,DatabaseHelper.KEY_HITS};
@@ -48,7 +48,7 @@ public class ListAps extends ListActivity{
                     /* VERSION 1.0 */
                     switch (view.getId()) {
                         case R.id.map:
-                            String map = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.KEY_MAP));
+                            String map = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.KEY_MAP_NAME));
                             outputTextView.setText(getResources().getString(R.string.map_value_pattern, map));
                             break;
                         case R.id.reference_point:

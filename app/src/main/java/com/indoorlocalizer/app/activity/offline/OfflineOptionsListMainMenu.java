@@ -12,7 +12,6 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.indoorlocalizer.app.R;
-import com.indoorlocalizer.app.activity.common.ListAps;
 import com.indoorlocalizer.app.activity.common.model.OptionElement;
 import com.indoorlocalizer.app.activity.common.xml.XmlParser;
 
@@ -117,8 +116,8 @@ public class OfflineOptionsListMainMenu extends ListActivity {
         startActivity(showWifi);
     }
     private void showFingerPrints(){
-        Intent showAPs=new Intent(this,ListAps.class);
-        startActivity(showAPs);
+        Intent showMaps=new Intent(this,ShowSavedMaps.class);
+        startActivity(showMaps);
     }
 
     private void createRP(){

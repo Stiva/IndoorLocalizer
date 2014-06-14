@@ -11,4 +11,5 @@
     <dimen name="button_corners_width">8dp</dimen>
     <dimen name="button_stroke_width">2px</dimen>
     <dimen name="text_padding_default">10dp</dimen>
+    <dimen name="spacing">5dp</dimen>
 </resources>

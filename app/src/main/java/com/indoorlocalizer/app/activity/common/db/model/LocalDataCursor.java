@@ -4,8 +4,8 @@ import android.database.sqlite.SQLiteCursor;
 import android.database.sqlite.SQLiteCursorDriver;
 import android.database.sqlite.SQLiteQuery;
 
-import com.indoorlocalizer.app.activity.common.model.AccessPoint;
 import com.indoorlocalizer.app.activity.common.db.DatabaseHelper;
+import com.indoorlocalizer.app.activity.common.model.AccessPoint;
 
 /**
  * Created by federicostivani on 03/06/14.
@@ -16,7 +16,7 @@ public class LocalDataCursor extends SQLiteCursor {
     public LocalDataCursor(SQLiteCursorDriver driver, String editTable, SQLiteQuery query) {
         super(driver, editTable, query);
     }
-    public String getMap() { return  getString(getColumnIndex(DatabaseHelper.KEY_MAP));}
+    public String getMap() { return  getString(getColumnIndex(DatabaseHelper.KEY_MAP_NAME));}
     public long getId() {
         return getLong(getColumnIndex(DatabaseHelper.KEY_ID));
     }

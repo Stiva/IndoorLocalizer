@@ -11,14 +11,16 @@ import android.util.Log;
 public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String DB_NAME ="access_points.db";
     public static final String KEY_ID = "_id";
-    public static final String KEY_MAP = "map";
+    public static final String KEY_MAP_NAME = "map_name";
     public static final String KEY_REFERENCE_POINT="reference_point";
     public static final String KEY_SSID = "ssid";
     public static final String KEY_BSSID = "bssid";
     public static final String KEY_CAPABILITIES = "capabilities";
     public static final String KEY_LEVEL = "level";
     public static final String KEY_FREQUENCY = "frequency";
-    public static final String KEY_HITS="hits";
+    public static final String KEY_HITS= "hits";
+    public static final String KEY_NUMBER_OF_RP= "reference_point_number";
+    public static final String KEY_MAP_IMAGE_PATH= "map_image_path";
 
     private static final int DB_VERSION = 1;
     public DatabaseHelper(Context context) {
@@ -30,7 +32,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // SQL statement to create APs table
         String CREATE_APS_TABLE = "CREATE TABLE aps ( " +
                 "_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                "map TEXT, "+
+                "map_name TEXT, "+
                 "reference_point INTEGER,"+
                 "ssid TEXT, " +
                 "bssid TEXT, "+
@@ -38,15 +40,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "level INTEGER, "+
                 "frequency INTEGER, " +
                 "hits INTEGER )";
-
         // create ap table
         db.execSQL(CREATE_APS_TABLE);
+        String CREATE_MAPS_TABLE = "CREATE TABLE maps ( " +
+                "_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "map_name TEXT, "+
+                "reference_point_number INTEGER,"+
+                "map_image_path TEXT )";
+        db.execSQL(CREATE_MAPS_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // Drop older aps table if existed
         db.execSQL("DROP TABLE IF EXISTS aps");
+        db.execSQL("DROP TABLE IF EXISTS maps");
         // create fresh aps table
         this.onCreate(db);
     }

@@ -6,6 +6,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.database.Cursor;
+import android.net.Uri;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
@@ -22,6 +24,7 @@ import com.indoorlocalizer.app.R;
 import com.indoorlocalizer.app.activity.common.db.DatabaseHelper;
 import com.indoorlocalizer.app.activity.common.db.DbManager;
 import com.indoorlocalizer.app.activity.common.model.AccessPoint;
+import com.indoorlocalizer.app.activity.common.model.InfrastructureMap;
 
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -39,14 +42,17 @@ public class ShowWifi extends ListActivity implements InsertMapNameDialog.Insert
     private WifiManager mainWifi;
     private WifiReceiver receiverWifi;
     private List<ScanResult> wifiList;
+    private String imageFilePath="ic_launcher";
     private SimpleAdapter mAdapter;
     private List<Map<String, Object>> mModel = new LinkedList<Map<String, Object>>();
+    private static final int PICK_IMAGE = 1;
+
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_show_wifi);
-        mAdapter = new SimpleAdapter(this, mModel, R.layout.wifi_list_item, FROM, TO);
+        mAdapter = new SimpleAdapter(this, mModel, R.layout.wifi_list_item_simple, FROM, TO);
         mAdapter.setViewBinder(new SimpleAdapter.ViewBinder() {
             @Override
             public boolean setViewValue(View view, Object o, String s) {
@@ -106,6 +112,7 @@ public class ShowWifi extends ListActivity implements InsertMapNameDialog.Insert
             for(ScanResult res:wifiList){
                 dbManager.addWifi(new AccessPoint(mapName,1,res.SSID,res.BSSID,res.capabilities,res.level,res.frequency));
             }
+            dbManager.addMap(new InfrastructureMap(mapName,1,imageFilePath));
             dbManager.close();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -127,7 +134,7 @@ public class ShowWifi extends ListActivity implements InsertMapNameDialog.Insert
                 return true;
             case R.id.save_fingerprint_option:
                 InsertMapNameDialog dialog=new InsertMapNameDialog();
-                dialog.show(getFragmentManager(),"Insert map name");
+                dialog.show(getFragmentManager(), "Insert map name");
         }
         return super.onMenuItemSelected(featureId, item);
     }
@@ -146,12 +153,35 @@ public class ShowWifi extends ListActivity implements InsertMapNameDialog.Insert
     public void onDialogPositiveClick(DialogFragment dialog) {
         EditText edit=(EditText)dialog.getDialog().findViewById(R.id.map_name_editText);
         String mapName=edit.getText().toString();
+
         saveFingerprint(mapName);
     }
 
     @Override
     public void onDialogNegativeClick(DialogFragment dialog) {
         dialog.dismiss();
+    }
+    @Override
+    public void onButtonClick(DialogFragment dialog) {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE);
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == PICK_IMAGE && data != null && data.getData() != null) {
+            Uri _uri = data.getData();
+
+            //User had pick an image.
+            Cursor cursor = getContentResolver().query(_uri, new String[] { android.provider.MediaStore.Images.ImageColumns.DATA }, null, null, null);
+            cursor.moveToFirst();
+
+            //Link to the image
+            imageFilePath = cursor.getString(0);
+            cursor.close();
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     // Broadcast receiver class called its receive method

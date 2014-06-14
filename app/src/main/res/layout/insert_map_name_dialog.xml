@@ -19,4 +19,11 @@
         android:layout_marginRight="4dp"
         android:layout_marginBottom="4dp"
         android:hint="@string/placeholder_map_name_editText" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/button_image_upload_text"
+        android:id="@+id/button_image_upload" />
+
 </LinearLayout>
