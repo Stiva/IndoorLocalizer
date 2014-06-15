@@ -2,7 +2,7 @@ package com.indoorlocalizer.app.activity.offline;
 
 import android.app.ListActivity;
 import android.database.Cursor;
-import android.graphics.drawable.Drawable;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -56,9 +56,7 @@ public class ShowSavedMaps extends ListActivity {
                             final ImageButton outputImageButton = (ImageButton) view;
                             //TODO: right implementation image isn't a Drawable file yet!.
                             String map_icon_id = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.KEY_MAP_IMAGE_PATH));
-                            int image_id=getResources().getIdentifier(map_icon_id,"drawable",getPackageName());
-                            Drawable image= getResources().getDrawable(image_id) ;
-                            outputImageButton.setImageDrawable(image);
+                            outputImageButton.setImageBitmap(BitmapFactory.decodeFile(map_icon_id));
                             break;
                         case R.id.map_title:
                             final TextView outputTextView = (TextView) view;

@@ -190,6 +190,10 @@ public class ShowWifi extends ListActivity implements InsertMapNameDialog.Insert
 
             //Link to the image
             imageFilePath = cursor.getString(0);
+            if (imageFilePath==null) {
+                Toast.makeText(this.getApplicationContext(), "Impossible to load this image, using the default one", Toast.LENGTH_LONG).show();
+                imageFilePath="map-default-icon.png";
+            }
             cursor.close();
         }
         super.onActivityResult(requestCode, resultCode, data);
