@@ -25,7 +25,11 @@ import com.indoorlocalizer.app.activity.common.db.DatabaseHelper;
 import com.indoorlocalizer.app.activity.common.db.DbManager;
 import com.indoorlocalizer.app.activity.common.model.AccessPoint;
 import com.indoorlocalizer.app.activity.common.model.InfrastructureMap;
+import com.indoorlocalizer.app.activity.common.utils.CommonUtils;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -112,9 +116,16 @@ public class ShowWifi extends ListActivity implements InsertMapNameDialog.Insert
             for(ScanResult res:wifiList){
                 dbManager.addWifi(new AccessPoint(mapName,1,res.SSID,res.BSSID,res.capabilities,res.level,res.frequency));
             }
+            File src=new File(imageFilePath);
+            File dest = new File(this.getApplicationContext().getFilesDir(), mapName);
+            CommonUtils.copy(src,dest);
             dbManager.addMap(new InfrastructureMap(mapName,1,imageFilePath));
             dbManager.close();
         } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

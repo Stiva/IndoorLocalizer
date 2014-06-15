@@ -54,7 +54,7 @@ public class ShowSavedMaps extends ListActivity {
                     switch (view.getId()) {
                         case R.id.map_image_button:
                             final ImageButton outputImageButton = (ImageButton) view;
-                            //TODO: right implementation.
+                            //TODO: right implementation image isn't a Drawable file yet!.
                             String map_icon_id = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.KEY_MAP_IMAGE_PATH));
                             int image_id=getResources().getIdentifier(map_icon_id,"drawable",getPackageName());
                             Drawable image= getResources().getDrawable(image_id) ;
