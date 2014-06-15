@@ -90,11 +90,11 @@ public class DbManager{
     }
 
     public Cursor getAccessPoint(String  ssid){
-        return db.query(DATABASE_RP_TABLE, COLUMNS_AP,DatabaseHelper.KEY_SSID+"="+ssid,null,null,null,null);
+        return db.query(DATABASE_RP_TABLE, COLUMNS_AP,DatabaseHelper.KEY_SSID+"= '"+ssid+"'",null,null,null,null);
     }
 
     public Cursor getAccessPointByMap(String map){
-        return db.query(DATABASE_RP_TABLE, COLUMNS_AP,DatabaseHelper.KEY_MAP_NAME +"="+map,null,null,null,null);
+        return db.query(DATABASE_RP_TABLE, COLUMNS_AP,DatabaseHelper.KEY_MAP_NAME +"= '"+map+"'",null,null,null,null);
     }
 
     public Cursor getMapNameList(){

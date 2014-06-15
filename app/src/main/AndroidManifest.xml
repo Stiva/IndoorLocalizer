@@ -21,7 +21,6 @@
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -35,8 +34,7 @@
         </activity>
         <activity
             android:name=".activity.common.ListAps"
-            android:label="@string/title_activity_list_aps"
-            android:theme="@style/Theme.AppCompat.Light" >
+            android:label="@string/title_activity_list_aps">
         </activity>
         <activity
             android:name=".activity.offline.DataRetriever"
@@ -46,7 +44,8 @@
         <service
             android:name=".activity.offline.ScannerService"
             android:enabled="true"
-            android:exported="true" >
+            android:exported="true"
+            android:permission="">
         </service>
 
         <activity

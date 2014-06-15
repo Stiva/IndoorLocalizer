@@ -119,7 +119,7 @@ public class ShowWifi extends ListActivity implements InsertMapNameDialog.Insert
             File src=new File(imageFilePath);
             File dest = new File(this.getApplicationContext().getFilesDir(), mapName);
             CommonUtils.copy(src,dest);
-            dbManager.addMap(new InfrastructureMap(mapName,1,imageFilePath));
+            dbManager.addMap(new InfrastructureMap(mapName,1,dest.getPath()));
             dbManager.close();
         } catch (SQLException e) {
             e.printStackTrace();

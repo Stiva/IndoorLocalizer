@@ -1,6 +1,7 @@
 package com.indoorlocalizer.app.activity.common;
 
 import android.app.ListActivity;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.Menu;
@@ -28,17 +29,19 @@ public class ListAps extends ListActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_aps);
+        Intent intent=getIntent();
+        String mapName=intent.getExtras().getString("mapName");
         final TextView emptyListMsg=(TextView)findViewById(R.id.empty_list_message);
         DbManager dbManager=new DbManager(getApplicationContext());
         try{
             dbManager.open();
-            mCursor = dbManager.getAllAccessPoints();
+            mCursor = dbManager.getAccessPointByMap(mapName);
            // dbManager.close();
         } catch (SQLException e){
             e.printStackTrace();
         }
         if(mCursor.getCount()>0) {
-            SimpleCursorAdapter mAdapter = new SimpleCursorAdapter(getApplicationContext(), R.layout.wifi_list_item, mCursor, FROM, TO, 0);
+            SimpleCursorAdapter mAdapter = new SimpleCursorAdapter(this, R.layout.wifi_list_item, mCursor, FROM, TO, 0);
             mAdapter.setViewBinder(new SimpleCursorAdapter.ViewBinder() {
 
                 @Override
@@ -89,7 +92,6 @@ public class ListAps extends ListActivity{
         }
 
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
