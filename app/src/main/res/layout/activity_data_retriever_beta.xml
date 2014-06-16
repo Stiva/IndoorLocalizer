@@ -1,4 +1,4 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -6,22 +6,16 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context=".activity.offline.DataRetriever">
+    tools:context=".activity.offline.DataRetriever"
+    android:scrollbarAlwaysDrawVerticalTrack="true"
+    android:orientation="horizontal">
 
     <Button
-        android:layout_width="160sp"
+        android:layout_width="120sp"
         android:layout_height="wrap_content"
         android:text="@string/data_retrieving_button_text"
         android:id="@+id/data_retrieving_button"
-        android:layout_gravity="left|bottom"/>
-
-    <Button
-        android:layout_width="160sp"
-        android:layout_height="wrap_content"
-        android:text="@string/stop_rp_button_label"
-        android:id="@+id/stop_rp_button"
-        android:layout_gravity="right|bottom"
-        />
+        android:layout_marginTop="250sp"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -29,8 +23,17 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/rp_id_label"
         android:id="@+id/textView"
-        android:layout_gravity="center|top"
+
         android:layout_marginTop="130sp"/>
+
+    <Button
+        android:layout_width="120sp"
+        android:layout_height="wrap_content"
+        android:text="@string/stop_rp_button_label"
+        android:id="@+id/stop_rp_button"
+        android:layout_marginTop="250sp"
+        android:layout_marginRight="200sp"
+        />
 
     <EditText
         android:layout_width="wrap_content"
@@ -38,7 +41,6 @@
         android:inputType="text"
         android:id="@+id/map_name_editText"
         android:hint="@string/placeholder_map_name_editText"
-        android:layout_gravity="center|bottom"
         android:layout_marginBottom="120sp"/>
 
     <EditText
@@ -48,7 +50,6 @@
         android:hint="@string/number_hint"
         android:ems="10"
         android:id="@+id/rp_id_editText"
-        android:layout_gravity="center|top"
         android:layout_marginTop="160sp"
         />
 
@@ -56,7 +57,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/create_map_title"
-        android:layout_gravity="center_horizontal|top"
         android:src="@drawable/map_create_title"
         android:background="@color/dat_yellow"
         android:contentDescription="@string/create_map_content_description" />
@@ -66,7 +66,6 @@
         android:layout_height="wrap_content"
         android:id="@+id/map_image_preview"
         android:layout_marginTop="21sp"
-        android:layout_gravity="center"
         android:contentDescription="@string/map_image_preview" />
 
     <Button
@@ -74,7 +73,6 @@
         android:layout_height="wrap_content"
         android:text="@string/button_image_upload_text"
         android:id="@+id/upload_image_button"
-        android:layout_marginBottom="60sp"
-        android:layout_gravity="center_horizontal|bottom" />
+        android:layout_marginBottom="60sp"/>
 
-</FrameLayout>
+</LinearLayout>

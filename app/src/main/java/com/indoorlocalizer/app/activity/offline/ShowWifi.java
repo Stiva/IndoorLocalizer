@@ -15,7 +15,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,8 +27,10 @@ import com.indoorlocalizer.app.activity.common.model.InfrastructureMap;
 import com.indoorlocalizer.app.activity.common.utils.CommonUtils;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -46,7 +47,7 @@ public class ShowWifi extends ListActivity implements InsertMapNameDialog.Insert
     private WifiManager mainWifi;
     private WifiReceiver receiverWifi;
     private List<ScanResult> wifiList;
-    private String imageFilePath="ic_launcher";
+    private String imageFilePath= "map_default_icon.png";
     private SimpleAdapter mAdapter;
     private List<Map<String, Object>> mModel = new LinkedList<Map<String, Object>>();
     private static final int PICK_IMAGE = 1;
@@ -116,7 +117,13 @@ public class ShowWifi extends ListActivity implements InsertMapNameDialog.Insert
             for(ScanResult res:wifiList){
                 dbManager.addWifi(new AccessPoint(mapName,1,res.SSID,res.BSSID,res.capabilities,res.level,res.frequency));
             }
-            File src=new File(imageFilePath);
+            InputStream src;
+            if(imageFilePath.equals("map_default_icon.png")) {
+                src=getAssets().open(imageFilePath);
+            }
+            else {
+                src = new FileInputStream(imageFilePath);
+            }
             File dest = new File(this.getApplicationContext().getFilesDir(), mapName);
             CommonUtils.copy(src,dest);
             dbManager.addMap(new InfrastructureMap(mapName,1,dest.getPath()));
@@ -164,7 +171,6 @@ public class ShowWifi extends ListActivity implements InsertMapNameDialog.Insert
     public void onDialogPositiveClick(DialogFragment dialog) {
         EditText edit=(EditText)dialog.getDialog().findViewById(R.id.map_name_editText);
         String mapName=edit.getText().toString();
-
         saveFingerprint(mapName);
     }
 
@@ -191,8 +197,7 @@ public class ShowWifi extends ListActivity implements InsertMapNameDialog.Insert
             //Link to the image
             imageFilePath = cursor.getString(0);
             if (imageFilePath==null) {
-                Toast.makeText(this.getApplicationContext(), "Impossible to load this image, using the default one", Toast.LENGTH_LONG).show();
-                imageFilePath="map-default-icon.png";
+                imageFilePath= "map_default_icon.png";
             }
             cursor.close();
         }
@@ -220,9 +225,5 @@ public class ShowWifi extends ListActivity implements InsertMapNameDialog.Insert
             mAdapter.notifyDataSetChanged();
             getListView().setAdapter(mAdapter);
         }
-    }
-    @Override
-    protected void onListItemClick(ListView l, View v, int position, long id) {
-        Toast.makeText(getApplicationContext(), "Selected position: " + position, Toast.LENGTH_SHORT).show();
     }
 }

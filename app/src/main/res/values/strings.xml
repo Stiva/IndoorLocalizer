@@ -87,5 +87,7 @@
     <string name="image_button_descriptor">Image Button</string>
     <string name="placeholder_map_name">Map Name</string>
     <string name="button_image_upload_text">Upload an image to use it as a map</string>
+    <string name="create_map_content_description">Create Map</string>
+    <string name="map_image_preview">Map preview</string>
 
 </resources>

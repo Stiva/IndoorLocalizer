@@ -14,8 +14,8 @@ import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import com.indoorlocalizer.app.R;
-import com.indoorlocalizer.app.activity.online.Localization;
 import com.indoorlocalizer.app.activity.offline.OfflineOptionsListMainMenu;
+import com.indoorlocalizer.app.activity.online.Localization;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -37,7 +37,6 @@ public class LocatorSelector extends ListActivity {
     private static final String[] FROM = {"option_name","option_description"};
     private static final int[] TO = {R.id.option_name, R.id.option_description};
     private List<Map<String, Object>> mModel = new LinkedList<Map<String, Object>>();
-    //TODO: Toggle visual update doesn't work.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,9 +79,11 @@ public class LocatorSelector extends ListActivity {
         if (wifiManager.getWifiState()==WifiManager.WIFI_STATE_ENABLED) {
             wifiManager.setWifiEnabled(false);
             toggleWifi.toggle();
+            toggleWifi.setChecked(false);
         } else if(wifiManager.getWifiState()==WifiManager.WIFI_STATE_DISABLED){
             wifiManager.setWifiEnabled(true);
             toggleWifi.toggle();
+            toggleWifi.setChecked(true);
         }
     }
 

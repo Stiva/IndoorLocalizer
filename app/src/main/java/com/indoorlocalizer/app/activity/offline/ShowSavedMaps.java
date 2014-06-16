@@ -39,7 +39,7 @@ public class ShowSavedMaps extends ListActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_saved_maps);
-        final TextView emptyListMsg=(TextView)findViewById(R.id.empty_list_message);
+        final TextView emptyListMsg=(TextView)findViewById(R.id.empty_map_list_message);
         DbManager dbManager=new DbManager(getApplicationContext());
         try{
             dbManager.open();
@@ -58,8 +58,7 @@ public class ShowSavedMaps extends ListActivity {
 
                 @Override
                 public boolean setViewValue(View view, Cursor cursor, int i) {
-                   //TODO: empty message in layout
-                   //emptyListMsg.setVisibility(View.INVISIBLE);
+                   emptyListMsg.setVisibility(View.INVISIBLE);
                     /* VERSION 1.0 */
                     switch (view.getId()) {
                         case R.id.map_image_button:
@@ -72,7 +71,7 @@ public class ShowSavedMaps extends ListActivity {
                                 outputImageButton.setImageBitmap(resizedImage);
                             } else {
                                 try {
-                                    Drawable dr=Drawable.createFromStream(getAssets().open("map-default-icon.png"),null);
+                                    Drawable dr=Drawable.createFromStream(getAssets().open("map_default_icon.png"),null);
                                     Bitmap bitmap = ((BitmapDrawable) dr).getBitmap();
                                     Drawable d = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(bitmap, 340, 340, true));
                                     outputImageButton.setImageDrawable(d);

@@ -17,4 +17,15 @@
         tools:listitem="@layout/map_selector_item"
         android:layout_weight="1"
         />
+    <TextView
+        android:visibility="invisible"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="25sp"
+        android:textColor="@color/red"
+        android:layout_marginLeft="10sp"
+        android:layout_marginRight="10sp"
+        android:layout_gravity="center|center"
+        android:id="@+id/empty_map_list_message"
+        android:text="@string/empty_list_message" />
 </LinearLayout>
