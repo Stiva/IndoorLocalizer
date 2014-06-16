@@ -1,6 +1,8 @@
 package com.indoorlocalizer.app.activity.offline;
 
+import android.app.AlertDialog;
 import android.app.ListActivity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -35,6 +37,7 @@ public class ShowSavedMaps extends ListActivity {
 
     private static final int[] TO = {R.id.map_image_button,R.id.map_title};
 
+    private SimpleCursorAdapter mAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,7 +47,7 @@ public class ShowSavedMaps extends ListActivity {
         try{
             dbManager.open();
             mCursor = dbManager.getMapNameList();
-            // dbManager.close();
+            //dbManager.close();
         } catch (SQLException e){
             e.printStackTrace();
         }
@@ -52,14 +55,12 @@ public class ShowSavedMaps extends ListActivity {
             createMapFromCursor(mCursor);
             int spacing = (int)getResources().getDimension(R.dimen.spacing);
             int itemsPerRow = getResources().getInteger(R.integer.items_per_row);
-            SimpleCursorAdapter mAdapter = new SimpleCursorAdapter(this, R.layout.map_selector_item, mCursor, FROM, TO, 0);
+            mAdapter= new SimpleCursorAdapter(this, R.layout.map_selector_item, mCursor, FROM, TO, 0);
             MultiItemRowListAdapter wrapperAdapter = new MultiItemRowListAdapter(this, mAdapter, itemsPerRow, spacing);
             mAdapter.setViewBinder(new SimpleCursorAdapter.ViewBinder() {
-
                 @Override
                 public boolean setViewValue(View view, Cursor cursor, int i) {
-                   emptyListMsg.setVisibility(View.INVISIBLE);
-                    /* VERSION 1.0 */
+                    emptyListMsg.setVisibility(View.INVISIBLE);
                     switch (view.getId()) {
                         case R.id.map_image_button:
                             final ImageButton outputImageButton=(ImageButton) view;
@@ -86,6 +87,31 @@ public class ShowSavedMaps extends ListActivity {
                                     Intent intent= new Intent(getBaseContext(), ListAps.class);
                                     intent.putExtra("mapName",mapName);
                                     startActivity(intent);
+                                }
+                            });
+                            outputImageButton.setOnLongClickListener(new View.OnLongClickListener() {
+                                @Override
+                                public boolean onLongClick(View view) {
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(ShowSavedMaps.this);
+                                    builder.setTitle(R.string.option_map_dialog)
+                                            .setItems(R.array.string_option_name, new DialogInterface.OnClickListener() {
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    switch (which) {
+                                                        case 0:
+                                                            String mapName = selectMapName(map_icon_id);
+                                                            Intent intent = new Intent(ShowSavedMaps.this, ListAps.class);
+                                                            intent.putExtra("mapName", mapName);
+                                                            startActivity(intent);
+                                                            break;
+                                                        case 1:
+                                                            deleteDialog(map_icon_id);
+                                                            break;
+                                                    }
+                                                }
+                                            });
+                                    AlertDialog dialog=builder.create();
+                                    dialog.show();
+                                    return true;
                                 }
                             });
                             break;
@@ -121,9 +147,6 @@ public class ShowSavedMaps extends ListActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         return id == R.id.action_settings || super.onOptionsItemSelected(item);
     }
@@ -133,5 +156,44 @@ public class ShowSavedMaps extends ListActivity {
                 return map.getMapName();
         }
         return null;
+    }
+    private void deleteDialog(final String map_icon_id){
+        AlertDialog.Builder builder = new AlertDialog.Builder(ShowSavedMaps.this);
+        builder.setMessage(R.string.delete_map_message)
+                .setTitle(R.string.delete_map_title);
+        builder.setPositiveButton(R.string.ok,new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                String mapname=selectMapName(map_icon_id);
+                cancelMap(mapname);
+            }
+        });
+        builder.setNegativeButton(R.string.cancel,new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+        AlertDialog dialog=builder.create();
+        dialog.show();
+
+    }
+    private void cancelMap(String mapName){
+        //Remove the map from the dynamic ArrayList of savedMaps
+        for(InfrastructureMap map:savedMaps)
+            if(map.getMapName().equals(mapName))
+                savedMaps.remove(map);
+        //Remove the map from DB
+        DbManager dbManager=new DbManager(getApplicationContext());
+        try{
+            dbManager.open();
+            dbManager.deleteMapByName(mapName);
+            dbManager.deleteRpByMapName(mapName);
+            //dbManager.close();
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+        //TODO: Update in realtime doesn't work!
+        mAdapter.notifyDataSetChanged();
     }
 }

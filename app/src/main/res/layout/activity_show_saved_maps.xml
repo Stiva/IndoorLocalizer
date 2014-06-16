@@ -1,31 +1,28 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:paddingLeft="@dimen/activity_horizontal_margin"
+android:paddingRight="@dimen/activity_horizontal_margin"
+android:paddingTop="@dimen/activity_vertical_margin"
+android:paddingBottom="@dimen/activity_vertical_margin"
+tools:context=".activity.offline.ShowSavedMaps">
+<ListView
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context=".activity.offline.ShowSavedMaps"
-    android:baselineAligned="false"
-    >
-    <ListView
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:id="@android:id/list"
-        android:layout_gravity="center"
-        tools:listitem="@layout/map_selector_item"
-        android:layout_weight="1"
-        />
-    <TextView
-        android:visibility="invisible"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="25sp"
-        android:textColor="@color/red"
-        android:layout_marginLeft="10sp"
-        android:layout_marginRight="10sp"
-        android:layout_gravity="center|center"
-        android:id="@+id/empty_map_list_message"
-        android:text="@string/empty_list_message" />
-</LinearLayout>
+    android:layout_height="wrap_content"
+    android:id="@android:id/list"
+    android:layout_gravity="center"
+    tools:listitem="@layout/map_selector_item"
+    />
+<TextView
+    android:visibility="invisible"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:textSize="25sp"
+    android:textColor="@color/red"
+    android:layout_marginLeft="10sp"
+    android:layout_marginRight="10sp"
+    android:layout_gravity="center|center"
+    android:id="@+id/empty_map_list_message"
+    android:text="@string/empty_list_message" />
+</GridLayout>

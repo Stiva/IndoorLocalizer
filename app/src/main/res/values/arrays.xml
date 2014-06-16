@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <resources>
+        <string-array name="string_option_name">
+            <item name="show Reference Points">Show Reference Points</item>
+            <item name="delete map">Delete map</item>
+        </string-array>
+    </resources>

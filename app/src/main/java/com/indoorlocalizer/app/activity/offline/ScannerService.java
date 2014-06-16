@@ -9,9 +9,10 @@ import android.support.v4.app.NotificationCompat;
 import android.widget.Toast;
 
 import com.indoorlocalizer.app.R;
+import com.indoorlocalizer.app.activity.common.db.DbManager;
 import com.indoorlocalizer.app.activity.common.model.AccessPoint;
 import com.indoorlocalizer.app.activity.common.model.SimpleWifiReceiver;
-import com.indoorlocalizer.app.activity.common.db.DbManager;
+import com.indoorlocalizer.app.activity.common.utils.CommonUtils;
 
 import java.sql.SQLException;
 import java.util.Collection;
@@ -23,7 +24,6 @@ import java.util.concurrent.TimeUnit;
 
 public class ScannerService extends IntentService {
     private int progress;
-    private int scanNumber = 3;
     private NotificationManager mNotificationManager;
     private NotificationCompat.Builder mBuilder;
     private Map<String,AccessPoint> referencePoint;
@@ -53,7 +53,7 @@ public class ScannerService extends IntentService {
         // This schedule a runnable task every 2 minutes
         scheduleTaskExecutor.scheduleAtFixedRate(new Runnable() {
             public void run() {
-                if(progress< scanNumber) {
+                if(progress< CommonUtils.scanNumber) {
                     progress++;
                     sendNotification();
                     scanWifi();
@@ -61,7 +61,7 @@ public class ScannerService extends IntentService {
                     mergeData();
                 }
             }
-        }, 0, 2, TimeUnit.SECONDS);
+        }, 0, 30, TimeUnit.SECONDS);
         return IntentService.START_NOT_STICKY;
     }
 
@@ -77,7 +77,7 @@ public class ScannerService extends IntentService {
     }
 
     private void sendNotification(){
-        mBuilder.setContentText("Progress " + progress + "/"+ scanNumber);
+        mBuilder.setContentText("Progress " + progress + "/"+ CommonUtils.scanNumber);
         int mId = 1;
         mNotificationManager.notify(mId, mBuilder.build());
     }

@@ -10,6 +10,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.indoorlocalizer.app.R;
+import com.indoorlocalizer.app.activity.common.utils.CommonUtils;
 
 import java.io.IOException;
 
@@ -29,6 +31,9 @@ public class DataRetriever extends ActionBarActivity {
     private String mapName;
     private String imageFilePath= "map_default_icon.png";
     private ImageView imagePreview;
+    private ProgressDialog barProgressDialog;
+    private Handler updateBarHandler;
+
     private static final int PICK_IMAGE = 1;
 
     @Override
@@ -38,6 +43,7 @@ public class DataRetriever extends ActionBarActivity {
         final Button dataRetrieveButton=(Button) findViewById(R.id.data_retrieving_button);
         final EditText rpValueText=(EditText)findViewById(R.id.rp_id_editText);
         final EditText mapNameValueText=(EditText)findViewById(R.id.map_name_editText);
+        updateBarHandler=new Handler();
         imagePreview=(ImageView)findViewById(R.id.map_image_preview);
         try {
             Drawable dr = Drawable.createFromStream(getAssets().open("map_default_icon.png"), null);
@@ -91,9 +97,7 @@ public class DataRetriever extends ActionBarActivity {
     private void scanReferencePoint(){
         startService(scanService);
         //TODO: Take a look on how progressDialog works!
-        ProgressDialog progressDialog=new ProgressDialog(this);
-        progressDialog.setTitle("Scan in action! Don't move");
-        progressDialog.show();
+        launchBarDialog();
     }
     public void stopRetrieveService(){
         stopService(scanService);
@@ -140,4 +144,39 @@ public class DataRetriever extends ActionBarActivity {
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
+
+    public void launchBarDialog() {
+        barProgressDialog = new ProgressDialog(this);
+        barProgressDialog.setTitle("Generating Reference point ...");
+        barProgressDialog.setMessage("Scan in progress ...");
+        barProgressDialog.setProgressStyle(barProgressDialog.STYLE_HORIZONTAL);
+        barProgressDialog.setProgress(0);
+        barProgressDialog.setMax(CommonUtils.scanNumber);
+        barProgressDialog.show();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    while (barProgressDialog.getProgress() <= barProgressDialog.getMax()) {
+
+                        Thread.sleep(30000);
+                        updateBarHandler.post(new Runnable() {
+                            public void run() {
+                                barProgressDialog.incrementProgressBy(1);
+                            }
+                        });
+                        if (barProgressDialog.getProgress() == barProgressDialog.getMax()) {
+                            barProgressDialog.dismiss();
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }).start();
+
+    }
+
+
 }

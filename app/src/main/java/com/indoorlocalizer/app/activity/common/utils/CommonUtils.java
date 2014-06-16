@@ -10,6 +10,8 @@ import java.io.OutputStream;
  * Created by federicostivani on 15/06/14.
  */
 public class CommonUtils {
+    public static int scanNumber=30;
+
     public static void copy(InputStream src, File dst) throws IOException {
         InputStream in = src;
         OutputStream out = new FileOutputStream(dst);

@@ -79,6 +79,7 @@
     <string name="placeholder_option_description">Description, lore ipsum bla bla</string>
     <string name="option_icon_description">Icon for option item</string>
     <string name="title_activity_show_wifi">ShowWifi</string>
+    <string name="ok">Ok</string>
     <string name="cancel">Cancel</string>
     <string name="save_map_name">Save</string>
     <string name="dialog_save_map_name">Insert map name</string>
@@ -89,5 +90,8 @@
     <string name="button_image_upload_text">Upload an image to use it as a map</string>
     <string name="create_map_content_description">Create Map</string>
     <string name="map_image_preview">Map preview</string>
+    <string name="delete_map_message">Are you sure that you want to delete this map?</string>
+    <string name="delete_map_title">Delete Map</string>
+    <string name="option_map_dialog">Choose an option</string>
 
 </resources>

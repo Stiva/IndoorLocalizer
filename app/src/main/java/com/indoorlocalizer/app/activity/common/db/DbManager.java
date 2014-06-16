@@ -123,4 +123,13 @@ public class DbManager{
         }
         return 0;
     }
+
+    public void deleteMapByName(String mapName) {
+        String s="DELETE FROM "+ DATABASE_MAP_TABLE+" WHERE "+DatabaseHelper.KEY_MAP_NAME+" = '"+mapName+"'";
+        db.execSQL(s);
+    }
+    public void deleteRpByMapName(String mapName) {
+        String s="DELETE FROM "+ DATABASE_RP_TABLE+" WHERE "+DatabaseHelper.KEY_MAP_NAME+" = '"+mapName+"'";
+        db.execSQL(s);
+    }
 }
