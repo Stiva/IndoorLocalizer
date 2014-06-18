@@ -20,6 +20,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class LocalizerService extends IntentService {
 
@@ -69,7 +70,10 @@ public class LocalizerService extends IntentService {
         List<ScanResult> scanResults=mainWifi.getScanResults();
         readAps=getAps(scanResults);
         //List of AP received in current position
-        return compareRP();
+        int result=compareRP();
+        if(result!=-1)
+            Toast.makeText(this, "Localized in RP number "+result, Toast.LENGTH_LONG).show();
+        return START_NOT_STICKY;
     }
 
     private ArrayList<AccessPoint> getAps(List<ScanResult> scanResults) {
@@ -92,7 +96,7 @@ public class LocalizerService extends IntentService {
     private int compareRP(){
         //1- Read the number of RP of a single map
         int rpNumber=-1;
-        HashMap<AccessPoint[],Boolean> responseHashMap = new HashMap<AccessPoint[], Boolean>();
+        //HashMap<AccessPoint[],Boolean> responseHashMap = new HashMap<AccessPoint[], Boolean>();
         ArrayList<AccessPoint> selectedAP=new ArrayList<AccessPoint>();
         try {
             dbManager.open();
@@ -111,34 +115,37 @@ public class LocalizerService extends IntentService {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
+            Map<String,Boolean> comparsionArray=new HashMap<String, Boolean>();
             //Compare each RP with the mobile user detection.
             for (AccessPoint aReadAp : readAps) {
                 //Obtaining the right AP array associated to a specific RP
                 for (AccessPoint aSelectedAP : selectedAP) {
                     if(EuclideanDifference(aReadAp, aSelectedAP, CommonUtils.tolerance)){
-                        responseHashMap.put(new AccessPoint[]{aReadAp,aSelectedAP},true);
-                    } else
-                        responseHashMap.put(new AccessPoint[]{aReadAp,aSelectedAP},false);
+                        //responseHashMap.put(new AccessPoint[]{aReadAp,aSelectedAP},true);
+                        comparsionArray.put(aReadAp.getSSID(),true);
+                    } /*else
+                        //responseHashMap.put(new AccessPoint[]{aReadAp,aSelectedAP},false);
+                        comparsionArray.put(aReadAp.getSSID(),false);*/
                 }
+            }
+            if(isAllTrue(comparsionArray)){
+                return rpNumber;
             }
         }
         return -1;
     }
 
-    /*private HashMap<Integer, ArrayList<AccessPoint>> getMap(Cursor accessPointByMap) {
-        HashMap<Integer,ArrayList<AccessPoint>> temp = new HashMap<Integer, ArrayList<AccessPoint>>();
-        ArrayList<AccessPoint> apList = new ArrayList<AccessPoint>();
-        String ssid;
-        int rp,level,frequency;
-        while(accessPointByMap.moveToNext()){
-            rp=accessPointByMap.getInt(accessPointByMap.getColumnIndexOrThrow(DatabaseHelper.KEY_REFERENCE_POINT));
-            ssid=accessPointByMap.getString(accessPointByMap.getColumnIndexOrThrow(DatabaseHelper.KEY_SSID));
-            level=accessPointByMap.getInt(accessPointByMap.getColumnIndexOrThrow(DatabaseHelper.KEY_LEVEL));
-            frequency=accessPointByMap.getInt(accessPointByMap.getColumnIndexOrThrow(DatabaseHelper.KEY_FREQUENCY));
-            apList.add(new AccessPoint(rp,ssid,level,frequency));
-        }
-        return temp;
-    }*/
+    private boolean isAllTrue(Map<String, Boolean> comparsionArray) {
+        boolean result=false;
+        /*for (int i=0;i<comparsionArray.size();i++){
+            if(!comparsionArray.get(readAps.get(i).getSSID()))
+                result=false;
+        }*/
+        if(comparsionArray.size()==readAps.size())
+            result=true;
+        return result;
+    }
+
 
     private ArrayList<AccessPoint> getAParray(Cursor mCursor) {
         ArrayList<AccessPoint> result=new ArrayList<AccessPoint>();
@@ -161,6 +168,13 @@ public class LocalizerService extends IntentService {
      * @return true if the signal difference is less or equal then the admitted tolerance, false otherwise. (Tolerance could be substituted with variance, estimated in offline phase)
      */
     private boolean EuclideanDifference(AccessPoint a,AccessPoint b,double tolerance){
-        return Math.abs(a.getLevel() * a.getLevel() - b.getLevel() * b.getLevel()) <= tolerance;
+        double difference;
+        if(a.getSSID().equals(b.getSSID())){
+            difference=Math.abs(a.getLevel() * a.getLevel() - b.getLevel() * b.getLevel());
+            difference=Math.sqrt(difference);
+            if (difference<=tolerance)
+                return true;
+        }
+        return false;
     }
 }
