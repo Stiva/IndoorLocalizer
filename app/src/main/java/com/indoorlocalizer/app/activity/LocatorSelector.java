@@ -14,10 +14,10 @@ import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import com.indoorlocalizer.app.R;
+import com.indoorlocalizer.app.activity.common.utils.CommonUtils;
 import com.indoorlocalizer.app.activity.offline.OfflineOptionsListMainMenu;
 import com.indoorlocalizer.app.activity.online.Localization;
 
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -123,11 +123,6 @@ public class LocatorSelector extends ListActivity {
     }
 
     private void createOptionList(){
-        Map<String, Object> item = new HashMap<String, Object>();
-        //TODO: XML integration for option menu persistence
-        item.put("option_name","Retrieve");
-        item.put("option_description","Retrieve data for a new map/reference point");
-        mModel.add(item);
-
+        CommonUtils.createOptionListXML(getApplicationContext(),"locatorSelectorMenu.xml",mModel);
     }
 }

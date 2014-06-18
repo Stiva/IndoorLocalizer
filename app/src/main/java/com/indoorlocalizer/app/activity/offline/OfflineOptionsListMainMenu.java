@@ -12,15 +12,8 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.indoorlocalizer.app.R;
-import com.indoorlocalizer.app.activity.common.model.OptionElement;
-import com.indoorlocalizer.app.activity.common.xml.XmlParser;
+import com.indoorlocalizer.app.activity.common.utils.CommonUtils;
 
-import org.xmlpull.v1.XmlPullParserException;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -38,7 +31,7 @@ public class OfflineOptionsListMainMenu extends ListActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wifi_scanner);
-        createOptionListXML();
+        CommonUtils.createOptionListXML(getApplicationContext(), "optionsMenu.xml", mModel);
         SimpleAdapter mAdapter = new SimpleAdapter(this, mModel, R.layout.option_list_item, FROM, TO);
         mAdapter.setViewBinder(new SimpleAdapter.ViewBinder() {
             @Override
@@ -87,34 +80,12 @@ public class OfflineOptionsListMainMenu extends ListActivity {
                 break;
         }
     }
-    /*
-     * You can easy manage the menu by adding a new tag to optionsMenu.xml contained in assets folder
-     */
-    private void createOptionListXML(){
-        ArrayList<OptionElement> results=new ArrayList<OptionElement>();
-        try {
-            XmlParser parser=new XmlParser();
-            InputStream in_s = getApplicationContext().getAssets().open("optionsMenu.xml");
-            results = parser.parse(in_s);
-        } catch (XmlPullParserException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        if(!results.isEmpty()){
-            for(OptionElement element:results){
-                HashMap<String,Object> temp=new HashMap<String, Object>();
-                temp.put("option_name",element.getOptionName());
-                temp.put("option_description",element.getOptionDescription());
-                mModel.add(temp);
-            }
-        }
 
-    }
     private void showWifi(){
         Intent showWifi=new Intent(this.getApplicationContext(),ShowWifi.class);
         startActivity(showWifi);
     }
+
     private void showFingerPrints(){
         Intent showMaps=new Intent(this,ShowSavedMaps.class);
         startActivity(showMaps);

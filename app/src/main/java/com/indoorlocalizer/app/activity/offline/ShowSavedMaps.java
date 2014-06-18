@@ -38,6 +38,7 @@ public class ShowSavedMaps extends ListActivity {
     private static final int[] TO = {R.id.map_image_button,R.id.map_title};
 
     private SimpleCursorAdapter mAdapter;
+    private MultiItemRowListAdapter wrapperAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,7 +57,7 @@ public class ShowSavedMaps extends ListActivity {
             int spacing = (int)getResources().getDimension(R.dimen.spacing);
             int itemsPerRow = getResources().getInteger(R.integer.items_per_row);
             mAdapter= new SimpleCursorAdapter(this, R.layout.map_selector_item, mCursor, FROM, TO, 0);
-            MultiItemRowListAdapter wrapperAdapter = new MultiItemRowListAdapter(this, mAdapter, itemsPerRow, spacing);
+            wrapperAdapter = new MultiItemRowListAdapter(this, mAdapter, itemsPerRow, spacing);
             mAdapter.setViewBinder(new SimpleCursorAdapter.ViewBinder() {
                 @Override
                 public boolean setViewValue(View view, Cursor cursor, int i) {
@@ -150,6 +151,7 @@ public class ShowSavedMaps extends ListActivity {
         int id = item.getItemId();
         return id == R.id.action_settings || super.onOptionsItemSelected(item);
     }
+
     private String selectMapName(String map_path){
         for(InfrastructureMap map:savedMaps){
             if(map.getMapImagePath().equals(map_path))
@@ -157,6 +159,7 @@ public class ShowSavedMaps extends ListActivity {
         }
         return null;
     }
+
     private void deleteDialog(final String map_icon_id){
         AlertDialog.Builder builder = new AlertDialog.Builder(ShowSavedMaps.this);
         builder.setMessage(R.string.delete_map_message)
@@ -176,8 +179,8 @@ public class ShowSavedMaps extends ListActivity {
         });
         AlertDialog dialog=builder.create();
         dialog.show();
-
     }
+
     private void cancelMap(String mapName){
         //Remove the map from the dynamic ArrayList of savedMaps
         for(InfrastructureMap map:savedMaps)
@@ -189,11 +192,12 @@ public class ShowSavedMaps extends ListActivity {
             dbManager.open();
             dbManager.deleteMapByName(mapName);
             dbManager.deleteRpByMapName(mapName);
+            mCursor= dbManager.getMapNameList();
             //dbManager.close();
         } catch (SQLException e){
             e.printStackTrace();
         }
-        //TODO: Update in realtime doesn't work!
+        mAdapter.swapCursor(mCursor);
         mAdapter.notifyDataSetChanged();
     }
 }

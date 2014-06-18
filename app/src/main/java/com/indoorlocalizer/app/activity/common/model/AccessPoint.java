@@ -18,11 +18,19 @@ public class AccessPoint implements Parcelable{
 
     public AccessPoint(String map, int rp, String ssid, String bssid, String capabilities, int level, int frequency) {
         this.map=map;
-
         this.rp=rp;
         this.SSID = ssid;
         this.BSSID = bssid;
         this.capabilities = capabilities;
+        this.level = level;
+        this.frequency = frequency;
+        this.hits=0;
+    }
+    public AccessPoint(String ssid, int level, int frequency){
+        this.map="";
+        this.SSID = ssid;
+        this.BSSID = "";
+        this.capabilities = "";
         this.level = level;
         this.frequency = frequency;
         this.hits=0;

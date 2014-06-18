@@ -3,4 +3,25 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent">
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView"
+        android:layout_gravity="center_horizontal|top"
+        android:src="@drawable/localize_title"
+        android:background="@color/dat_yellow"
+        android:contentDescription="@string/localize_content_description" />
+    <Spinner
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/map_chooser"
+        android:layout_gravity="center" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/localize_button"
+        android:text="@string/localize_button_text"
+        android:layout_gravity="center_horizontal|bottom" />
+
 </FrameLayout>

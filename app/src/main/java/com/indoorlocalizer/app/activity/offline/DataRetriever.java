@@ -96,7 +96,6 @@ public class DataRetriever extends ActionBarActivity {
 
     private void scanReferencePoint(){
         startService(scanService);
-        //TODO: Take a look on how progressDialog works!
         launchBarDialog();
     }
     public void stopRetrieveService(){
@@ -126,7 +125,7 @@ public class DataRetriever extends ActionBarActivity {
             imageFilePath = cursor.getString(0);
             if (imageFilePath==null) {
                 imageFilePath= "map_default_icon.png";
-                Drawable dr = null;
+                Drawable dr;
                 try {
                     dr = Drawable.createFromStream(getAssets().open("map_default_icon.png"), null);
                     Bitmap bitmap = ((BitmapDrawable) dr).getBitmap();

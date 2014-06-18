@@ -29,6 +29,7 @@ public class ScannerService extends IntentService {
     private Map<String,AccessPoint> referencePoint;
     private int rpId;
     private String mapName;
+    private ScheduledExecutorService scheduleTaskExecutor;
 
     public ScannerService() {
         super("ScannerService");
@@ -42,14 +43,13 @@ public class ScannerService extends IntentService {
         mNotificationManager= (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         progress=-1;
         referencePoint=new HashMap<String, AccessPoint>();
-
-        // mId allows you to update the notification later on.
     }
+
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         rpId=intent.getExtras().getInt("rpID");
         mapName=intent.getExtras().getString("mapName");
-        ScheduledExecutorService scheduleTaskExecutor = Executors.newScheduledThreadPool(5);
+        scheduleTaskExecutor = Executors.newScheduledThreadPool(5);
         // This schedule a runnable task every 2 minutes
         scheduleTaskExecutor.scheduleAtFixedRate(new Runnable() {
             public void run() {
@@ -68,7 +68,7 @@ public class ScannerService extends IntentService {
     @Override
     public void onDestroy(){
         Toast.makeText(this, "Scanning aborted by the user after "+progress+" iteration", Toast.LENGTH_LONG).show();
-
+        scheduleTaskExecutor.shutdown();
     }
 
     @Override

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu>
+    <option>
+        <name type="text">Retrieve</name>
+        <description type="text">Offline phase operations</description>
+        <iconPath>Fuffa per ora</iconPath>
+    </option>
+    <option>
+        <name type="text">Localize</name>
+        <description type="text">Use stored fingerprints to determine your location</description>
+        <iconPath>Fuffa per ora</iconPath>
+    </option>
+</menu>

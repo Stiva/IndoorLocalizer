@@ -85,14 +85,6 @@ public class DbManager{
         }
     }
 
-    public Cursor getAllAccessPoints () {
-        return db.query(DATABASE_RP_TABLE, COLUMNS_AP,null,null,null,null,null);
-    }
-
-    public Cursor getAccessPoint(String  ssid){
-        return db.query(DATABASE_RP_TABLE, COLUMNS_AP,DatabaseHelper.KEY_SSID+"= '"+ssid+"'",null,null,null,null);
-    }
-
     public Cursor getAccessPointByMap(String map){
         return db.query(DATABASE_RP_TABLE, COLUMNS_AP,DatabaseHelper.KEY_MAP_NAME +"= '"+map+"'",null,null,null,null);
     }
@@ -102,7 +94,7 @@ public class DbManager{
     }
 
     public boolean checkMapPresence(String mapName){
-        Cursor mCursor=db.query(DATABASE_MAP_TABLE,COLUMNS_MAP,DatabaseHelper.KEY_MAP_NAME+"= '"+mapName+"'",null,null,null,null);
+        Cursor mCursor = db.query(DATABASE_MAP_TABLE,COLUMNS_MAP,DatabaseHelper.KEY_MAP_NAME+"= '"+mapName+"'",null,null,null,null);
         return mCursor != null && mCursor.getCount() > 0;
     }
 
@@ -114,20 +106,29 @@ public class DbManager{
         }
     }
 
-    private int getRPNumber(String mapName) {
-        Cursor mCursor=db.query(DATABASE_MAP_TABLE,COLUMNS_MAP,DatabaseHelper.KEY_MAP_NAME +" = '"+mapName+"'",null,null,null,null);
-        if(mCursor!=null) {
-            mCursor.moveToFirst();
-            InfrastructureMap map = new InfrastructureMap(mCursor.getString(0),Integer.parseInt(mCursor.getString(1)),mCursor.getString(1));
-            return map.getRpNumber();
+    public int getRPNumber(String mapName) {
+        Cursor mCursor = db.query(DATABASE_MAP_TABLE,COLUMNS_MAP,DatabaseHelper.KEY_MAP_NAME +" = '"+mapName+"'",null,null,null,null);
+        InfrastructureMap map = new InfrastructureMap("",0,"");
+        while(mCursor.moveToNext()) {
+             map = new InfrastructureMap(mCursor.getString(   mCursor.getColumnIndexOrThrow(DatabaseHelper.KEY_MAP_NAME)),
+                                                                                mCursor.getInt(mCursor.getColumnIndexOrThrow(DatabaseHelper.KEY_NUMBER_OF_RP)),
+                                                                                mCursor.getString(mCursor.getColumnIndexOrThrow(DatabaseHelper.KEY_MAP_IMAGE_PATH)));
         }
-        return 0;
+        return map.getRpNumber();
+    }
+
+    public Cursor getAccessPointByMapAndRP(String mapName, int rpIndex){
+        String query=(  "SELECT * FROM "+DATABASE_RP_TABLE+" WHERE "
+                        +DatabaseHelper.KEY_MAP_NAME+" = '"+mapName+"' AND "
+                        +DatabaseHelper.KEY_REFERENCE_POINT+" = "+rpIndex);
+        return db.rawQuery(query,null);
     }
 
     public void deleteMapByName(String mapName) {
         String s="DELETE FROM "+ DATABASE_MAP_TABLE+" WHERE "+DatabaseHelper.KEY_MAP_NAME+" = '"+mapName+"'";
         db.execSQL(s);
     }
+
     public void deleteRpByMapName(String mapName) {
         String s="DELETE FROM "+ DATABASE_RP_TABLE+" WHERE "+DatabaseHelper.KEY_MAP_NAME+" = '"+mapName+"'";
         db.execSQL(s);
