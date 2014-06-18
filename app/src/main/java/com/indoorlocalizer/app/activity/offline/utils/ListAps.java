@@ -1,4 +1,4 @@
-package com.indoorlocalizer.app.activity.common;
+package com.indoorlocalizer.app.activity.offline.utils;
 
 import android.app.ListActivity;
 import android.content.Intent;
@@ -17,13 +17,13 @@ import com.indoorlocalizer.app.activity.common.db.DbManager;
 import java.sql.SQLException;
 
 public class ListAps extends ListActivity{
-    private static final String[] FROM = {  DatabaseHelper.KEY_MAP_NAME,DatabaseHelper.KEY_REFERENCE_POINT,
+    private static final String[] FROM = {  DatabaseHelper.KEY_MAP_NAME,DatabaseHelper.KEY_REFERENCE_POINT_ID,
                                             DatabaseHelper.KEY_ID,DatabaseHelper.KEY_SSID,
                                             DatabaseHelper.KEY_BSSID,DatabaseHelper.KEY_CAPABILITIES, DatabaseHelper.KEY_LEVEL,
                                             DatabaseHelper.KEY_FREQUENCY,DatabaseHelper.KEY_HITS};
 
     private static final int[] TO = {R.id.map,R.id.reference_point,R.id.ssid, R.id.bssid, R.id.capabilities,R.id.level,R.id.frequency,R.id.hits};
-    private Cursor mCursor;
+    private Cursor mCursor,rpCursor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +32,7 @@ public class ListAps extends ListActivity{
         Intent intent=getIntent();
         String mapName=intent.getExtras().getString("mapName");
         final TextView emptyListMsg=(TextView)findViewById(R.id.empty_list_message);
-        DbManager dbManager=new DbManager(getApplicationContext());
+        final DbManager dbManager=new DbManager(getApplicationContext());
         try{
             dbManager.open();
             mCursor = dbManager.getAccessPointByMap(mapName);
@@ -55,8 +55,16 @@ public class ListAps extends ListActivity{
                             outputTextView.setText(getResources().getString(R.string.map_value_pattern, map));
                             break;
                         case R.id.reference_point:
-                            Integer rp = cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.KEY_REFERENCE_POINT));
-                            outputTextView.setText(getResources().getString(R.string.rp_value_pattern, rp));
+                            Integer rp = cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.KEY_REFERENCE_POINT_ID));
+                            String rpName = "";
+                            try{
+                                dbManager.open();
+                                rpName = dbManager.getRpName(rp);
+                                // dbManager.close();
+                            } catch (SQLException e){
+                                e.printStackTrace();
+                            }
+                            outputTextView.setText(getResources().getString(R.string.rp_value_pattern, rp,rpName));
                             break;
                         case R.id.ssid:
                             String ssid = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.KEY_SSID));

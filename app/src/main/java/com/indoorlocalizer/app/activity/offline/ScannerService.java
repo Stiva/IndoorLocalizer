@@ -11,9 +11,17 @@ import android.widget.Toast;
 import com.indoorlocalizer.app.R;
 import com.indoorlocalizer.app.activity.common.db.DbManager;
 import com.indoorlocalizer.app.activity.common.model.AccessPoint;
+import com.indoorlocalizer.app.activity.common.model.InfrastructureMap;
+import com.indoorlocalizer.app.activity.common.model.ReferencePoint;
 import com.indoorlocalizer.app.activity.common.model.SimpleWifiReceiver;
 import com.indoorlocalizer.app.activity.common.utils.CommonUtils;
+import com.indoorlocalizer.app.activity.offline.utils.OfflineUtils;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.Collection;
 import java.util.HashMap;
@@ -26,9 +34,13 @@ public class ScannerService extends IntentService {
     private int progress;
     private NotificationManager mNotificationManager;
     private NotificationCompat.Builder mBuilder;
+    //At startup this list is empty, while scanning a reference point it's populated with new read RP every new schedule of the task.
     private Map<String,AccessPoint> referencePoint;
+    private String rpName;
     private int rpId;
     private String mapName;
+    private String mapImagePath;
+
     private ScheduledExecutorService scheduleTaskExecutor;
 
     public ScannerService() {
@@ -47,8 +59,9 @@ public class ScannerService extends IntentService {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        rpId=intent.getExtras().getInt("rpID");
+        rpName=intent.getExtras().getString("rpName");
         mapName=intent.getExtras().getString("mapName");
+        mapImagePath=intent.getExtras().getString("mapImage");
         scheduleTaskExecutor = Executors.newScheduledThreadPool(5);
         // This schedule a runnable task every 2 minutes
         scheduleTaskExecutor.scheduleAtFixedRate(new Runnable() {
@@ -59,9 +72,10 @@ public class ScannerService extends IntentService {
                     scanWifi();
                 } else {
                     mergeData();
+                    stopSelf();
                 }
             }
-        }, 0, 30, TimeUnit.SECONDS);
+        }, 0, CommonUtils.durationMS, TimeUnit.MILLISECONDS);
         return IntentService.START_NOT_STICKY;
     }
 
@@ -69,6 +83,7 @@ public class ScannerService extends IntentService {
     public void onDestroy(){
         Toast.makeText(this, "Scanning aborted by the user after "+progress+" iteration", Toast.LENGTH_LONG).show();
         scheduleTaskExecutor.shutdown();
+        stopSelf();
     }
 
     @Override
@@ -84,7 +99,6 @@ public class ScannerService extends IntentService {
 
     private void scanWifi(){
         WifiManager mainWifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
-
         // Check for wifi is disabled
         if (!mainWifi.isWifiEnabled()) {
             // If wifi disabled then enable it
@@ -93,8 +107,12 @@ public class ScannerService extends IntentService {
             mainWifi.setWifiEnabled(true);
         }
         SimpleWifiReceiver actualWifi = new SimpleWifiReceiver(mainWifi);
-        Map<String,AccessPoint>scannedWifi=actualWifi.receiveWifi(mapName,rpId);
+        rpId=OfflineUtils.getRpNumber(this, mapName);
+        //List of scanned wifi
+        Map<String,AccessPoint>scannedWifi=actualWifi.receiveWifi(mapName);
+        //Compare the new AP read by the scanner, with the previous saved ones
         for(AccessPoint ap:scannedWifi.values()){
+            ap.setRp(rpId); //don't forget to update the rp value for the ap.
             if(referencePoint.containsKey(ap.getSSID())){
                 referencePoint.get(ap.getSSID()).hit();
                 //Updating AP LVL, after finishing this procedure, the level must be updated at avg level (level/hits);
@@ -110,17 +128,35 @@ public class ScannerService extends IntentService {
         for(AccessPoint ap:referencePoint.values()){
             referencePoint.get(ap.getSSID()).setLevel(ap.getLevel()/ap.getHits());
         }
-        saveToDb(referencePoint.values());
-        Toast.makeText(getApplicationContext(),"Data saved to DB",Toast.LENGTH_LONG).show();
-        stopSelf();
+        try {
+            InputStream src;
+            if(mapImagePath.equals("map_default_icon.png")) {
+                src=getAssets().open(mapImagePath);
+            } else {
+                src = new FileInputStream(mapImagePath);
+            }
+            File dest = new File(this.getApplicationContext().getFilesDir(), mapName);
+            CommonUtils.copy(src,dest);
+            InfrastructureMap map = new InfrastructureMap(mapName,OfflineUtils.getMapRpNumber(this,mapName),dest.getPath());
+            saveToDb(referencePoint.values(), map);
+            Toast.makeText(this,"Data saved to DB",Toast.LENGTH_LONG).show();
+            stopSelf();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    private void saveToDb(Collection<AccessPoint> values) {
+    private void saveToDb(Collection<AccessPoint> values,InfrastructureMap map) {
         DbManager dbManager=new DbManager(getApplicationContext());
         try {
             dbManager.open();
-            for(AccessPoint ap:values)
+            for(AccessPoint ap:values) {
                 dbManager.addWifi(ap);
+            }
+            dbManager.addMap(map);
+            dbManager.addRP(new ReferencePoint(mapName,rpName,rpId));
             dbManager.close();
         } catch (SQLException e) {
             e.printStackTrace();

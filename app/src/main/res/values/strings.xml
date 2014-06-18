@@ -34,7 +34,7 @@
 
     <!-- Patterns -->
     <string name="map_value_pattern">Map : %1$s</string>
-    <string name="rp_value_pattern">RP : %1$d</string>
+    <string name="rp_value_pattern">RP : %1$d %2$s</string>
     <string name="ssid_value_pattern">SSID : %1$s</string>
     <string name="bssid_value_pattern">BSSID : %1$s</string>
     <string name="capabilities_value_pattern">Capabilities : %1$s</string>
@@ -56,7 +56,7 @@
     <string name="scan_button_text">Scan!</string>
     <!-- Placeholders -->
     <string name="placeholder_list_item_map">Map: Stiva\'s home</string>
-    <string name="placeholder_list_item_rp">RP: -1</string>
+    <string name="placeholder_list_item_rp">RP: -1 Bathroom</string>
     <string name="placeholder_list_item_ssid">SSID: Casa Stivani</string>
     <string name="placeholder_bssid">BSSID : 23:00:bb:22:00:11</string>
     <string name="placeholder_capabilities">Capabilities: [WPA-PSK][WPA2-TKIP][WEP]</string>
@@ -95,5 +95,6 @@
     <string name="option_map_dialog">Choose an option</string>
     <string name="localize_content_description">Localize user in a specific map</string>
     <string name="title_activity_localization">Localization</string>
+    <string name="rp_name_hint">e.g. Bedroom</string>
 
 </resources>

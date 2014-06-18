@@ -19,8 +19,9 @@ import java.util.Map;
 
 public class CommonUtils {
     //TODO: portare le costanti su un file di configurazione esterno
-    public static int scanNumber=30;
+    public static int scanNumber=5;
     public static double tolerance=70.00;
+    public static int durationMS=5000;
 
     public static void copy(InputStream src, File dst) throws IOException {
         OutputStream out = new FileOutputStream(dst);

@@ -8,6 +8,12 @@ public class InfrastructureMap {
     int rpNumber;
     String mapImagePath;
 
+    public InfrastructureMap() {
+        this.mapName = "";
+        this.rpNumber = 1;
+        this.mapImagePath = "";
+    }
+
     public InfrastructureMap(String mapName, int rpNumber, String mapImagePath) {
         this.mapName = mapName;
         this.rpNumber = rpNumber;

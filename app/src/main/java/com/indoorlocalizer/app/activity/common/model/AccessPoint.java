@@ -89,4 +89,8 @@ public class AccessPoint implements Parcelable{
     public int getHits() {
         return hits;
     }
+
+    public void setRp(int rp) {
+        this.rp = rp;
+    }
 }

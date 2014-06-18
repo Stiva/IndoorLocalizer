@@ -44,10 +44,10 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="number"
-        android:hint="@string/number_hint"
+        android:inputType="text"
+        android:hint="@string/rp_name_hint"
         android:ems="10"
-        android:id="@+id/rp_id_editText"
+        android:id="@+id/rp_name_editText"
         android:layout_gravity="center|top"
         android:layout_marginTop="160sp"
         />

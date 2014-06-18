@@ -73,6 +73,8 @@ public class LocalizerService extends IntentService {
         int result=compareRP();
         if(result!=-1)
             Toast.makeText(this, "Localized in RP number "+result, Toast.LENGTH_LONG).show();
+        else
+            Toast.makeText(this, "Unable to localize you in this map", Toast.LENGTH_LONG).show();
         return START_NOT_STICKY;
     }
 
@@ -151,7 +153,7 @@ public class LocalizerService extends IntentService {
         ArrayList<AccessPoint> result=new ArrayList<AccessPoint>();
         while (mCursor.moveToNext()) {
             result.add(new AccessPoint(
-                    //mCursor.getInt(mCursor.getColumnIndexOrThrow(DatabaseHelper.KEY_REFERENCE_POINT)),
+                    //mCursor.getInt(mCursor.getColumnIndexOrThrow(DatabaseHelper.KEY_REFERENCE_POINT_ID)),
                     mCursor.getString(mCursor.getColumnIndexOrThrow(DatabaseHelper.KEY_SSID)),
                     mCursor.getInt(mCursor.getColumnIndexOrThrow(DatabaseHelper.KEY_LEVEL)),
                     mCursor.getInt(mCursor.getColumnIndexOrThrow(DatabaseHelper.KEY_FREQUENCY))));

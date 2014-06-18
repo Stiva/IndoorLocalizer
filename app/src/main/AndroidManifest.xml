@@ -34,7 +34,7 @@
             android:label="@string/title_activity_wifi_scanner" >
         </activity>
         <activity
-            android:name=".activity.common.ListAps"
+            android:name=".activity.offline.utils.ListAps"
             android:label="@string/title_activity_list_aps" >
         </activity>
         <activity

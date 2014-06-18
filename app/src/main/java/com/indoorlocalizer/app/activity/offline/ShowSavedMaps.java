@@ -18,19 +18,19 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
 import com.indoorlocalizer.app.R;
-import com.indoorlocalizer.app.activity.common.ListAps;
 import com.indoorlocalizer.app.activity.common.db.DatabaseHelper;
 import com.indoorlocalizer.app.activity.common.db.DbManager;
 import com.indoorlocalizer.app.activity.common.model.InfrastructureMap;
 import com.indoorlocalizer.app.activity.common.utils.MultiItemRowListAdapter;
+import com.indoorlocalizer.app.activity.offline.utils.ListAps;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class ShowSavedMaps extends ListActivity {
     private  Cursor mCursor;
-    private ArrayList<InfrastructureMap> savedMaps;
+    private CopyOnWriteArrayList<InfrastructureMap> savedMaps;
     private static final String[] FROM = {  DatabaseHelper.KEY_MAP_NAME, DatabaseHelper.KEY_ID,
                                             DatabaseHelper.KEY_NUMBER_OF_RP,
                                             DatabaseHelper.KEY_MAP_IMAGE_PATH};
@@ -132,7 +132,7 @@ public class ShowSavedMaps extends ListActivity {
     }
 
     private void createMapFromCursor(Cursor mCursor) {
-        savedMaps=new ArrayList<InfrastructureMap>();
+        savedMaps=new CopyOnWriteArrayList<InfrastructureMap>();
         while (mCursor.moveToNext()) {
             savedMaps.add(new InfrastructureMap(mCursor.getString(1),mCursor.getInt(2),mCursor.getString(3)));
         }
@@ -191,6 +191,7 @@ public class ShowSavedMaps extends ListActivity {
         try{
             dbManager.open();
             dbManager.deleteMapByName(mapName);
+            dbManager.deleteApByMapName(mapName);
             dbManager.deleteRpByMapName(mapName);
             mCursor= dbManager.getMapNameList();
             //dbManager.close();

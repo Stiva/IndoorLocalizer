@@ -17,10 +17,10 @@ public class SimpleWifiReceiver{
         this.mainWifi=wifiMng;
     }
     // Scan wifi at a determined Reference point rp
-    public Map<String,AccessPoint> receiveWifi(String map,int rp) {
+    public Map<String,AccessPoint> receiveWifi(String map) {
         List<ScanResult> wifiList = mainWifi.getScanResults();
         for (ScanResult result: wifiList) {
-            AccessPoint ap=new AccessPoint(map,rp,result.SSID,result.BSSID,result.capabilities,result.level,result.frequency);
+            AccessPoint ap=new AccessPoint(map,0,result.SSID,result.BSSID,result.capabilities,result.level,result.frequency);
             mModel.put(ap.getSSID(),ap);
         }
         return mModel;

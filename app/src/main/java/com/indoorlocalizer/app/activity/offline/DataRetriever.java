@@ -27,7 +27,7 @@ import java.io.IOException;
 
 public class DataRetriever extends ActionBarActivity {
     private Intent scanService;
-    private int rpValue;
+    private String rpValue;
     private String mapName;
     private String imageFilePath= "map_default_icon.png";
     private ImageView imagePreview;
@@ -41,8 +41,10 @@ public class DataRetriever extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_data_retriever);
         final Button dataRetrieveButton=(Button) findViewById(R.id.data_retrieving_button);
-        final EditText rpValueText=(EditText)findViewById(R.id.rp_id_editText);
+        final EditText rpValueText=(EditText)findViewById(R.id.rp_name_editText);
         final EditText mapNameValueText=(EditText)findViewById(R.id.map_name_editText);
+        barProgressDialog = new ProgressDialog(this);
+        barProgressDialog.setProgress(0);
         updateBarHandler=new Handler();
         imagePreview=(ImageView)findViewById(R.id.map_image_preview);
         try {
@@ -70,8 +72,8 @@ public class DataRetriever extends ActionBarActivity {
                 if (!mapNameValueText.getText().toString().isEmpty()) {
                     if (!rpValueText.getText().toString().isEmpty()) {
                         mapName=mapNameValueText.getText().toString();
-                        rpValue = Integer.parseInt(rpValueText.getText().toString());
-                        scanService.putExtra("rpID", rpValue);
+                        rpValue = rpValueText.getText().toString();
+                        scanService.putExtra("rpName", rpValue);
                         scanService.putExtra("mapName", mapName.toUpperCase());
                         scanService.putExtra("mapImage",imageFilePath);
                         scanReferencePoint();
@@ -93,7 +95,10 @@ public class DataRetriever extends ActionBarActivity {
             }
         });
     }
-
+   /* @Override
+    protected void onRestart(){
+        //restoreManagedDialogs(savedInstanceState);
+    }*/
     private void scanReferencePoint(){
         startService(scanService);
         launchBarDialog();
@@ -145,11 +150,9 @@ public class DataRetriever extends ActionBarActivity {
     }
 
     public void launchBarDialog() {
-        barProgressDialog = new ProgressDialog(this);
         barProgressDialog.setTitle("Generating Reference point ...");
         barProgressDialog.setMessage("Scan in progress ...");
         barProgressDialog.setProgressStyle(barProgressDialog.STYLE_HORIZONTAL);
-        barProgressDialog.setProgress(0);
         barProgressDialog.setMax(CommonUtils.scanNumber);
         barProgressDialog.show();
         new Thread(new Runnable() {
@@ -158,7 +161,7 @@ public class DataRetriever extends ActionBarActivity {
                 try {
                     while (barProgressDialog.getProgress() <= barProgressDialog.getMax()) {
 
-                        Thread.sleep(30000);
+                        Thread.sleep(CommonUtils.durationMS);
                         updateBarHandler.post(new Runnable() {
                             public void run() {
                                 barProgressDialog.incrementProgressBy(1);

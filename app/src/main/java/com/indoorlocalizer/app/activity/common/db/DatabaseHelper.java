@@ -12,7 +12,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String DB_NAME ="access_points.db";
     public static final String KEY_ID = "_id";
     public static final String KEY_MAP_NAME = "map_name";
-    public static final String KEY_REFERENCE_POINT="reference_point";
+    public static final String KEY_REFERENCE_POINT_ID ="reference_point";
+    public static final String KEY_REFERENCE_POINT_NAME="rp_name";
     public static final String KEY_SSID = "ssid";
     public static final String KEY_BSSID = "bssid";
     public static final String KEY_CAPABILITIES = "capabilities";
@@ -48,6 +49,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "reference_point_number INTEGER,"+
                 "map_image_path TEXT )";
         db.execSQL(CREATE_MAPS_TABLE);
+        //Create rps table
+        String CREATE_RPS_TABLE = "CREATE TABLE rps ( " +
+                "_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "map_name TEXT, "+
+                "rp_name TEXT,"+
+                "reference_point INTEGER)";
+        db.execSQL(CREATE_RPS_TABLE);
     }
 
     @Override
@@ -55,6 +63,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // Drop older aps table if existed
         db.execSQL("DROP TABLE IF EXISTS aps");
         db.execSQL("DROP TABLE IF EXISTS maps");
+        db.execSQL("DROP TABLE IF EXISTS rps");
         // create fresh aps table
         this.onCreate(db);
     }

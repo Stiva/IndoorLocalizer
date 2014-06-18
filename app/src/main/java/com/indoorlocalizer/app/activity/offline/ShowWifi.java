@@ -25,6 +25,7 @@ import com.indoorlocalizer.app.activity.common.db.DbManager;
 import com.indoorlocalizer.app.activity.common.model.AccessPoint;
 import com.indoorlocalizer.app.activity.common.model.InfrastructureMap;
 import com.indoorlocalizer.app.activity.common.utils.CommonUtils;
+import com.indoorlocalizer.app.activity.offline.utils.OfflineUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -114,8 +115,9 @@ public class ShowWifi extends ListActivity implements InsertMapNameDialog.Insert
         DbManager dbManager=new DbManager(getApplicationContext());
         try {
             dbManager.open();
+            int rp= OfflineUtils.getRpNumber(this.getApplicationContext(), mapName);
             for(ScanResult res:wifiList){
-                dbManager.addWifi(new AccessPoint(mapName,1,res.SSID,res.BSSID,res.capabilities,res.level,res.frequency));
+                dbManager.addWifi(new AccessPoint(mapName,rp,res.SSID,res.BSSID,res.capabilities,res.level,res.frequency));
             }
             InputStream src;
             if(imageFilePath.equals("map_default_icon.png")) {

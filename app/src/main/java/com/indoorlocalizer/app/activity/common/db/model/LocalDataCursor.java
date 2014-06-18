@@ -23,7 +23,7 @@ public class LocalDataCursor extends SQLiteCursor {
     public String getSsid() {
         return getString(getColumnIndex(DatabaseHelper.KEY_SSID));
     }
-    public int getRpId() { return getInt(getColumnIndex(DatabaseHelper.KEY_REFERENCE_POINT));}
+    public int getRpId() { return getInt(getColumnIndex(DatabaseHelper.KEY_REFERENCE_POINT_ID));}
     public String getBssid() {
         return getString(getColumnIndex(DatabaseHelper.KEY_BSSID));
     }
