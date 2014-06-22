@@ -32,30 +32,30 @@ public class Localization extends Activity implements AdapterView.OnItemSelected
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_localization);
         spinner = (Spinner) findViewById(R.id.map_chooser);
-        final Intent localizerServiceIntent=new Intent(this.getApplicationContext(),LocalizerService.class);
+        final Intent localizerServiceIntent=new Intent(this.getApplicationContext(),LocalizationService.class);
         DbManager dbManager=new DbManager(getApplicationContext());
         try{
             dbManager.open();
             mCursor = dbManager.getMapNameList();
             //dbManager.close();
+            if(mCursor.getCount()>0){
+                mAdapter= new SimpleCursorAdapter(this, android.R.layout.simple_spinner_item, mCursor, FROM, TO, 0);
+                mAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spinner.setAdapter(mAdapter);
+            }
+            Button localizeButton=(Button)findViewById(R.id.localize_button);
+            localizeButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Cursor temp=(Cursor)spinner.getSelectedItem();
+                    mapName=temp.getString(temp.getColumnIndexOrThrow(DatabaseHelper.KEY_MAP_NAME));
+                    localizerServiceIntent.putExtra("mapName",mapName);
+                    startService(localizerServiceIntent);
+                }
+            });
         } catch (SQLException e){
             e.printStackTrace();
         }
-        if(mCursor.getCount()>0){
-            mAdapter= new SimpleCursorAdapter(this, android.R.layout.simple_spinner_item, mCursor, FROM, TO, 0);
-            mAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            spinner.setAdapter(mAdapter);
-        }
-        Button localizeButton=(Button)findViewById(R.id.localize_button);
-        localizeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Cursor temp=(Cursor)spinner.getSelectedItem();
-                mapName=temp.getString(temp.getColumnIndexOrThrow(DatabaseHelper.KEY_MAP_NAME));
-                localizerServiceIntent.putExtra("mapName",mapName);
-                startService(localizerServiceIntent);
-            }
-        });
     }
 
     @Override

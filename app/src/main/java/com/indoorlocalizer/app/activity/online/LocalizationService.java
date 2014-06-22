@@ -22,14 +22,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class LocalizerService extends IntentService {
+public class LocalizationService extends IntentService {
 
     private WifiManager mainWifi;
     private Cursor mCursor;
     private DbManager dbManager;
     private String mapName;
     private ArrayList<AccessPoint> readAps;
-    public LocalizerService (){super("LocalizerService");}
+    public LocalizationService(){super("LocalizerService");}
 
     private NotificationCompat.Builder mBuilder;
     private NotificationManager mNotificationManager;
@@ -70,9 +70,9 @@ public class LocalizerService extends IntentService {
         List<ScanResult> scanResults=mainWifi.getScanResults();
         readAps=getAps(scanResults);
         //List of AP received in current position
-        int result=compareRP();
-        if(result!=-1)
-            Toast.makeText(this, "Localized in RP number "+result, Toast.LENGTH_LONG).show();
+        String result=compareRP();
+        if(!result.isEmpty())
+            Toast.makeText(this, "Localized in RP: "+result, Toast.LENGTH_LONG).show();
         else
             Toast.makeText(this, "Unable to localize you in this map", Toast.LENGTH_LONG).show();
         return START_NOT_STICKY;
@@ -95,9 +95,10 @@ public class LocalizerService extends IntentService {
      *
      * @return -1 if the selected RP isn't in the current map, RP number otherwise
      */
-    private int compareRP(){
+    private String compareRP(){
         //1- Read the number of RP of a single map
         int rpNumber=-1;
+        String rpName="";
         //HashMap<AccessPoint[],Boolean> responseHashMap = new HashMap<AccessPoint[], Boolean>();
         ArrayList<AccessPoint> selectedAP=new ArrayList<AccessPoint>();
         try {
@@ -110,12 +111,15 @@ public class LocalizerService extends IntentService {
         //Scan all RP of a specified map
         for(int i=1;i<=rpNumber;i++) {
             try {
+                rpName = dbManager.getRpName(i);
                 dbManager.open();
                 mCursor = dbManager.getAccessPointByMapAndRP(mapName, i);
                 //dbManager.close();
                 selectedAP = getAParray(mCursor);
             } catch (SQLException e) {
                 e.printStackTrace();
+            } finally {
+                mCursor.close();
             }
             Map<String,Boolean> comparsionArray=new HashMap<String, Boolean>();
             //Compare each RP with the mobile user detection.
@@ -131,10 +135,10 @@ public class LocalizerService extends IntentService {
                 }
             }
             if(isAllTrue(comparsionArray)){
-                return rpNumber;
+                return rpName;
             }
         }
-        return -1;
+        return "";
     }
 
     private boolean isAllTrue(Map<String, Boolean> comparsionArray) {

@@ -69,6 +69,18 @@ public class OfflineUtils {
         }
     }
     public static void insertNewMap(Context c,String mapName,String imageFilePath){
+        try {
+            InputStream src;
+            if (imageFilePath.equals("map_default_icon.png")) {
+                src = c.getAssets().open(imageFilePath);
+            } else {
+                src = new FileInputStream(imageFilePath);
+            }
+            File dest = new File(c.getApplicationContext().getFilesDir(), mapName);
+            CommonUtils.copy(src, dest);
+        } catch (IOException e){
+            e.printStackTrace();
+        }
         DbManager dbManager=new DbManager(c.getApplicationContext());
         try {
             dbManager.open();
@@ -81,7 +93,7 @@ public class OfflineUtils {
             }
             File dest = new File(c.getApplicationContext().getFilesDir(), mapName);
             CommonUtils.copy(src, dest);
-            dbManager.addMap(new InfrastructureMap(mapName,1,dest.getPath()));
+            dbManager.addMap(new InfrastructureMap(mapName,0,dest.getPath()));
             dbManager.close();
         } catch (SQLException e) {
             e.printStackTrace();

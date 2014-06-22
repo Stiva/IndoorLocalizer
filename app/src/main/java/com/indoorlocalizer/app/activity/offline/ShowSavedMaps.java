@@ -13,7 +13,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
@@ -48,86 +48,85 @@ public class ShowSavedMaps extends ListActivity {
         try{
             dbManager.open();
             mCursor = dbManager.getMapNameList();
-            //dbManager.close();
+            if(mCursor.getCount()>0) {
+                createMapFromCursor(mCursor);
+                int spacing = (int)getResources().getDimension(R.dimen.spacing);
+                int itemsPerRow = getResources().getInteger(R.integer.items_per_row);
+                mAdapter= new SimpleCursorAdapter(this, R.layout.map_selector_item, mCursor, FROM, TO, 0);
+                wrapperAdapter = new MultiItemRowListAdapter(this, mAdapter, itemsPerRow, spacing);
+                mAdapter.setViewBinder(new SimpleCursorAdapter.ViewBinder() {
+                    @Override
+                    public boolean setViewValue(View view, Cursor cursor, int i) {
+                        emptyListMsg.setVisibility(View.INVISIBLE);
+                        switch (view.getId()) {
+                            case R.id.map_image_button:
+                                final ImageView outputImageView=(ImageView) view;
+                                Bitmap resizedImage;
+                                final String map_icon_id = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.KEY_MAP_IMAGE_PATH));
+                                Bitmap image=BitmapFactory.decodeFile(map_icon_id);
+                                if(image!=null) {
+                                    resizedImage = Bitmap.createScaledBitmap(image, 340, 340, true);
+                                    outputImageView.setImageBitmap(resizedImage);
+                                } else {
+                                    try {
+                                        Drawable dr=Drawable.createFromStream(getAssets().open("map_default_icon.png"),null);
+                                        Bitmap bitmap = ((BitmapDrawable) dr).getBitmap();
+                                        Drawable d = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(bitmap, 340, 340, true));
+                                        outputImageView.setImageDrawable(d);
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                                outputImageView.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        String mapName = selectMapName(map_icon_id);
+                                        Intent intent = new Intent(getBaseContext(), ListAps.class);
+                                        intent.putExtra("mapName", mapName);
+                                        startActivity(intent);
+                                    }
+                                });
+                                outputImageView.setOnLongClickListener(new View.OnLongClickListener() {
+                                    @Override
+                                    public boolean onLongClick(View view) {
+                                        AlertDialog.Builder builder = new AlertDialog.Builder(ShowSavedMaps.this);
+                                        builder.setTitle(R.string.option_map_dialog)
+                                                .setItems(R.array.string_option_name, new DialogInterface.OnClickListener() {
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        switch (which) {
+                                                            case 0:
+                                                                String mapName = selectMapName(map_icon_id);
+                                                                Intent intent = new Intent(ShowSavedMaps.this, ListAps.class);
+                                                                intent.putExtra("mapName", mapName);
+                                                                startActivity(intent);
+                                                                break;
+                                                            case 1:
+                                                                deleteDialog(map_icon_id);
+                                                                break;
+                                                        }
+                                                    }
+                                                });
+                                        AlertDialog dialog = builder.create();
+                                        dialog.show();
+                                        return true;
+                                    }
+                                });
+                                break;
+                            case R.id.map_title:
+                                final TextView outputTextView = (TextView) view;
+                                final String mapName=cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.KEY_MAP_NAME));
+                                outputTextView.setText(getResources().getString(R.string.map_value_pattern, mapName));
+                                break;
+                        }
+                        return true;
+                    }
+                });
+                setListAdapter(wrapperAdapter);
+            } else {
+                emptyListMsg.setVisibility(View.VISIBLE);
+            }
         } catch (SQLException e){
             e.printStackTrace();
-        }
-        if(mCursor.getCount()>0) {
-            createMapFromCursor(mCursor);
-            int spacing = (int)getResources().getDimension(R.dimen.spacing);
-            int itemsPerRow = getResources().getInteger(R.integer.items_per_row);
-            mAdapter= new SimpleCursorAdapter(this, R.layout.map_selector_item, mCursor, FROM, TO, 0);
-            wrapperAdapter = new MultiItemRowListAdapter(this, mAdapter, itemsPerRow, spacing);
-            mAdapter.setViewBinder(new SimpleCursorAdapter.ViewBinder() {
-                @Override
-                public boolean setViewValue(View view, Cursor cursor, int i) {
-                    emptyListMsg.setVisibility(View.INVISIBLE);
-                    switch (view.getId()) {
-                        case R.id.map_image_button:
-                            final ImageButton outputImageButton=(ImageButton) view;
-                            Bitmap resizedImage;
-                            final String map_icon_id = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.KEY_MAP_IMAGE_PATH));
-                            Bitmap image=BitmapFactory.decodeFile(map_icon_id);
-                            if(image!=null) {
-                                resizedImage = Bitmap.createScaledBitmap(image, 340, 340, true);
-                                outputImageButton.setImageBitmap(resizedImage);
-                            } else {
-                                try {
-                                    Drawable dr=Drawable.createFromStream(getAssets().open("map_default_icon.png"),null);
-                                    Bitmap bitmap = ((BitmapDrawable) dr).getBitmap();
-                                    Drawable d = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(bitmap, 340, 340, true));
-                                    outputImageButton.setImageDrawable(d);
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                            outputImageButton.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    String mapName=selectMapName(map_icon_id);
-                                    Intent intent= new Intent(getBaseContext(), ListAps.class);
-                                    intent.putExtra("mapName",mapName);
-                                    startActivity(intent);
-                                }
-                            });
-                            outputImageButton.setOnLongClickListener(new View.OnLongClickListener() {
-                                @Override
-                                public boolean onLongClick(View view) {
-                                    AlertDialog.Builder builder = new AlertDialog.Builder(ShowSavedMaps.this);
-                                    builder.setTitle(R.string.option_map_dialog)
-                                            .setItems(R.array.string_option_name, new DialogInterface.OnClickListener() {
-                                                public void onClick(DialogInterface dialog, int which) {
-                                                    switch (which) {
-                                                        case 0:
-                                                            String mapName = selectMapName(map_icon_id);
-                                                            Intent intent = new Intent(ShowSavedMaps.this, ListAps.class);
-                                                            intent.putExtra("mapName", mapName);
-                                                            startActivity(intent);
-                                                            break;
-                                                        case 1:
-                                                            deleteDialog(map_icon_id);
-                                                            break;
-                                                    }
-                                                }
-                                            });
-                                    AlertDialog dialog=builder.create();
-                                    dialog.show();
-                                    return true;
-                                }
-                            });
-                            break;
-                        case R.id.map_title:
-                            final TextView outputTextView = (TextView) view;
-                            final String mapName=cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.KEY_MAP_NAME));
-                            outputTextView.setText(getResources().getString(R.string.map_value_pattern, mapName));
-                            break;
-                    }
-                    return true;
-                }
-            });
-            setListAdapter(wrapperAdapter);
-        } else {
-            emptyListMsg.setVisibility(View.VISIBLE);
         }
     }
 
@@ -194,11 +193,10 @@ public class ShowSavedMaps extends ListActivity {
             dbManager.deleteApByMapName(mapName);
             dbManager.deleteRpByMapName(mapName);
             mCursor= dbManager.getMapNameList();
-            //dbManager.close();
+            mAdapter.swapCursor(mCursor);
+            mAdapter.notifyDataSetChanged();
         } catch (SQLException e){
             e.printStackTrace();
         }
-        mAdapter.swapCursor(mCursor);
-        mAdapter.notifyDataSetChanged();
     }
 }

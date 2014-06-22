@@ -165,7 +165,7 @@ public class DbManager{
     }
 
     public int getLastRp(String mapName) {
-        String s="SELECT MAX("+DatabaseHelper.KEY_REFERENCE_POINT_ID+") FROM aps WHERE "+DatabaseHelper.KEY_MAP_NAME+" = '"+mapName+"'";
+        String s="SELECT MAX("+DatabaseHelper.KEY_REFERENCE_POINT_ID+") FROM "+DATABASE_RP_TABLE+" WHERE "+DatabaseHelper.KEY_MAP_NAME+" = '"+mapName+"'";
         Cursor c=db.rawQuery(s,null);
         int res=0;
         while (c.moveToNext()){

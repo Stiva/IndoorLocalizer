@@ -97,5 +97,7 @@
     <string name="title_activity_localization">Localization</string>
     <string name="rp_name_hint">e.g. Bedroom</string>
     <string name="title_activity_show_wifi_list">ShowWifiList</string>
+    <string name="retrieve_image_content_description">Retrieve function menu</string>
+    <string name="empty_map_list_message">No maps found in db</string>
 
 </resources>

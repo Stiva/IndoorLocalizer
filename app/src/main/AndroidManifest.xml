@@ -50,10 +50,6 @@
         </service>
 
         <activity
-            android:name=".activity.offline.DataRetriever2"
-            android:label="@string/title_activity_data_retriever" >
-        </activity>
-        <activity
             android:name=".activity.offline.ShowSavedMaps"
             android:label="@string/title_activity_show_saved_maps" >
         </activity>
@@ -63,7 +59,7 @@
         </activity>
 
         <service
-            android:name=".activity.online.LocalizerService"
+            android:name=".activity.online.LocalizationService"
             android:exported="false" >
         </service>
 

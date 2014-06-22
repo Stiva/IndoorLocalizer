@@ -11,17 +11,11 @@ import android.widget.Toast;
 import com.indoorlocalizer.app.R;
 import com.indoorlocalizer.app.activity.common.db.DbManager;
 import com.indoorlocalizer.app.activity.common.model.AccessPoint;
-import com.indoorlocalizer.app.activity.common.model.InfrastructureMap;
 import com.indoorlocalizer.app.activity.common.model.ReferencePoint;
 import com.indoorlocalizer.app.activity.common.model.SimpleWifiReceiver;
 import com.indoorlocalizer.app.activity.common.utils.CommonUtils;
 import com.indoorlocalizer.app.activity.offline.utils.OfflineUtils;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.Collection;
 import java.util.HashMap;
@@ -40,7 +34,8 @@ public class ScannerService extends IntentService {
     private int rpId;
     private String mapName;
     private String mapImagePath;
-
+    public static boolean finish;
+    private DbManager dbManager;
     private ScheduledExecutorService scheduleTaskExecutor;
 
     public ScannerService() {
@@ -48,6 +43,8 @@ public class ScannerService extends IntentService {
     }
     @Override
     public void onCreate(){
+        finish=false;
+        mapImagePath="";
         mBuilder=
                 new NotificationCompat.Builder(this)
                         .setSmallIcon(R.drawable.ic_launcher)
@@ -70,9 +67,13 @@ public class ScannerService extends IntentService {
                     progress++;
                     sendNotification();
                     scanWifi();
-                } else {
+                } else if (!finish){
+
                     mergeData();
+                    finish=true;
+                } else {
                     stopSelf();
+                    onDestroy();
                 }
             }
         }, 0, CommonUtils.durationMS, TimeUnit.MILLISECONDS);
@@ -81,9 +82,12 @@ public class ScannerService extends IntentService {
 
     @Override
     public void onDestroy(){
-        Toast.makeText(this, "Scanning aborted by the user after "+progress+" iteration", Toast.LENGTH_LONG).show();
-        scheduleTaskExecutor.shutdown();
-        stopSelf();
+        try{
+            scheduleTaskExecutor.shutdown();
+            dbManager.close();
+        } catch (NullPointerException e) {
+            Toast.makeText(this, "Nothing to stop", Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override
@@ -128,36 +132,18 @@ public class ScannerService extends IntentService {
         for(AccessPoint ap:referencePoint.values()){
             referencePoint.get(ap.getSSID()).setLevel(ap.getLevel()/ap.getHits());
         }
-        try {
-            InputStream src;
-            if(mapImagePath.equals("map_default_icon.png")) {
-                src=getAssets().open(mapImagePath);
-            } else {
-                src = new FileInputStream(mapImagePath);
-            }
-            File dest = new File(this.getApplicationContext().getFilesDir(), mapName);
-            CommonUtils.copy(src,dest);
-            InfrastructureMap map = new InfrastructureMap(mapName,OfflineUtils.getMapRpNumber(this,mapName),dest.getPath());
-            saveToDb(referencePoint.values(), map);
-            Toast.makeText(this,"Data saved to DB",Toast.LENGTH_LONG).show();
-            stopSelf();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+            saveToDb(referencePoint.values());
     }
 
-    private void saveToDb(Collection<AccessPoint> values,InfrastructureMap map) {
-        DbManager dbManager=new DbManager(getApplicationContext());
+    private void saveToDb(Collection<AccessPoint> values) {
+        dbManager=new DbManager(getApplicationContext());
         try {
             dbManager.open();
             for(AccessPoint ap:values) {
                 dbManager.addWifi(ap);
             }
-            dbManager.addMap(map);
+            dbManager.updateMapNumberOfRP(mapName);
             dbManager.addRP(new ReferencePoint(mapName,rpName,rpId));
-            dbManager.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }

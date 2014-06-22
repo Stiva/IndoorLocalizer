@@ -78,15 +78,7 @@ public class OfflineOptionsListMainMenu extends ListActivity {
             case 2:
                 createRP();
                 break;
-            case 3:
-                createRPspinner();
-                break;
         }
-    }
-
-    private void createRPspinner() {
-        Intent createRP=new Intent(this,DataRetriever2.class);
-        startActivity(createRP);
     }
 
     private void showWifiFragment() {

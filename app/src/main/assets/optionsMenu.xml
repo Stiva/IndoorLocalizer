@@ -15,9 +15,4 @@
         <description type="text">Use your current position to retrieve network status and store a new fingerprint</description>
         <iconPath>Fuffa per ora</iconPath>
     </option>
-    <option>
-        <name type="text">Create reference point [BETA]</name>
-        <description type="text">Use your current position to retrieve network status and store a new fingerprint</description>
-        <iconPath>Fuffa per ora</iconPath>
-    </option>
 </menu>

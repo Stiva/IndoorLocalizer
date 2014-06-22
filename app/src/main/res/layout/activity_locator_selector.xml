@@ -6,14 +6,39 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="com.indoorlocalizer.app.activity.LocatorSelector">
-
+    tools:context="com.indoorlocalizer.app.activity.LocatorSelector3">
+    <!--
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="357dp"
         android:id="@android:id/list"
         android:layout_gravity="center_horizontal|bottom" />
-
+    -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:src="@drawable/localize_start"
+            android:id="@+id/localize_start_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.75"
+            android:layout_marginLeft="10sp"
+            android:contentDescription="@string/localize_content_description" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1.3"/>
+        <ImageView
+            android:src="@drawable/retrieve_start"
+            android:layout_marginRight="10sp"
+            android:id="@+id/retrieve_start_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.75"
+            android:contentDescription="@string/retrieve_image_content_description" />
+    </LinearLayout>
+    <!--
     <TextView
         android:layout_width="285dp"
         android:layout_height="wrap_content"
@@ -31,5 +56,5 @@
         android:layout_marginTop="20sp"
         android:checked="false"
         android:layout_gravity="right|top" />
-
+    -->
 </FrameLayout>
