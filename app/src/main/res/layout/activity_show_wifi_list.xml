@@ -1,0 +1,34 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity" >
+
+    <fragment
+        android:id="@+id/show_wifi_fragment"
+        android:name="com.indoorlocalizer.app.activity.offline.fragment.ShowWifiFragment"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"/>
+
+    <ProgressBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/wifi_search_progress"
+        android:background="@color/dat_yellow"
+        android:layout_below="@+id/search_wifi_text_view"
+        android:layout_centerHorizontal="true"
+        />
+    <TextView
+        style="@style/WifiItemTitle"
+        android:padding="8sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/search_wifi_message"
+        android:background="@color/dat_yellow"
+        android:gravity="center_horizontal"
+        android:id="@+id/search_wifi_text_view"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"/>
+
+</RelativeLayout>

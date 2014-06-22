@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu>
     <option>
-        <name type="text">Show Wifi</name>
+        <name type="text">Show Wifi Fragment</name>
         <description type="text">Shows WiFi Access Point on your location</description>
         <iconPath>Fuffa per ora</iconPath>
     </option>
@@ -12,6 +12,11 @@
     </option>
     <option>
         <name type="text">Create reference point</name>
+        <description type="text">Use your current position to retrieve network status and store a new fingerprint</description>
+        <iconPath>Fuffa per ora</iconPath>
+    </option>
+    <option>
+        <name type="text">Create reference point [BETA]</name>
         <description type="text">Use your current position to retrieve network status and store a new fingerprint</description>
         <iconPath>Fuffa per ora</iconPath>
     </option>

@@ -50,8 +50,8 @@
         </service>
 
         <activity
-            android:name=".activity.offline.ShowWifi"
-            android:label="@string/title_activity_show_wifi" >
+            android:name=".activity.offline.DataRetriever2"
+            android:label="@string/title_activity_data_retriever" >
         </activity>
         <activity
             android:name=".activity.offline.ShowSavedMaps"
@@ -66,6 +66,11 @@
             android:name=".activity.online.LocalizerService"
             android:exported="false" >
         </service>
+
+        <activity
+            android:name=".activity.offline.ShowWifiList"
+            android:label="@string/title_activity_show_wifi_list" >
+        </activity>
     </application>
 
 </manifest>

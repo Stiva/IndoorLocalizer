@@ -71,7 +71,7 @@
     <string name="title_activity_data_retriever">DataRetriever</string>
     <string name="create_rp_option_label">Evaluate a Reference Point here</string>
     <string name="stop_rp_button_label">Stop</string>
-    <string name="rp_id_label">Insert a valid RP ID for your rilevation</string>
+    <string name="rp_id_label">Insert a valid RP name for your detection</string>
     <string name="placeholder_map_name_editText">Map Name (e.g. Home)</string>
     <string name="data_retrieving_button_text">Create</string>
     <string name="number_hint">e.g. 4</string>
@@ -96,5 +96,6 @@
     <string name="localize_content_description">Localize user in a specific map</string>
     <string name="title_activity_localization">Localization</string>
     <string name="rp_name_hint">e.g. Bedroom</string>
+    <string name="title_activity_show_wifi_list">ShowWifiList</string>
 
 </resources>

@@ -6,43 +6,42 @@
     android:layout_height="match_parent">
 
     <TextView
+        style="@style/WifiItemTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/placeholder_list_item_ssid"
-        android:id="@+id/ssid"
-        android:background="@color/dat_yellow"
-        android:layout_gravity="center"/>
+        android:id="@+id/ssid"/>
 
     <TextView
+        style="@style/WifiItemData"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/placeholder_bssid"
-        android:id="@+id/bssid"
-        android:layout_gravity="center"/>
+        android:id="@+id/bssid"/>
 
     <TextView
+        style="@style/WifiItemData"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/placeholder_capabilities"
-        android:id="@+id/capabilities"
-        android:layout_gravity="center"/>
+        android:id="@+id/capabilities"/>
 
     <TextView
+        style="@style/WifiItemData"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/placeholder_level"
-        android:id="@+id/level"
-        android:layout_gravity="center"/>
+        android:id="@+id/level"/>
     <TextView
+        style="@style/WifiItemData"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/placeholder_frequency"
-        android:id="@+id/frequency"
-        android:layout_gravity="center"/>
+        android:id="@+id/frequency"/>
     <TextView
+        style="@style/WifiItemData"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/placeholder_hits"
-        android:id="@+id/hits"
-        android:layout_gravity="center"/>
+        android:id="@+id/hits"/>
 </LinearLayout>

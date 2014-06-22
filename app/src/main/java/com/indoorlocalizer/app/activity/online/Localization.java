@@ -60,7 +60,6 @@ public class Localization extends Activity implements AdapterView.OnItemSelected
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-        //TODO: qui non entra... perché??
         mapName=spinner.getSelectedItem().toString();
     }
 

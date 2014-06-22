@@ -10,6 +10,6 @@
     <dimen name="button_margin_bottom">25dp</dimen>
     <dimen name="button_corners_width">8dp</dimen>
     <dimen name="button_stroke_width">2px</dimen>
-    <dimen name="text_padding_default">10dp</dimen>
+    <dimen name="text_padding_default">5dp</dimen>
     <dimen name="spacing">15dp</dimen>
 </resources>

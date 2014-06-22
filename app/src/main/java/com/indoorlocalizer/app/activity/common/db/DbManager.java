@@ -183,4 +183,14 @@ public class DbManager{
         }
         return res;
     }
+
+    public String getImagePath(String mapName) {
+        String res="";
+        String query="SELECT "+DatabaseHelper.KEY_MAP_IMAGE_PATH+" FROM "+DATABASE_MAP_TABLE+" WHERE "+DatabaseHelper.KEY_MAP_NAME+" = '"+mapName+"'";
+        Cursor mCursor=db.rawQuery(query,null);
+        while (mCursor.moveToNext()){
+            res=mCursor.getString(0);
+        }
+        return res;
+    }
 }

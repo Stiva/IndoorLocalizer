@@ -35,9 +35,9 @@
             android:src="@drawable/map_default_icon"
             android:layout_gravity="center"
             android:contentDescription="@string/map_image_preview"
-            android:layout_below="@+id/upload_image_button"
-            android:layout_alignRight="@+id/stop_rp_button"
-            android:layout_alignEnd="@+id/stop_rp_button" />
+            android:layout_below="@+id/rp_name_editText"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
 
         <Button
             style="@style/ButtonStyle"
@@ -46,19 +46,11 @@
             android:text="@string/data_retrieving_button_text"
             android:id="@+id/data_retrieving_button"
             android:layout_gravity="left|bottom"
+            android:layout_below="@+id/map_image_preview"
+            android:layout_marginTop="20sp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
-
-        <Button
-            style="@style/ButtonStyle"
-            android:layout_width="360sp"
-            android:layout_height="wrap_content"
-            android:text="@string/button_image_upload_text"
-            android:id="@+id/upload_image_button"
-            android:layout_gravity="center_horizontal|bottom"
-            android:layout_below="@+id/rp_name_editText"
-            android:layout_centerHorizontal="true" />
 
         <EditText
             android:layout_width="wrap_content"
@@ -78,33 +70,31 @@
             android:text="@string/rp_id_label"
             android:id="@+id/rp_text_view"
             android:layout_gravity="center_horizontal|bottom"
-            android:layout_below="@+id/map_name_editText"
+            android:layout_below="@+id/map_chooser_retrieve"
             android:layout_centerHorizontal="true" />
-
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:inputType="text"
-            android:id="@+id/map_name_editText"
-            android:hint="@string/placeholder_map_name_editText"
-            android:layout_gravity="center|bottom"
-            android:layout_below="@+id/create_map_title"
-            android:layout_alignLeft="@+id/rp_name_editText"
-            android:layout_alignStart="@+id/rp_name_editText" />
 
         <Button
             style="@style/ButtonStyle"
             android:layout_width="160sp"
             android:layout_height="wrap_content"
             android:text="@string/stop_rp_button_label"
+            android:layout_marginTop="20sp"
             android:id="@+id/stop_rp_button"
             android:layout_gravity="right|bottom"
-
+            android:layout_below="@+id/map_image_preview"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true" />
 
-    </RelativeLayout>
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/map_chooser_retrieve"
+            android:layout_below="@+id/create_map_title"
+            android:layout_alignRight="@+id/rp_text_view"
+            android:layout_alignEnd="@+id/rp_text_view" />
+
+        </RelativeLayout>
     </ScrollView>
 
 

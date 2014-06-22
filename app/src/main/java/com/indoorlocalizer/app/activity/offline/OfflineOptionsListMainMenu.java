@@ -70,7 +70,7 @@ public class OfflineOptionsListMainMenu extends ListActivity {
     protected void onListItemClick(ListView l, View v, int position, long id) {
         switch (position) {
             case 0:
-                showWifi();
+                showWifiFragment();
                 break;
             case 1:
                 showFingerPrints();
@@ -78,12 +78,20 @@ public class OfflineOptionsListMainMenu extends ListActivity {
             case 2:
                 createRP();
                 break;
+            case 3:
+                createRPspinner();
+                break;
         }
     }
 
-    private void showWifi(){
-        Intent showWifi=new Intent(this.getApplicationContext(),ShowWifi.class);
-        startActivity(showWifi);
+    private void createRPspinner() {
+        Intent createRP=new Intent(this,DataRetriever2.class);
+        startActivity(createRP);
+    }
+
+    private void showWifiFragment() {
+        Intent showWifiFragment=new Intent(this.getApplicationContext(),ShowWifiList.class);
+        startActivity(showWifiFragment);
     }
 
     private void showFingerPrints(){

@@ -14,23 +14,22 @@
         android:id="@android:id/list"
         android:layout_gravity="center_horizontal|bottom" />
 
+    <TextView
+        android:layout_width="285dp"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/WiFi_status_text"
+        android:id="@+id/wifiInfoText"
+        android:layout_marginTop="20sp"
+        android:layout_gravity="left|top" />
     <ToggleButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textOff="OFF"
         android:textOn="ON"
         android:id="@+id/wifi_toggleButton"
-        android:layout_marginTop="60sp"
-        android:checked="false"
-        android:layout_gravity="center_horizontal|top" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="@string/WiFi_status_text"
-        android:id="@+id/wifiInfoText"
         android:layout_marginTop="20sp"
-        android:layout_gravity="center_horizontal|top" />
+        android:checked="false"
+        android:layout_gravity="right|top" />
 
 </FrameLayout>
