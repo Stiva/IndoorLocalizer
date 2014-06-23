@@ -4,7 +4,9 @@ import android.app.IntentService;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.wifi.WifiManager;
+import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.widget.Toast;
 
@@ -13,7 +15,6 @@ import com.indoorlocalizer.app.activity.common.db.DbManager;
 import com.indoorlocalizer.app.activity.common.model.AccessPoint;
 import com.indoorlocalizer.app.activity.common.model.ReferencePoint;
 import com.indoorlocalizer.app.activity.common.model.SimpleWifiReceiver;
-import com.indoorlocalizer.app.activity.common.utils.CommonUtils;
 import com.indoorlocalizer.app.activity.offline.utils.OfflineUtils;
 
 import java.sql.SQLException;
@@ -37,6 +38,8 @@ public class ScannerService extends IntentService {
     public static boolean finish;
     private DbManager dbManager;
     private ScheduledExecutorService scheduleTaskExecutor;
+    private int scanNumber;
+    private int durationMS;
 
     public ScannerService() {
         super("ScannerService");
@@ -56,14 +59,17 @@ public class ScannerService extends IntentService {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        rpName=intent.getExtras().getString("rpName");
-        mapName=intent.getExtras().getString("mapName");
-        mapImagePath=intent.getExtras().getString("mapImage");
+        rpName = intent.getExtras().getString("rpName");
+        mapName = intent.getExtras().getString("mapName");
+        mapImagePath = intent.getExtras().getString("mapImage");
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        scanNumber = prefs.getInt("scan_number", 0);
+        durationMS = prefs.getInt("duration_ms",0);
         scheduleTaskExecutor = Executors.newScheduledThreadPool(5);
         // This schedule a runnable task every 2 minutes
         scheduleTaskExecutor.scheduleAtFixedRate(new Runnable() {
             public void run() {
-                if(progress< CommonUtils.scanNumber) {
+                if(progress< scanNumber) {
                     progress++;
                     sendNotification();
                     scanWifi();
@@ -76,7 +82,7 @@ public class ScannerService extends IntentService {
                     onDestroy();
                 }
             }
-        }, 0, CommonUtils.durationMS, TimeUnit.MILLISECONDS);
+        }, 0, durationMS, TimeUnit.MILLISECONDS);
         return IntentService.START_NOT_STICKY;
     }
 
@@ -96,7 +102,7 @@ public class ScannerService extends IntentService {
     }
 
     private void sendNotification(){
-        mBuilder.setContentText("Progress " + progress + "/"+ CommonUtils.scanNumber);
+        mBuilder.setContentText("Progress " + progress + "/"+ scanNumber);
         int mId = 1;
         mNotificationManager.notify(mId, mBuilder.build());
     }

@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.indoorlocalizer.app.R;
+import com.indoorlocalizer.app.activity.common.SettingsActivity;
 import com.indoorlocalizer.app.activity.offline.OfflineOptionsListMainMenu;
 import com.indoorlocalizer.app.activity.online.Localization;
 
@@ -60,8 +61,15 @@ public class LocatorSelector extends Activity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        return id == R.id.action_settings || super.onOptionsItemSelected(item);
+        if (id == R.id.action_settings) {
+            Intent intent=new Intent(this, SettingsActivity.class);
+            startActivity(intent);
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 

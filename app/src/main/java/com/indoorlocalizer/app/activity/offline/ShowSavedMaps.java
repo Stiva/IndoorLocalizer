@@ -45,6 +45,11 @@ public class ShowSavedMaps extends ListActivity {
         setContentView(R.layout.activity_show_saved_maps);
         final TextView emptyListMsg=(TextView)findViewById(R.id.empty_map_list_message);
         DbManager dbManager=new DbManager(getApplicationContext());
+        try {
+            getActionBar().setDisplayHomeAsUpEnabled(true);
+        }catch (NullPointerException e){
+            e.printStackTrace();
+        }
         try{
             dbManager.open();
             mCursor = dbManager.getMapNameList();

@@ -4,9 +4,11 @@ import android.app.IntentService;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
+import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.widget.Toast;
 
@@ -14,7 +16,6 @@ import com.indoorlocalizer.app.R;
 import com.indoorlocalizer.app.activity.common.db.DatabaseHelper;
 import com.indoorlocalizer.app.activity.common.db.DbManager;
 import com.indoorlocalizer.app.activity.common.model.AccessPoint;
-import com.indoorlocalizer.app.activity.common.utils.CommonUtils;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -96,6 +97,8 @@ public class LocalizationService extends IntentService {
      * @return -1 if the selected RP isn't in the current map, RP number otherwise
      */
     private String compareRP(){
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        double tolerance=Double.parseDouble(prefs.getString("tolerance", "1.0"));
         //1- Read the number of RP of a single map
         int rpNumber=-1;
         String rpName="";
@@ -126,7 +129,7 @@ public class LocalizationService extends IntentService {
             for (AccessPoint aReadAp : readAps) {
                 //Obtaining the right AP array associated to a specific RP
                 for (AccessPoint aSelectedAP : selectedAP) {
-                    if(EuclideanDifference(aReadAp, aSelectedAP, CommonUtils.tolerance)){
+                    if(EuclideanDifference(aReadAp, aSelectedAP, tolerance)){
                         //responseHashMap.put(new AccessPoint[]{aReadAp,aSelectedAP},true);
                         comparsionArray.put(aReadAp.getSSID(),true);
                     } /*else

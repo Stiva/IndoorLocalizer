@@ -14,7 +14,7 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/Theme.AppCompat.Light" >
+        android:theme="@android:style/Theme.Holo.Light">
         <activity
             android:name=".activity.SplashActivity"
             android:label="@string/app_name"
@@ -27,11 +27,17 @@
         </activity>
         <activity
             android:name=".activity.LocatorSelector"
-            android:label="@string/title_activity_locator_selector" >
+            android:label="@string/title_activity_locator_selector"
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar.Fullscreen">
         </activity>
         <activity
             android:name=".activity.offline.OfflineOptionsListMainMenu"
-            android:label="@string/title_activity_wifi_scanner" >
+            android:label="@string/title_activity_wifi_scanner"
+            android:parentActivityName="com.indoorlocalizer.app.activity.LocatorSelector">
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.indoorlocalizer.app.activity.LocatorSelector" />
         </activity>
         <activity
             android:name=".activity.offline.utils.ListAps"
@@ -39,23 +45,37 @@
         </activity>
         <activity
             android:name=".activity.offline.DataRetriever"
-            android:label="@string/title_activity_data_retriever" >
+            android:label="@string/title_activity_data_retriever"
+            android:parentActivityName="com.indoorlocalizer.app.activity.offline.OfflineOptionsListMainMenu">
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.indoorlocalizer.app.activity.offline.OfflineOptionsListMainMenu" />
         </activity>
 
         <service
             android:name=".activity.offline.ScannerService"
             android:enabled="true"
-            android:exported="true"
-            android:permission="" >
+            android:exported="true">
         </service>
 
         <activity
             android:name=".activity.offline.ShowSavedMaps"
-            android:label="@string/title_activity_show_saved_maps" >
+            android:label="@string/title_activity_show_saved_maps"
+            android:parentActivityName="com.indoorlocalizer.app.activity.offline.OfflineOptionsListMainMenu">
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.indoorlocalizer.app.activity.offline.OfflineOptionsListMainMenu" />
         </activity>
         <activity
             android:name=".activity.online.Localization"
-            android:label="@string/title_activity_localization" >
+            android:label="@string/title_activity_localization"
+            android:parentActivityName="com.indoorlocalizer.app.activity.LocatorSelector">
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.indoorlocalizer.app.activity.LocatorSelector" />
         </activity>
 
         <service
@@ -65,7 +85,16 @@
 
         <activity
             android:name=".activity.offline.ShowWifiList"
-            android:label="@string/title_activity_show_wifi_list" >
+            android:label="@string/title_activity_show_wifi_list"
+            android:parentActivityName="com.indoorlocalizer.app.activity.offline.OfflineOptionsListMainMenu">
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.indoorlocalizer.app.activity.offline.OfflineOptionsListMainMenu" />
+        </activity>
+        <activity
+            android:name=".activity.common.SettingsActivity"
+            android:label="@string/title_activity_my" >
         </activity>
     </application>
 

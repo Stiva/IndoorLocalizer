@@ -99,5 +99,20 @@
     <string name="title_activity_show_wifi_list">ShowWifiList</string>
     <string name="retrieve_image_content_description">Retrieve function menu</string>
     <string name="empty_map_list_message">No maps found in db</string>
+    <string name="map_spinner_chooser_text_view">Choose the map that you want to use for localization</string>
+    <string name="wifi_toggle_info">To localize you inside the map wifi must be enabled</string>
+    <string name="preference_summary_connection">Connection status settings</string>
+    <string name="preference_title_conncetion">Connection</string>
+    <string name="switch_wifi_title_preference">WiFi</string>
+    <string name="environment_variables_summary">Environment variables</string>
+    <string name="environment_variables_title">Settings</string>
+    <string name="tolerance_summary_pref">1-100%</string>
+    <string name="tolerance_title_pref">Select the tolerance value that you want to use for cluster matching</string>
+    <string name="scan_number_summary_pref">1-100</string>
+    <string name="scan_number_title_pref">Number of RP to evaluate</string>
+    <string name="duration_ms_summary_pref">1-50000</string>
+    <string name="duration_ms_title_pref">Interval between each scan</string>
+    <string name="title_activity_my">MyActivity</string>
+    <string name="title_activity_online_settings">Settings</string>
 
 </resources>

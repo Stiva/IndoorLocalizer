@@ -23,6 +23,11 @@ public class ShowWifiList extends FragmentActivity implements InsertMapNameDialo
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_wifi_list);
+        try {
+            getActionBar().setDisplayHomeAsUpEnabled(true);
+        }catch (NullPointerException e){
+            e.printStackTrace();
+        }
     }
 
     @Override

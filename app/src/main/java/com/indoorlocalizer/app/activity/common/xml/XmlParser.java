@@ -16,7 +16,7 @@ import java.util.ArrayList;
  */
 public class XmlParser {
     private static final String ns = null;
-    public ArrayList<OptionElement> parse(InputStream in) throws XmlPullParserException, IOException {
+    public ArrayList<OptionElement> parseOptionMenu(InputStream in) throws XmlPullParserException, IOException {
         try {
             XmlPullParser parser = Xml.newPullParser();
             parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);

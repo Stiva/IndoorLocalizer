@@ -1,8 +1,10 @@
 package com.indoorlocalizer.app.activity.offline;
 
+import android.app.Activity;
 import android.app.DialogFragment;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -10,7 +12,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.app.ActionBarActivity;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,15 +25,15 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.indoorlocalizer.app.R;
+import com.indoorlocalizer.app.activity.common.SettingsActivity;
 import com.indoorlocalizer.app.activity.common.db.DatabaseHelper;
 import com.indoorlocalizer.app.activity.common.db.DbManager;
-import com.indoorlocalizer.app.activity.common.utils.CommonUtils;
 import com.indoorlocalizer.app.activity.offline.utils.OfflineUtils;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class DataRetriever extends ActionBarActivity implements InsertMapNameDialog.InsertMapNameDialogListener{
+public class DataRetriever extends Activity implements InsertMapNameDialog.InsertMapNameDialogListener{
     private Intent scanService;
     private String rpValue;
     private String mapName;
@@ -55,6 +57,12 @@ public class DataRetriever extends ActionBarActivity implements InsertMapNameDia
         mapSpinner = (Spinner)findViewById(R.id.map_chooser_retrieve);
         optionNames = new ArrayList<String>();
         dbManager = new DbManager(getApplicationContext());
+        try {
+            getActionBar().setDisplayHomeAsUpEnabled(true);
+
+        }catch (NullPointerException e){
+            e.printStackTrace();
+        }
         try{
             dbManager.open();
             mCursor = dbManager.getMapNameList();
@@ -152,8 +160,15 @@ public class DataRetriever extends ActionBarActivity implements InsertMapNameDia
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        return id == R.id.action_settings || super.onOptionsItemSelected(item);
+        if (id == R.id.action_settings) {
+            Intent intent=new Intent(this, SettingsActivity.class);
+            startActivity(intent);
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -170,10 +185,14 @@ public class DataRetriever extends ActionBarActivity implements InsertMapNameDia
     }
 
     public void launchBarDialog() {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        final int scanNumber = prefs.getInt("scan_number",0);
+        final int durationMS = prefs.getInt("duration_ms",0);
         barProgressDialog.setTitle("Generating Reference point ...");
         barProgressDialog.setMessage("Scan in progress ...");
         barProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-        barProgressDialog.setMax(CommonUtils.scanNumber);
+        barProgressDialog.setMax(scanNumber);
+        barProgressDialog.setCancelable(false);
         barProgressDialog.show();
         new Thread(new Runnable() {
             @Override
@@ -181,7 +200,7 @@ public class DataRetriever extends ActionBarActivity implements InsertMapNameDia
                 try {
                     while (barProgressDialog.getProgress() <= barProgressDialog.getMax()) {
 
-                        Thread.sleep(CommonUtils.durationMS);
+                        Thread.sleep(durationMS);
                         updateBarHandler.post(new Runnable() {
                             public void run() {
                                 barProgressDialog.incrementProgressBy(1);
@@ -226,6 +245,7 @@ public class DataRetriever extends ActionBarActivity implements InsertMapNameDia
 
     @Override
     public void onDialogNegativeClick(DialogFragment dialog) {
+        mapSpinner.setSelection(0);
         dialog.dismiss();
     }
     @Override

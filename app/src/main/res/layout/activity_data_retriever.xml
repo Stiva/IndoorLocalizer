@@ -65,7 +65,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1.0"
                 android:text="@string/data_retrieving_button_text"
-                android:id="@+id/data_retrieving_button" />
+                android:id="@+id/data_retrieving_button"
+                android:layout_gravity="bottom"/>
 
             <Button
                 style="@style/ButtonStyle"
@@ -73,7 +74,8 @@
                 android:layout_weight="1.0"
                 android:text="@string/stop_rp_button_label"
                 android:id="@+id/stop_rp_button"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"/>
 
         </LinearLayout>
 

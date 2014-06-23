@@ -18,10 +18,6 @@ import java.util.List;
 import java.util.Map;
 
 public class CommonUtils {
-    //TODO: portare le costanti su un file di configurazione esterno
-    public static int scanNumber=12;
-    public static double tolerance=70.00;
-    public static int durationMS=10000;
 
     public static void copy(InputStream src, File dst) throws IOException {
         OutputStream out = new FileOutputStream(dst);
@@ -43,7 +39,7 @@ public class CommonUtils {
         try {
             XmlParser parser=new XmlParser();
             InputStream in_s = context.getAssets().open(filename);
-            results = parser.parse(in_s);
+            results = parser.parseOptionMenu(in_s);
         } catch (XmlPullParserException e) {
             e.printStackTrace();
         } catch (IOException e) {

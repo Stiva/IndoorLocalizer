@@ -12,6 +12,7 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.indoorlocalizer.app.R;
+import com.indoorlocalizer.app.activity.common.SettingsActivity;
 import com.indoorlocalizer.app.activity.common.utils.CommonUtils;
 
 import java.util.LinkedList;
@@ -51,11 +52,19 @@ public class OfflineOptionsListMainMenu extends ListActivity {
                 return true;
             }
         });
+        try {
+            getActionBar().setDisplayHomeAsUpEnabled(true);
+        }catch (NullPointerException e){
+            e.printStackTrace();
+        }
         getListView().setAdapter(mAdapter);
     }
-
+    @Override
     public boolean onMenuItemSelected(int featureId, MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.action_settings:
+                Intent intent=new Intent(this, SettingsActivity.class);
+                startActivity(intent);
             case R.id.get_stored_fingerprint_option:
                 showFingerPrints();
                 return true;
