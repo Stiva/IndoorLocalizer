@@ -63,8 +63,8 @@ public class ScannerService extends IntentService {
         mapName = intent.getExtras().getString("mapName");
         mapImagePath = intent.getExtras().getString("mapImage");
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        scanNumber = prefs.getInt("scan_number", 0);
-        durationMS = prefs.getInt("duration_ms",0);
+        scanNumber = Integer.parseInt(prefs.getString("scan_number", "0"));
+        durationMS = Integer.parseInt(prefs.getString("duration_ms","0"));
         scheduleTaskExecutor = Executors.newScheduledThreadPool(5);
         // This schedule a runnable task every 2 minutes
         scheduleTaskExecutor.scheduleAtFixedRate(new Runnable() {

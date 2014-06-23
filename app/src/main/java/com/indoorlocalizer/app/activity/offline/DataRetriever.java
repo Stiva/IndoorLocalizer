@@ -160,9 +160,6 @@ public class DataRetriever extends Activity implements InsertMapNameDialog.Inser
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.action_settings) {
             Intent intent=new Intent(this, SettingsActivity.class);
@@ -186,8 +183,8 @@ public class DataRetriever extends Activity implements InsertMapNameDialog.Inser
 
     public void launchBarDialog() {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        final int scanNumber = prefs.getInt("scan_number",0);
-        final int durationMS = prefs.getInt("duration_ms",0);
+        final int scanNumber = Integer.parseInt(prefs.getString("scan_number", "0"));
+        final int  durationMS = Integer.parseInt(prefs.getString("duration_ms","0"));
         barProgressDialog.setTitle("Generating Reference point ...");
         barProgressDialog.setMessage("Scan in progress ...");
         barProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);

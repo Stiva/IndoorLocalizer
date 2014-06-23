@@ -1,12 +1,11 @@
 package com.indoorlocalizer.app.activity.common.model;
 
-import android.os.Parcel;
-import android.os.Parcelable;
+import java.io.Serializable;
 
 /**
  * Created by federicostivani on 01/06/14.
  */
-public class AccessPoint implements Parcelable{
+public class AccessPoint implements Serializable{
     private String SSID;
     private String map;
     private String BSSID;
@@ -63,7 +62,7 @@ public class AccessPoint implements Parcelable{
     public int getFrequency() {
         return frequency;
     }
-
+    /*
     @Override
     public int describeContents() {
         return 0;
@@ -80,7 +79,7 @@ public class AccessPoint implements Parcelable{
                 String.valueOf(getLevel()),
                 String.valueOf(getFrequency()),
                 String.valueOf(getHits())});
-    }
+    }*/
 
     public void hit() {
         hits++;

@@ -52,7 +52,7 @@
     <string name="placeholder_hits">Hits : 0</string>
     <string name="save_fingerprint_option_label">Salva fingerprint!</string>
     <string name="get_fingerprint_option_label">Visualizza AP</string>
-    <string name="title_activity_list_aps">Lista Ap</string>
+    <string name="title_activity_list_aps">Lista AP</string>
     <string name="refresh_list_option_label">Aggiorna</string>
     <string name="title_activity_data_retriever">Acquisisci Dati</string>
     <string name="stop_rp_button_label">Stop</string>

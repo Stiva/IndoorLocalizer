@@ -15,8 +15,7 @@
         android:title="@string/environment_variables_title" >
         <EditTextPreference
             android:key="tolerance"
-            android:inputType="number"
-            android:numeric="decimal"
+            android:inputType="text"
             android:defaultValue="30.0"
             android:summary="@string/tolerance_summary_pref"
             android:title="@string/tolerance_title_pref"/>

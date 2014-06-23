@@ -94,18 +94,15 @@ public class DbManager{
     }
 
     public long addRP (ReferencePoint rp){
-        long ALREADY_IN_DB=-1;
-        if(!checkRpPresence(rp.getName())){
+        //long ALREADY_IN_DB=-1;
             Log.d("Add RP",rp.toString());
             Log.d("[WRITING RP TO DB]","RP: "+rp.getName() +" "+rp.getId()+" in map: "+rp.getMapName());
             ContentValues value=createRPContentValues(rp.getMapName(),rp.getName(),rp.getId());
             return db.insertOrThrow(DATABASE_RP_TABLE,null,value);
-        }
-        return ALREADY_IN_DB;
     }
 
-    public Cursor getAccessPointByMap(String map){
-        return db.query(DATABASE_AP_TABLE, COLUMNS_AP,DatabaseHelper.KEY_MAP_NAME +"= '"+map+"'",null,null,null,null);
+    public Cursor getAccessPointByMap(String mapName){
+        return db.query(DATABASE_AP_TABLE, COLUMNS_AP,DatabaseHelper.KEY_MAP_NAME +"= '"+mapName+"'",null,null,null,null);
     }
 
     public Cursor getMapNameList(){
@@ -142,10 +139,10 @@ public class DbManager{
         return map.getRpNumber();
     }
 
-    public Cursor getAccessPointByMapAndRP(String mapName, int rpIndex){
+    public Cursor getAccessPointByMapAndRP(String mapName, int rpId){
         String query=(  "SELECT * FROM "+ DATABASE_AP_TABLE +" WHERE "
                         +DatabaseHelper.KEY_MAP_NAME+" = '"+mapName+"' AND "
-                        +DatabaseHelper.KEY_REFERENCE_POINT_ID +" = "+rpIndex);
+                        +DatabaseHelper.KEY_REFERENCE_POINT_ID +" = "+rpId);
         return db.rawQuery(query,null);
     }
 
@@ -174,9 +171,9 @@ public class DbManager{
         return res;
     }
 
-    public String getRpName(Integer rp) {
+    public String getRpName(String mapName, Integer rpId) {
         String res="";
-        String query="SELECT "+DatabaseHelper.KEY_REFERENCE_POINT_NAME+" FROM "+DATABASE_RP_TABLE+" WHERE "+DatabaseHelper.KEY_REFERENCE_POINT_ID+" ="+rp;
+        String query="SELECT "+DatabaseHelper.KEY_REFERENCE_POINT_NAME+" FROM "+DATABASE_RP_TABLE+" WHERE "+DatabaseHelper.KEY_REFERENCE_POINT_ID+" = "+rpId+" AND "+DatabaseHelper.KEY_MAP_NAME+" ='"+mapName+"'";
         Cursor mCursor=db.rawQuery(query,null);
         while (mCursor.moveToNext()){
             res=mCursor.getString(0);
@@ -190,6 +187,16 @@ public class DbManager{
         Cursor mCursor=db.rawQuery(query,null);
         while (mCursor.moveToNext()){
             res=mCursor.getString(0);
+        }
+        return res;
+    }
+
+    public int getRpCount(String mapName,String rpName) {
+        int res=-1;
+        String query="SELECT COUNT(*) FROM "+DATABASE_RP_TABLE+" WHERE "+DatabaseHelper.KEY_MAP_NAME+" = '"+mapName+"' AND "+DatabaseHelper.KEY_REFERENCE_POINT_NAME+" ='"+rpName+"'";
+        Cursor mCursor=db.rawQuery(query,null);
+        while (mCursor.moveToNext()){
+            res=mCursor.getInt(0);
         }
         return res;
     }

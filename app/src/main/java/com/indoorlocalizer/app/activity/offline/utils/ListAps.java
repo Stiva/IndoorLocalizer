@@ -11,6 +11,7 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
 import com.indoorlocalizer.app.R;
+import com.indoorlocalizer.app.activity.common.SettingsActivity;
 import com.indoorlocalizer.app.activity.common.db.DatabaseHelper;
 import com.indoorlocalizer.app.activity.common.db.DbManager;
 
@@ -30,7 +31,7 @@ public class ListAps extends ListActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_aps);
         Intent intent=getIntent();
-        String mapName=intent.getExtras().getString("mapName");
+        final String mapName=intent.getExtras().getString("mapName");
         final TextView emptyListMsg=(TextView)findViewById(R.id.empty_list_message);
         final DbManager dbManager=new DbManager(getApplicationContext());
         try{
@@ -55,7 +56,7 @@ public class ListAps extends ListActivity{
                                 String rpName = "";
                                 try{
                                     dbManager.open();
-                                    rpName = dbManager.getRpName(rp);
+                                    rpName = dbManager.getRpName(mapName, rp);
                                     // dbManager.close();
                                 } catch (SQLException e){
                                     e.printStackTrace();
@@ -112,6 +113,10 @@ public class ListAps extends ListActivity{
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        return id == R.id.action_settings || super.onOptionsItemSelected(item);
+        if (id == R.id.action_settings) {
+            Intent intent=new Intent(this, SettingsActivity.class);
+            startActivity(intent);
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

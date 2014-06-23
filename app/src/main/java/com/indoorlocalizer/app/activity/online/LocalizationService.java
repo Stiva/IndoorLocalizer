@@ -2,6 +2,7 @@ package com.indoorlocalizer.app.activity.online;
 
 import android.app.IntentService;
 import android.app.NotificationManager;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,6 +11,7 @@ import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
+import android.util.SparseArray;
 import android.widget.Toast;
 
 import com.indoorlocalizer.app.R;
@@ -19,9 +21,7 @@ import com.indoorlocalizer.app.activity.common.model.AccessPoint;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class LocalizationService extends IntentService {
 
@@ -29,7 +29,10 @@ public class LocalizationService extends IntentService {
     private Cursor mCursor;
     private DbManager dbManager;
     private String mapName;
+    private List<ScanResult> wifiList;
+    private ArrayList<AccessPoint> mModel = new ArrayList<AccessPoint>();
     private ArrayList<AccessPoint> readAps;
+
     public LocalizationService(){super("LocalizerService");}
 
     private NotificationCompat.Builder mBuilder;
@@ -47,15 +50,14 @@ public class LocalizationService extends IntentService {
                 .setSmallIcon(R.drawable.ic_launcher)
                 .setContentTitle("Localizing...");
         mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-
-        readAps =new ArrayList<AccessPoint>();
+        wifiList =new ArrayList<ScanResult>();
         //Read AP from database:
         dbManager=new DbManager(getApplicationContext());
     }
-
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         mapName = intent.getExtras().getString("mapName");
+        WifiReceiver receiverWifi;
         sendNotification();
         mainWifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
 
@@ -67,9 +69,16 @@ public class LocalizationService extends IntentService {
 
             mainWifi.setWifiEnabled(true);
         }
+        /*try {
+            IntentFilter filter = new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION);
+            BroadcastReceiver mReceiver = new WifiReceiver();
+            registerReceiver(mReceiver, filter);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }*/
         mainWifi.startScan();
-        List<ScanResult> scanResults=mainWifi.getScanResults();
-        readAps=getAps(scanResults);
+        readAps=getAps(mainWifi.getScanResults());
         //List of AP received in current position
         String result=compareRP();
         if(!result.isEmpty())
@@ -97,73 +106,82 @@ public class LocalizationService extends IntentService {
      * @return -1 if the selected RP isn't in the current map, RP number otherwise
      */
     private String compareRP(){
+        SparseArray<ArrayList<AccessPoint>> map = new SparseArray<ArrayList<AccessPoint>>();
+        SparseArray<ArrayList<Double>> differences = new SparseArray<ArrayList<Double>>();
+        ArrayList<Integer> ids=new ArrayList<Integer>();
+        try{
+            dbManager.open();
+            int rpNumber=dbManager.getRPNumber(mapName);
+            for(int i=1;i<=rpNumber;i++){
+                mCursor=dbManager.getAccessPointByMapAndRP(mapName,i);
+                ArrayList<AccessPoint> aps=getAParray(mCursor);
+                ArrayList<AccessPoint>values = new ArrayList<AccessPoint>();
+                int rpId=0;
+                for(AccessPoint ap:aps){
+                    values.add(ap);
+                    rpId=ap.getRp();
+                }
+                map.put(rpId,values);
+                ids.add(rpId);
+            }
+            for(int i=0;i<map.size();i++){
+                ArrayList<Double> difference = new ArrayList<Double>();
+                for(AccessPoint readAP:readAps){
+                    for(AccessPoint aSavedAP:map.get(ids.get(i))) {
+                        if (readAP.getSSID().equals(aSavedAP.getSSID())){
+                            Double tmp=EuclideanDifference2(readAP,aSavedAP);
+                            difference.add(tmp);
+                        }
+                    }
+                }
+                differences.put(ids.get(i),difference);
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }finally {
+            mCursor.close();
+        }
+        return searchMinimumArray(differences,ids);
+    }
+    private String searchMinimumArray(SparseArray<ArrayList<Double>> map,ArrayList<Integer>ids) {
+        double min=1000000000;
+        String rpMin="";
+        int rpIdMin=-1;
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         double tolerance=Double.parseDouble(prefs.getString("tolerance", "1.0"));
-        //1- Read the number of RP of a single map
-        int rpNumber=-1;
-        String rpName="";
-        //HashMap<AccessPoint[],Boolean> responseHashMap = new HashMap<AccessPoint[], Boolean>();
-        ArrayList<AccessPoint> selectedAP=new ArrayList<AccessPoint>();
-        try {
-            dbManager.open();
-            rpNumber = dbManager.getRPNumber(mapName);
-            //dbManager.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        //Scan all RP of a specified map
-        for(int i=1;i<=rpNumber;i++) {
-            try {
-                rpName = dbManager.getRpName(i);
-                dbManager.open();
-                mCursor = dbManager.getAccessPointByMapAndRP(mapName, i);
-                //dbManager.close();
-                selectedAP = getAParray(mCursor);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            } finally {
-                mCursor.close();
+        for(int i=0;i<map.size();i++){
+            double sum=0;
+            for(Double value:map.get(ids.get(i))){
+                sum+=value;
             }
-            Map<String,Boolean> comparsionArray=new HashMap<String, Boolean>();
-            //Compare each RP with the mobile user detection.
-            for (AccessPoint aReadAp : readAps) {
-                //Obtaining the right AP array associated to a specific RP
-                for (AccessPoint aSelectedAP : selectedAP) {
-                    if(EuclideanDifference(aReadAp, aSelectedAP, tolerance)){
-                        //responseHashMap.put(new AccessPoint[]{aReadAp,aSelectedAP},true);
-                        comparsionArray.put(aReadAp.getSSID(),true);
-                    } /*else
-                        //responseHashMap.put(new AccessPoint[]{aReadAp,aSelectedAP},false);
-                        comparsionArray.put(aReadAp.getSSID(),false);*/
+            if(sum/map.size()<min && sum!=0){
+                min=sum/map.size();
+                try {
+                    dbManager.open();
+                    rpMin=dbManager.getRpName(mapName, ids.get(i));
+                    rpIdMin=ids.get(i);
+                    //dbManager.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
                 }
             }
-            if(isAllTrue(comparsionArray)){
-                return rpName;
-            }
         }
-        return "";
+        if(min<tolerance)
+            return rpMin+ " nel RP "+ rpIdMin;
+        else
+            return "";
     }
-
-    private boolean isAllTrue(Map<String, Boolean> comparsionArray) {
-        boolean result=false;
-        /*for (int i=0;i<comparsionArray.size();i++){
-            if(!comparsionArray.get(readAps.get(i).getSSID()))
-                result=false;
-        }*/
-        if(comparsionArray.size()==readAps.size())
-            result=true;
-        return result;
-    }
-
 
     private ArrayList<AccessPoint> getAParray(Cursor mCursor) {
         ArrayList<AccessPoint> result=new ArrayList<AccessPoint>();
         while (mCursor.moveToNext()) {
-            result.add(new AccessPoint(
-                    //mCursor.getInt(mCursor.getColumnIndexOrThrow(DatabaseHelper.KEY_REFERENCE_POINT_ID)),
-                    mCursor.getString(mCursor.getColumnIndexOrThrow(DatabaseHelper.KEY_SSID)),
-                    mCursor.getInt(mCursor.getColumnIndexOrThrow(DatabaseHelper.KEY_LEVEL)),
-                    mCursor.getInt(mCursor.getColumnIndexOrThrow(DatabaseHelper.KEY_FREQUENCY))));
+            result.add(new AccessPoint( mCursor.getString(mCursor.getColumnIndexOrThrow(DatabaseHelper.KEY_MAP_NAME)),
+                                        mCursor.getInt(mCursor.getColumnIndexOrThrow(DatabaseHelper.KEY_REFERENCE_POINT_ID)),
+                                        mCursor.getString(mCursor.getColumnIndexOrThrow(DatabaseHelper.KEY_SSID)),
+                                        mCursor.getString(mCursor.getColumnIndexOrThrow(DatabaseHelper.KEY_BSSID)),
+                                        mCursor.getString(mCursor.getColumnIndexOrThrow(DatabaseHelper.KEY_CAPABILITIES)),
+                                        mCursor.getInt(mCursor.getColumnIndexOrThrow(DatabaseHelper.KEY_LEVEL)),
+                                        mCursor.getInt(mCursor.getColumnIndexOrThrow(DatabaseHelper.KEY_FREQUENCY)))) ;
         }
         mCursor.moveToFirst();
         return result;
@@ -173,17 +191,25 @@ public class LocalizationService extends IntentService {
      *
      * @param a First access point
      * @param b Second access point
-     * @param tolerance acceptable difference between a.
      * @return true if the signal difference is less or equal then the admitted tolerance, false otherwise. (Tolerance could be substituted with variance, estimated in offline phase)
      */
-    private boolean EuclideanDifference(AccessPoint a,AccessPoint b,double tolerance){
+    private double EuclideanDifference2(AccessPoint a,AccessPoint b){
         double difference;
-        if(a.getSSID().equals(b.getSSID())){
-            difference=Math.abs(a.getLevel() * a.getLevel() - b.getLevel() * b.getLevel());
-            difference=Math.sqrt(difference);
-            if (difference<=tolerance)
-                return true;
+        difference=Math.abs(a.getLevel() * a.getLevel() - b.getLevel() * b.getLevel());
+        difference=Math.sqrt(difference);
+        return difference;
+    }
+    class WifiReceiver extends BroadcastReceiver {
+
+        // This method call when number of wifi connections changed
+        public void onReceive(Context c, Intent intent) {
+            wifiList = mainWifi.getScanResults();
+            for (ScanResult result:wifiList) {
+                final AccessPoint item = new AccessPoint(result.SSID,result.level,result.frequency);
+                mModel.add(item);
+            }
+            readAps=mModel;
+            mModel.clear();
         }
-        return false;
     }
 }
