@@ -81,10 +81,14 @@ public class LocalizationServiceOLD extends IntentService {
         readAps=getAps(mainWifi.getScanResults());
         //List of AP received in current position
         String result=compareRP();
-        if(!result.isEmpty())
-            Toast.makeText(this, "Localized in RP: "+result, Toast.LENGTH_LONG).show();
-        else
+        if(!result.isEmpty()) {
+            Toast.makeText(this, "Localized in RP: " + result, Toast.LENGTH_LONG).show();
+            stopSelf();
+        }
+        else {
             Toast.makeText(this, "Unable to localize you in this map", Toast.LENGTH_LONG).show();
+            stopSelf();
+        }
         return START_NOT_STICKY;
     }
 
