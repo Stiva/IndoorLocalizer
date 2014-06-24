@@ -24,7 +24,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LocalizationService extends IntentService {
+public class LocalizationServiceOLD extends IntentService {
 
     private WifiManager mainWifi;
     private Cursor mCursor;
@@ -34,7 +34,7 @@ public class LocalizationService extends IntentService {
     private ArrayList<AccessPoint> mModel = new ArrayList<AccessPoint>();
     private ArrayList<AccessPoint> readAps;
 
-    public LocalizationService(){super("LocalizerService");}
+    public LocalizationServiceOLD(){super("LocalizerService");}
 
     private NotificationCompat.Builder mBuilder;
     private NotificationManager mNotificationManager;
@@ -78,8 +78,22 @@ public class LocalizationService extends IntentService {
             e.printStackTrace();
         }
         mainWifi.startScan();
+        readAps=getAps(mainWifi.getScanResults());
         //List of AP received in current position
+        String result=compareRP();
+        if(!result.isEmpty())
+            Toast.makeText(this, "Localized in RP: "+result, Toast.LENGTH_LONG).show();
+        else
+            Toast.makeText(this, "Unable to localize you in this map", Toast.LENGTH_LONG).show();
         return START_NOT_STICKY;
+    }
+
+    private ArrayList<AccessPoint> getAps(List<ScanResult> scanResults) {
+        ArrayList<AccessPoint> temp = new ArrayList<AccessPoint>();
+        for(ScanResult s:scanResults){
+            temp.add(new AccessPoint(s.SSID,s.level,s.frequency));
+        }
+        return temp;
     }
 
     private void sendNotification(){
@@ -195,11 +209,6 @@ public class LocalizationService extends IntentService {
                 mModel.add(item);
             }
             readAps=mModel;
-            String result=compareRP();
-            if(!result.isEmpty())
-                Toast.makeText(c, "Localized in RP: "+result, Toast.LENGTH_LONG).show();
-            else
-                Toast.makeText(c, "Unable to localize you in this map", Toast.LENGTH_LONG).show();
             mModel.clear();
         }
     }
