@@ -47,6 +47,8 @@ public class PositionEvaluator extends Activity {
     private BroadcastReceiver mReceiver;
     private String foundRpName;
     private int foundRpId;
+    private TextView minTextView;
+    private double globalMin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +68,7 @@ public class PositionEvaluator extends Activity {
         mainWifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
         rpNumber = (TextView) findViewById(R.id.localized_rp_number);
         rpName = (TextView) findViewById(R.id.localized_rp_name);
+        minTextView = (TextView)findViewById(R.id.localized_global_min);
         unableFindMessage = (TextView) findViewById(R.id.localized_unable_find);
         reScanButton = (Button) findViewById(R.id.localized_scan_button);
         reScanButton.setOnClickListener(new View.OnClickListener() {
@@ -182,6 +185,7 @@ public class PositionEvaluator extends Activity {
                 } finally {
                     dbManager.close();
                 }
+                globalMin = min;
             }
         }
         if (min < tolerance) {
@@ -235,6 +239,8 @@ public class PositionEvaluator extends Activity {
             unableFindMessage.setVisibility(View.VISIBLE);
             sendNotification(getString(R.string.unable_localize_message));
         }
+        minTextView.setVisibility(View.VISIBLE);
+        minTextView.setText(getResources().getString(R.string.localized_min_value_pattern,globalMin));
         barProgressDialog.dismiss();
     }
 

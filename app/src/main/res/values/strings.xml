@@ -114,5 +114,6 @@
     <string name="notification_successful_localization">Localized in RP: %1$s number: %2$d</string>
     <string name="found_rp_value_pattern">RP: %1$d</string>
     <string name="unable_localize_message">Unable to localize you in this map</string>
-
+    <string name="localized_global_min_placeholder">Difference with RP: 100</string>
+    <string name="localized_min_value_pattern">Difference with RP: %1$f</string>
 </resources>
