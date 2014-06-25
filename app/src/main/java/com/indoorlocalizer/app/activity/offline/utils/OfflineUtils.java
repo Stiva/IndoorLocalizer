@@ -26,6 +26,8 @@ public class OfflineUtils {
             res = dbManager.getLastRp(mapName) + 1;
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            dbManager.close();
         }
         return res;
     }
@@ -90,6 +92,8 @@ public class OfflineUtils {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            dbManager.close();
         }
     }
 }

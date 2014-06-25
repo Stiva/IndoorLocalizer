@@ -125,6 +125,7 @@ public class LocalizationService extends IntentService {
             e.printStackTrace();
         }finally {
             mCursor.close();
+            dbManager.close();
         }
         return searchMinimumArray(differences,ids);
     }
@@ -148,6 +149,8 @@ public class LocalizationService extends IntentService {
                     //dbManager.close();
                 } catch (SQLException e) {
                     e.printStackTrace();
+                } finally {
+                    dbManager.close();
                 }
             }
         }

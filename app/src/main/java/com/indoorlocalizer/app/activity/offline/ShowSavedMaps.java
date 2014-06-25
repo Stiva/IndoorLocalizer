@@ -131,6 +131,8 @@ public class ShowSavedMaps extends ListActivity {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            dbManager.close();
         }
     }
 
@@ -201,6 +203,8 @@ public class ShowSavedMaps extends ListActivity {
             mAdapter.notifyDataSetChanged();
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            dbManager.close();
         }
     }
 }

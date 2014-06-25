@@ -70,6 +70,8 @@ public class Localization extends Activity implements AdapterView.OnItemSelected
             });
         } catch (SQLException e){
             e.printStackTrace();
+        } finally {
+            dbManager.close();
         }
     }
 

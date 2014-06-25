@@ -39,6 +39,9 @@ public class AccessPoint implements Serializable {
     public String getMap() {
         return this.map;
     }
+    public void setMap(String mapName) {
+        this.map=mapName;
+    }
 
     public int getRp() {
         return this.rp;

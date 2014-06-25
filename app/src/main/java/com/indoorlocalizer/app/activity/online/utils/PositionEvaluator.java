@@ -124,6 +124,7 @@ public class PositionEvaluator extends Activity {
         ArrayList<Integer> ids = new ArrayList<Integer>();
         try {
             dbManager.open();
+            //Number of RP for a specified map
             int rpNumber = dbManager.getRPNumber(mapName);
             for (int i = 1; i <= rpNumber; i++) {
                 mCursor = dbManager.getAccessPointByMapAndRP(mapName, i);
@@ -153,6 +154,7 @@ public class PositionEvaluator extends Activity {
             e.printStackTrace();
         } finally {
             mCursor.close();
+            dbManager.close();
         }
         return searchMinimumArray(differences, ids);
     }
@@ -169,7 +171,7 @@ public class PositionEvaluator extends Activity {
                 sum += value;
             }
             if (sum / map.size() < min && sum != 0) {
-                min = sum / map.size();
+                min = sum / map.get(ids.get(i)).size();
                 try {
                     dbManager.open();
                     rpMin = dbManager.getRpName(mapName, ids.get(i));
@@ -177,6 +179,8 @@ public class PositionEvaluator extends Activity {
                     //dbManager.close();
                 } catch (SQLException e) {
                     e.printStackTrace();
+                } finally {
+                    dbManager.close();
                 }
             }
         }
@@ -247,7 +251,7 @@ public class PositionEvaluator extends Activity {
         public void onReceive(Context c, Intent intent) {
             wifiList = mainWifi.getScanResults();
             for (ScanResult result : wifiList) {
-                final AccessPoint item = new AccessPoint(result.SSID, result.level, result.frequency);
+                AccessPoint item = new AccessPoint(result.SSID, result.level, result.frequency);
                 mModel.add(item);
             }
             readAps = mModel;

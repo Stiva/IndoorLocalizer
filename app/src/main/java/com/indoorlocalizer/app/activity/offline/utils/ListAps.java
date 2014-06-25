@@ -97,6 +97,8 @@ public class ListAps extends ListActivity {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            dbManager.close();
         }
     }
 

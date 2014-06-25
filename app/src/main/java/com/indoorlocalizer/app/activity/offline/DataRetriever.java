@@ -74,6 +74,7 @@ public class DataRetriever extends Activity implements InsertMapNameDialog.Inser
             e.printStackTrace();
         } finally {
             mCursor.close();
+            dbManager.close();
         }
         optionNames.add(getString(R.string.create_new_map));
         arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, optionNames);
@@ -91,10 +92,12 @@ public class DataRetriever extends Activity implements InsertMapNameDialog.Inser
                         imageFilePath = dbManager.getImagePath(adapterView.getSelectedItem().toString());
                         Bitmap image = BitmapFactory.decodeFile(imageFilePath);
                         if (image.getHeight() > 4096 || image.getWidth() > 4096)
-                            image = Bitmap.createScaledBitmap(image, 4096, 4096, false);
+                            image = Bitmap.createScaledBitmap(image, 600, 600, false);
                         imagePreview.setImageBitmap(image);
                     } catch (SQLException e) {
                         e.printStackTrace();
+                    } finally {
+                        dbManager.close();
                     }
                 }
             }
@@ -195,7 +198,6 @@ public class DataRetriever extends Activity implements InsertMapNameDialog.Inser
             public void run() {
                 try {
                     while (barProgressDialog.getProgress() <= barProgressDialog.getMax()) {
-
                         Thread.sleep(durationMS);
                         updateBarHandler.post(new Runnable() {
                             public void run() {
@@ -205,7 +207,6 @@ public class DataRetriever extends Activity implements InsertMapNameDialog.Inser
                         if (barProgressDialog.getProgress() == barProgressDialog.getMax()) {
                             if (ScannerService.finish) {
                                 barProgressDialog.dismiss();
-                                finish();
                             }
                         }
                     }
@@ -233,6 +234,7 @@ public class DataRetriever extends Activity implements InsertMapNameDialog.Inser
             e.printStackTrace();
         } finally {
             mCursor.close();
+            dbManager.close();
         }
         optionNames.add(getString(R.string.create_new_map));
         arrayAdapter.notifyDataSetChanged();
