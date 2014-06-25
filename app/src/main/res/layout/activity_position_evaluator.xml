@@ -1,0 +1,54 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    tools:context="com.indoorlocalizer.app.activity.online.utils.PositionEvaluator">
+    <ImageView
+        android:id="@+id/position_evaluate_title"
+        android:src="@drawable/scan_result_title"
+        android:background="@color/dat_yellow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/scan_result_content_description" />
+    <TextView
+        android:id="@+id/localized_rp_number"
+        android:visibility="invisible"
+        android:text="@string/placeholder_rp_number"
+        android:textSize="30sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/position_evaluate_title"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+    <TextView
+        android:id="@+id/localized_rp_name"
+        android:visibility="invisible"
+        android:text="@string/placeholder_rp_name"
+        android:textSize="30sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/localized_rp_number"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+    <TextView
+        style="@style/WifiItemData"
+        android:visibility="invisible"
+        android:id="@+id/localized_unable_find"
+        android:text="@string/unable_find_message"
+        android:textSize="30sp"
+        android:textColor="@color/red"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+    <Button
+        style="@style/ButtonStyle"
+        android:id="@+id/localized_scan_button"
+        android:text="@string/scan_button_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"/>
+
+</RelativeLayout>

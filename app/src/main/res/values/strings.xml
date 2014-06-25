@@ -3,31 +3,11 @@
 
     <string name="app_name">IndoorLocalizer</string>
     <string name="action_settings">Settings</string>
-    <string name="login_activity_label">Login</string>
-    <string name="register_activity_label">Registration</string>
+
     <string name="hugo_logo">Application Logo</string>
-    <string name="button_anonymous">Anonymous</string>
-    <string name="button_register">Register</string>
-    <string name="button_login">Login</string>
-    <string name="do_login">Login</string>
-    <string name="new_data_button_label">Insert new data</string>
-    <string name="old_data_button_label">View old data</string>
-    <string name="remote_data_button_label">View remote data</string>
-    <string name="username_label">Username</string>
-    <string name="password_label">Password</string>
-    <string name="email_label">E-mail</string>
-    <string name="birth_date_label">Birth Date</string>
-    <string name="location_label">Location</string>
-    <string name="confirm_button_label">Confirm</string>
-    <!-- Error messages -->
-    <string name="mandatory_field_error">The field %1$s is mandatory</string>
-    <string name="wrong_credential_error">Wrong credentials! Please try again.</string>
-    <string name="title_activity_locator_selector">LocatorSelector</string>
-    <string name="hello_world">Hello world!</string>
     <string name="WiFi_status_text">For a good localization Wifi must be enabled</string>
-    <string name="data_retriving_button_text">Retrive Data</string>
     <string name="localize_button_text">Get Location</string>
-    <string name="title_activity_retrive_data">RetriveData</string>
+    <string name="title_activity_retrieve_data">Retrieve Data</string>
     <string name="title_activity_wifi_scanner">wifiScanner</string>
     <!-- WiFi Label -->
     <string name="scan_for_new_datas"><![CDATA[No WiFi found, please tap Menu>Scan for get some results]]></string>
@@ -44,13 +24,14 @@
     <string name="hits_value_pattern">Hits : %1$d</string>
     <string name="option_description_pattern">%1$s</string>
     <string name="option_name_pattern">%1$s</string>
+    <string name="found_rp_name_value_pattern">Name : %1$s</string>
+    <string name="found_rp_id_value_pattern">ID : %1$d</string>
     <!-- Show data labels -->
     <string name="update_list_message">Update List</string>
-    <string name="title_activity_simple_tracker">SimpleTracker</string>
+    <string name="title_activity_simple_tracker">Simple Tracker</string>
     <string name="search_wifi_message">Searching for some networks near your position…</string>
     <string name="empty_list_message">No WiFi found in the database.</string>
-    <string name="title_activity_map">MapActivity</string>
-    <string name="title_activity_save_data">SaveData</string>
+    <string name="title_activity_save_data">Save Data</string>
 
     <!-- Button Text -->
     <string name="scan_button_text">Scan!</string>
@@ -58,6 +39,7 @@
     <string name="placeholder_list_item_map">Map: Stiva\'s home</string>
     <string name="placeholder_list_item_rp">RP: -1 Bathroom</string>
     <string name="placeholder_list_item_ssid">SSID: Casa Stivani</string>
+    <string name="placeholder_rp_number">RP: -1</string>
     <string name="placeholder_bssid">BSSID : 23:00:bb:22:00:11</string>
     <string name="placeholder_capabilities">Capabilities: [WPA-PSK][WPA2-TKIP][WEP]</string>
     <string name="placeholder_level">Level : 4</string>
@@ -79,7 +61,7 @@
     <string name="placeholder_option_description">Description, lore ipsum bla bla</string>
     <string name="option_icon_description">Icon for option item</string>
     <string name="title_activity_show_wifi">ShowWifi</string>
-    <string name="ok">Ok</string>
+    <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
     <string name="save_map_name">Save</string>
     <string name="dialog_save_map_name">Insert map name</string>
@@ -102,17 +84,35 @@
     <string name="map_spinner_chooser_text_view">Choose the map that you want to use for localization</string>
     <string name="wifi_toggle_info">To localize you inside the map wifi must be enabled</string>
     <string name="preference_summary_connection">Connection status settings</string>
-    <string name="preference_title_conncetion">Connection</string>
+    <string name="preference_title_connection">Connection</string>
     <string name="switch_wifi_title_preference">WiFi</string>
     <string name="environment_variables_summary">Environment variables</string>
     <string name="environment_variables_title">Settings</string>
-    <string name="tolerance_summary_pref">1-100%</string>
+    <string name="tolerance_summary_pref">1–100%</string>
     <string name="tolerance_title_pref">Select the tolerance value that you want to use for cluster matching</string>
-    <string name="scan_number_summary_pref">1-100</string>
+    <string name="scan_number_summary_pref">1–100</string>
     <string name="scan_number_title_pref">Number of RP to evaluate</string>
-    <string name="duration_ms_summary_pref">1-50000</string>
+    <string name="duration_ms_summary_pref">1–50000</string>
     <string name="duration_ms_title_pref">Interval between each scan</string>
     <string name="title_activity_my">MyActivity</string>
     <string name="title_activity_online_settings">Settings</string>
+    <string name="title_activity_position_evaluator">Position Evaluator</string>
+    <string name="placeholder_rp_name">Name: Bathroom</string>
+    <string name="unable_find_message">Unable to localize you in this map</string>
+    <string name="scan_result_content_description">Scan Result</string>
+    <string name="create_new_map"><![CDATA[<Create a new Map>]]></string>
+    <string name="insert_map_name">Insert Map Name</string>
+    <string name="no_rp_name_selected_error">You\'ve to select a valid name for RP</string>
+    <string name="pick_image_message">Select Picture</string>
+    <string name="dialog_scan_map_title">Generating Reference point …</string>
+    <string name="dialog_scan_map_message">Scan in progress …</string>
+    <string name="scanning_aborted_message">Scanning aborted by the user</string>
+    <string name="no_service_stop">No service to stop</string>
+    <string name="evaluating_euclidean_distance_message">evaluating euclidean difference</string>
+    <string name="enabling_wifi_message">wifi is disabled… making it enabled</string>
+    <string name="localizing_dialog_title">Localizing in map %1$s… </string>
+    <string name="notification_successful_localization">Localized in RP: %1$s number: %2$d</string>
+    <string name="found_rp_value_pattern">RP: %1$d</string>
+    <string name="unable_localize_message">Unable to localize you in this map</string>
 
 </resources>

@@ -7,7 +7,6 @@
     <!-- Error messages -->
     <string name="mandatory_field_error">Il campo %1$s is obbligatorio</string>
     <string name="wrong_credential_error">Account o password errati! Riprova di nuovo.</string>
-    <string name="data_retriving_button_text">Raccogli Dati</string>
     <string name="localize_button_text">Localizzami!</string>
 
     <!-- Button Text -->
@@ -16,7 +15,7 @@
     <string name="action_settings">Impostazioni</string>
 
     <string name="title_activity_locator_selector">Selettore Funzioni</string>
-    <string name="title_activity_retrive_data">Acquisisci Dati</string>
+    <string name="title_activity_retrieve_data">Acquisisci Dati</string>
     <string name="title_activity_wifi_scanner">Scansiona Wi-Fi</string>
     <!-- WiFi Label -->
     <string name="scan_for_new_datas"><![CDATA[Nessun WiFi trovato, per favore clicca Menu>Scansiona per cercare di nuovo]]></string>
@@ -24,6 +23,7 @@
     <!-- Patterns -->
     <string name="map_value_pattern">Mappa : %1$s</string>
     <string name="rp_value_pattern">RP : %1$d %2$s</string>
+    <string name="found_rp_name_value_pattern">Nome : %1$s</string>
     <string name="ssid_value_pattern">SSID : %1$s</string>
     <string name="bssid_value_pattern">BSSID : %1$s</string>
     <string name="capabilities_value_pattern">Compatibilità : %1$s</string>
@@ -86,17 +86,36 @@
     <string name="map_spinner_chooser_text_view">Scegli la mappa che vuoi utilizzare nella localizzazione</string>
     <string name="wifi_toggle_info">Per localizzarti in una mappa il WiFi deve essere abilitato</string>
     <string name="preference_summary_connection">Stato della connessione</string>
-    <string name="preference_title_conncetion">Connessione</string>
+    <string name="preference_title_connection">Connessione</string>
     <string name="switch_wifi_title_preference">WiFi</string>
     <string name="environment_variables_summary">Variabili di sistema</string>
     <string name="environment_variables_title">Impostazioni</string>
-    <string name="tolerance_summary_pref">1-100%</string>
+    <string name="tolerance_summary_pref">1–100%</string>
     <string name="tolerance_title_pref">Inserisci la tolleranza da utilizzare per il cluster matching</string>
-    <string name="scan_number_summary_pref">1-100</string>
+    <string name="scan_number_summary_pref">1–100</string>
     <string name="scan_number_title_pref">Numero di rilevazioni da effettuare per il singolo RP</string>
-    <string name="duration_ms_summary_pref">1-50000</string>
+    <string name="duration_ms_summary_pref">1–50000</string>
     <string name="duration_ms_title_pref">Tempo fra una scansione e la successiva (ms)</string>
     <string name="title_activity_online_settings">Impostazioni</string>
+    <string name="unable_find_message">Impossibile trovare la tua posizione su questa mappa!</string>
+
+    <string name="title_activity_position_evaluator">Posizione Valutata</string>
+    <string name="placeholder_rp_name">Nome: Bagno</string>
+    <string name="scan_result_content_description">Risultato Scansione</string>
+    <string name="create_new_map"><![CDATA[<Crea una nuova Mappa>]]></string>
+    <string name="insert_map_name">Inserisci il nome della mappa</string>
+    <string name="no_rp_name_selected_error">Devi scegliere un nome valido per il RP</string>
+    <string name="pick_image_message">Scegli un\'immagine</string>
+    <string name="dialog_scan_map_title">Genero un reference point …</string>
+    <string name="dialog_scan_map_message">Scansione in corso …</string>
+    <string name="scanning_aborted_message">Scansione bloccata dall\'utente</string>
+    <string name="no_service_stop">Nessun servizio da sospendere</string>
+    <string name="evaluating_euclidean_distance_message">valutando la distanza euclidea…</string>
+    <string name="enabling_wifi_message">WiFi disabilitato… lo abilito</string>
+    <string name="localizing_dialog_title">Localizzazione nella mappa %1$s … </string>
+    <string name="notification_successful_localization">Localizzato nel RP: %1$s numero: %2$d</string>
+    <string name="found_rp_value_pattern">RP: %1$d</string>
+    <string name="unable_localize_message">Non è stato possibile trovare la tua posizione su questa mappa</string>
 
 
 </resources>

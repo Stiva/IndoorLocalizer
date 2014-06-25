@@ -17,48 +17,37 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class OfflineUtils {
-    private static String imageFilePath= "map_default_icon.png";
+
     public static int getRpNumber(Context c, String mapName) {
-        DbManager dbManager=new DbManager(c.getApplicationContext());
-        int res=0;
+        DbManager dbManager = new DbManager(c.getApplicationContext());
+        int res = 0;
         try {
             dbManager.open();
-            res=dbManager.getLastRp(mapName)+1;
+            res = dbManager.getLastRp(mapName) + 1;
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return res;
     }
 
-    public static int getMapRpNumber(Context c,String mapName) {
-        DbManager dbManager=new DbManager(c.getApplicationContext());
-        int res=1;
+    public static void saveFingerprint(Context c, String mapName, List<ScanResult> wifiList) {
+        DbManager dbManager = new DbManager(c.getApplicationContext());
         try {
             dbManager.open();
-            res=dbManager.getRPNumber(mapName);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return res;
-    }
-    public static void saveFingerprint(Context c,String mapName,List<ScanResult> wifiList) {
-        DbManager dbManager=new DbManager(c.getApplicationContext());
-        try {
-            dbManager.open();
-            int rp= OfflineUtils.getRpNumber(c.getApplicationContext(), mapName);
-            for(ScanResult res:wifiList){
-                dbManager.addWifi(new AccessPoint(mapName,rp,res.SSID,res.BSSID,res.capabilities,res.level,res.frequency));
+            int rp = OfflineUtils.getRpNumber(c.getApplicationContext(), mapName);
+            for (ScanResult res : wifiList) {
+                dbManager.addWifi(new AccessPoint(mapName, rp, res.SSID, res.BSSID, res.capabilities, res.level, res.frequency));
             }
             InputStream src;
-            if(imageFilePath.equals("map_default_icon.png")) {
-                src=c.getAssets().open(imageFilePath);
-            }
-            else {
+            String imageFilePath = "map_default_icon.png";
+            if (imageFilePath.equals("map_default_icon.png")) {
+                src = c.getAssets().open(imageFilePath);
+            } else {
                 src = new FileInputStream(imageFilePath);
             }
             File dest = new File(c.getApplicationContext().getFilesDir(), mapName);
             CommonUtils.copy(src, dest);
-            dbManager.addMap(new InfrastructureMap(mapName,1,dest.getPath()));
+            dbManager.addMap(new InfrastructureMap(mapName, 1, dest.getPath()));
             dbManager.close();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -68,7 +57,8 @@ public class OfflineUtils {
             e.printStackTrace();
         }
     }
-    public static void insertNewMap(Context c,String mapName,String imageFilePath){
+
+    public static void insertNewMap(Context c, String mapName, String imageFilePath) {
         try {
             InputStream src;
             if (imageFilePath.equals("map_default_icon.png")) {
@@ -78,22 +68,21 @@ public class OfflineUtils {
             }
             File dest = new File(c.getApplicationContext().getFilesDir(), mapName);
             CommonUtils.copy(src, dest);
-        } catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
-        DbManager dbManager=new DbManager(c.getApplicationContext());
+        DbManager dbManager = new DbManager(c.getApplicationContext());
         try {
             dbManager.open();
             InputStream src;
-            if(imageFilePath.equals("map_default_icon.png")) {
-                src=c.getAssets().open(imageFilePath);
-            }
-            else {
+            if (imageFilePath.equals("map_default_icon.png")) {
+                src = c.getAssets().open(imageFilePath);
+            } else {
                 src = new FileInputStream(imageFilePath);
             }
             File dest = new File(c.getApplicationContext().getFilesDir(), mapName);
             CommonUtils.copy(src, dest);
-            dbManager.addMap(new InfrastructureMap(mapName,0,dest.getPath()));
+            dbManager.addMap(new InfrastructureMap(mapName, 0, dest.getPath()));
             dbManager.close();
         } catch (SQLException e) {
             e.printStackTrace();

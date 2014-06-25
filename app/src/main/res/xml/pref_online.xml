@@ -2,7 +2,7 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
     <PreferenceCategory
         android:summary="@string/preference_summary_connection"
-        android:title="@string/preference_title_conncetion" >
+        android:title="@string/preference_title_connection" >
         <SwitchPreference
             android:key="wifi_toggle"
             android:summary="@string/wifi_toggle_info"

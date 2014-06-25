@@ -8,6 +8,6 @@
         android:layout_height="@dimen/splash_size"
         android:layout_width="@dimen/splash_size"
         android:id="@+id/splash_imageView"
-        android:src="@drawable/ic_launcher"
+        android:src="@drawable/splash_image"
         android:layout_gravity="center"/>
 </FrameLayout>

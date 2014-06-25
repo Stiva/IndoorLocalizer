@@ -3,9 +3,9 @@ package com.indoorlocalizer.app.activity.common.model;
 import java.io.Serializable;
 
 /**
- * Created by federicostivani on 01/06/14.
+ * Object that describes an Access Point with all its features.
  */
-public class AccessPoint implements Serializable{
+public class AccessPoint implements Serializable {
     private String SSID;
     private String map;
     private String BSSID;
@@ -16,28 +16,37 @@ public class AccessPoint implements Serializable{
     private int hits;
 
     public AccessPoint(String map, int rp, String ssid, String bssid, String capabilities, int level, int frequency) {
-        this.map=map;
-        this.rp=rp;
+        this.map = map;
+        this.rp = rp;
         this.SSID = ssid;
         this.BSSID = bssid;
         this.capabilities = capabilities;
         this.level = level;
         this.frequency = frequency;
-        this.hits=0;
+        this.hits = 0;
     }
-    public AccessPoint(String ssid, int level, int frequency){
-        this.map="";
+
+    public AccessPoint(String ssid, int level, int frequency) {
+        this.map = "";
         this.SSID = ssid;
         this.BSSID = "";
         this.capabilities = "";
         this.level = level;
         this.frequency = frequency;
-        this.hits=0;
+        this.hits = 0;
     }
 
-    public String getMap() { return this.map;  }
+    public String getMap() {
+        return this.map;
+    }
 
-    public int getRp() { return this.rp;}
+    public int getRp() {
+        return this.rp;
+    }
+
+    public void setRp(int rp) {
+        this.rp = rp;
+    }
 
     public String getSSID() {
         return SSID;
@@ -62,24 +71,6 @@ public class AccessPoint implements Serializable{
     public int getFrequency() {
         return frequency;
     }
-    /*
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeStringArray(new String[] {
-                getMap(),
-                String.valueOf(getRp()),
-                getSSID(),
-                getBSSID(),
-                getCapabilities(),
-                String.valueOf(getLevel()),
-                String.valueOf(getFrequency()),
-                String.valueOf(getHits())});
-    }*/
 
     public void hit() {
         hits++;
@@ -87,9 +78,5 @@ public class AccessPoint implements Serializable{
 
     public int getHits() {
         return hits;
-    }
-
-    public void setRp(int rp) {
-        this.rp = rp;
     }
 }

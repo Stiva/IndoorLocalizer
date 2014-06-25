@@ -31,13 +31,14 @@ public class CommonUtils {
         src.close();
         out.close();
     }
+
     /*
     * You can easy manage the menu by adding a new tag to optionsMenu.xml contained in assets folder
     */
-    public static void createOptionListXML(Context context,String filename,List<Map<String, Object>> mModel){
-        ArrayList<OptionElement> results=new ArrayList<OptionElement>();
+    public static void createOptionListXML(Context context, String filename, List<Map<String, Object>> mModel) {
+        ArrayList<OptionElement> results = new ArrayList<OptionElement>();
         try {
-            XmlParser parser=new XmlParser();
+            XmlParser parser = new XmlParser();
             InputStream in_s = context.getAssets().open(filename);
             results = parser.parseOptionMenu(in_s);
         } catch (XmlPullParserException e) {
@@ -45,11 +46,11 @@ public class CommonUtils {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        if(!results.isEmpty()){
-            for(OptionElement element:results){
-                HashMap<String,Object> temp=new HashMap<String, Object>();
-                temp.put("option_name",element.getOptionName());
-                temp.put("option_description",element.getOptionDescription());
+        if (!results.isEmpty()) {
+            for (OptionElement element : results) {
+                HashMap<String, Object> temp = new HashMap<String, Object>();
+                temp.put("option_name", element.getOptionName());
+                temp.put("option_description", element.getOptionDescription());
                 mModel.add(temp);
             }
         }

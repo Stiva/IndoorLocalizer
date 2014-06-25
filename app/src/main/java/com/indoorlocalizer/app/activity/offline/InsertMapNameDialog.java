@@ -13,14 +13,9 @@ import android.widget.Button;
 import com.indoorlocalizer.app.R;
 
 /**
- * Created by federicostivani on 10/06/14.
+ * Custom dialog that asks the user to insert a new map in the database
  */
 public class InsertMapNameDialog extends DialogFragment {
-    public interface InsertMapNameDialogListener {
-        public void onDialogPositiveClick(DialogFragment dialog);
-        public void onDialogNegativeClick(DialogFragment dialog);
-        public void onButtonClick(DialogFragment dialog);
-    }
     InsertMapNameDialogListener mListener;
 
     // Override the Fragment.onAttach() method to instantiate the NoticeDialogListener
@@ -37,14 +32,15 @@ public class InsertMapNameDialog extends DialogFragment {
                     + " must implement NoticeDialogListener");
         }
     }
+
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         // Use the Builder class for convenient dialog construction
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        View view = inflater.inflate(R.layout. insert_map_name_dialog, null);
-        Button mButton=(Button)view.findViewById(R.id.button_image_upload);
-        mButton.setOnClickListener(new View.OnClickListener(){
+        View view = inflater.inflate(R.layout.insert_map_name_dialog, null);
+        Button mButton = (Button) view.findViewById(R.id.button_image_upload);
+        mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mListener.onButtonClick(InsertMapNameDialog.this);
@@ -64,7 +60,15 @@ public class InsertMapNameDialog extends DialogFragment {
                         mListener.onDialogNegativeClick(InsertMapNameDialog.this);
                     }
                 });
-
+        builder.setCancelable(false);
         return builder.create();
+    }
+
+    public interface InsertMapNameDialogListener {
+        public void onDialogPositiveClick(DialogFragment dialog);
+
+        public void onDialogNegativeClick(DialogFragment dialog);
+
+        public void onButtonClick(DialogFragment dialog);
     }
 }

@@ -42,14 +42,10 @@ public class MultiItemRowListAdapter implements WrapperListAdapter {
         return (mAdapter == null || mAdapter.isEmpty());
     }
 
-    public int getItemsPerRow() {
-        return mItemsPerRow;
-    }
-
     @Override
     public int getCount() {
         if (mAdapter != null) {
-            return (int)Math.ceil(1.0f * mAdapter.getCount() / mItemsPerRow);
+            return (int) Math.ceil(1.0f * mAdapter.getCount() / mItemsPerRow);
         }
         return 0;
     }
@@ -118,7 +114,7 @@ public class MultiItemRowListAdapter implements WrapperListAdapter {
             view.setLayoutParams(mRowLayoutParams);
             view.setOrientation(LinearLayout.HORIZONTAL);
             view.setBaselineAligned(false);
-            view.setTag(Integer.valueOf(mItemsPerRow));
+            view.setTag(mItemsPerRow);
         } else {
             view = (LinearLayout) convertView;
         }
@@ -129,7 +125,7 @@ public class MultiItemRowListAdapter implements WrapperListAdapter {
 
             View newView = subView;
             if (p < mAdapter.getCount()) {
-                if (subView instanceof PlaceholderView){
+                if (subView instanceof PlaceholderView) {
                     view.removeView(subView);
                     subView = null;
                 }
@@ -139,6 +135,7 @@ public class MultiItemRowListAdapter implements WrapperListAdapter {
             }
             if (newView != subView || i >= view.getChildCount()) {
                 if (i < view.getChildCount()) {
+                    assert subView != null;
                     view.removeView(subView);
                 }
                 newView.setLayoutParams(mItemLayoutParams);

@@ -7,7 +7,7 @@ public class OptionElement {
     private String optionName;
     private String optionDescription;
     private String optionIconPath;
-    private static final String ns = null;
+
     public OptionElement(String optionName, String optionDescription, String optionIcon) {
         this.optionName = optionName;
         this.optionDescription = optionDescription;

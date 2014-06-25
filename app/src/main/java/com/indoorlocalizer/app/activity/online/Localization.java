@@ -16,6 +16,7 @@ import com.indoorlocalizer.app.R;
 import com.indoorlocalizer.app.activity.common.SettingsActivity;
 import com.indoorlocalizer.app.activity.common.db.DatabaseHelper;
 import com.indoorlocalizer.app.activity.common.db.DbManager;
+import com.indoorlocalizer.app.activity.online.utils.PositionEvaluator;
 
 import java.sql.SQLException;
 
@@ -35,7 +36,8 @@ public class Localization extends Activity implements AdapterView.OnItemSelected
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_localization);
         spinner = (Spinner) findViewById(R.id.map_chooser);
-        final Intent localizerServiceIntent=new Intent(this.getApplicationContext(),LocalizationService.class);
+        //final Intent localizerServiceIntent=new Intent(this.getApplicationContext(),LocalizationService.class);
+        final Intent localizationActivityIntent = new Intent(this,PositionEvaluator.class);
         try {
             getActionBar().setDisplayHomeAsUpEnabled(true);
         }catch (NullPointerException e){
@@ -55,10 +57,15 @@ public class Localization extends Activity implements AdapterView.OnItemSelected
             localizeButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+
                     Cursor temp=(Cursor)spinner.getSelectedItem();
                     mapName=temp.getString(temp.getColumnIndexOrThrow(DatabaseHelper.KEY_MAP_NAME));
-                    localizerServiceIntent.putExtra("mapName",mapName);
-                    startService(localizerServiceIntent);
+                    //localizerServiceIntent.putExtra("mapName",mapName);
+                    localizationActivityIntent.putExtra("mapName",mapName);
+                    /* If I use a service */
+                    //startService(localizerServiceIntent);
+                    /*Use an activity instead*/
+                    startActivity(localizationActivityIntent);
                 }
             });
         } catch (SQLException e){

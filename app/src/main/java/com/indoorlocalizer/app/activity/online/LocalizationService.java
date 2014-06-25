@@ -33,11 +33,10 @@ public class LocalizationService extends IntentService {
     private List<ScanResult> wifiList;
     private ArrayList<AccessPoint> mModel = new ArrayList<AccessPoint>();
     private ArrayList<AccessPoint> readAps;
-
-    public LocalizationService(){super("LocalizerService");}
-
     private NotificationCompat.Builder mBuilder;
     private NotificationManager mNotificationManager;
+
+    public LocalizationService(){super("LocalizerService");}
     @Override
     protected void onHandleIntent(Intent intent) {
 

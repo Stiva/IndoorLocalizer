@@ -12,10 +12,11 @@ import java.io.InputStream;
 import java.util.ArrayList;
 
 /**
- * Created by Federico on 09/06/2014.
+ * Class used to parse data from an XML resource, contained in assets folder.
  */
 public class XmlParser {
     private static final String ns = null;
+
     public ArrayList<OptionElement> parseOptionMenu(InputStream in) throws XmlPullParserException, IOException {
         try {
             XmlPullParser parser = Xml.newPullParser();
@@ -27,6 +28,7 @@ public class XmlParser {
             in.close();
         }
     }
+
     private ArrayList<OptionElement> readMenu(XmlPullParser parser) throws XmlPullParserException, IOException {
         ArrayList<OptionElement> entries = new ArrayList<OptionElement>();
 
@@ -49,7 +51,6 @@ public class XmlParser {
         String name = null;
         String description = null;
         String iconPath = null;
-        String name2="";
         while (parser.next() != XmlPullParser.END_TAG) {
             if (parser.getEventType() != XmlPullParser.START_TAG) {
                 continue;
@@ -61,8 +62,6 @@ public class XmlParser {
                 description = readDescription(parser);
             } else if (mTag.equals("iconPath")) {
                 iconPath = readIconPath(parser);
-            } else {
-                //skip(parser);
             }
         }
         return new OptionElement(name, description, iconPath);
@@ -79,7 +78,7 @@ public class XmlParser {
     // Processes description tags in the feed.
     private String readDescription(XmlPullParser parser) throws IOException, XmlPullParserException {
         parser.require(XmlPullParser.START_TAG, ns, "description");
-        String link=readText(parser);
+        String link = readText(parser);
         parser.require(XmlPullParser.END_TAG, ns, "description");
         return link;
     }

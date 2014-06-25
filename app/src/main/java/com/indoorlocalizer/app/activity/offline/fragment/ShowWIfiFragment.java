@@ -26,21 +26,22 @@ import java.util.List;
 
 
 public class ShowWifiFragment extends ListFragment {
-    private static final String[] FROM = {DatabaseHelper.KEY_SSID,DatabaseHelper.KEY_BSSID,DatabaseHelper.KEY_CAPABILITIES, DatabaseHelper.KEY_LEVEL,DatabaseHelper.KEY_FREQUENCY};
+    private static final String[] FROM = {DatabaseHelper.KEY_SSID, DatabaseHelper.KEY_BSSID, DatabaseHelper.KEY_CAPABILITIES, DatabaseHelper.KEY_LEVEL, DatabaseHelper.KEY_FREQUENCY};
 
     private static final int[] TO = {R.id.ssid, R.id.bssid, R.id.capabilities,
-            R.id.level,R.id.frequency};
-    private List<HashMap<String,Object>> mModel = new ArrayList<HashMap<String,Object>>();
+            R.id.level, R.id.frequency};
+    private List<HashMap<String, Object>> mModel = new ArrayList<HashMap<String, Object>>();
     private SimpleAdapter mAdapter;
     private WifiManager mainWifi;
     private WifiReceiver receiverWifi;
     private List<ScanResult> wifiList;
     private ProgressBar progressBar;
     private TextView textView;
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
-        progressBar=(ProgressBar)getActivity().findViewById(R.id.wifi_search_progress);
-        textView=(TextView)getActivity().findViewById(R.id.search_wifi_text_view);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        progressBar = (ProgressBar) getActivity().findViewById(R.id.wifi_search_progress);
+        textView = (TextView) getActivity().findViewById(R.id.search_wifi_text_view);
         mAdapter = new SimpleAdapter(getActivity().getBaseContext(), mModel, R.layout.wifi_list_item_simple, FROM, TO);
         mAdapter.setViewBinder(new SimpleAdapter.ViewBinder() {
             @Override
@@ -93,14 +94,14 @@ public class ShowWifiFragment extends ListFragment {
         mainWifi.startScan();
 
         // Instantiating an adapter to store each items
-        // R.layout.listview_layout defines the layout of each item
 
         setListAdapter(mAdapter);
 
         return super.onCreateView(inflater, container, savedInstanceState);
     }
+
     //rpID=-1 means that the RP isn't set.
-    public void refresh(){
+    public void refresh() {
         mModel.clear();
         progressBar.setVisibility(View.VISIBLE);
         textView.setVisibility(View.VISIBLE);
@@ -118,8 +119,8 @@ public class ShowWifiFragment extends ListFragment {
         super.onResume();
     }
 
-    public void saveFingerprint(Context c,String mapName) {
-        OfflineUtils.saveFingerprint(c,mapName,wifiList);
+    public void saveFingerprint(Context c, String mapName) {
+        OfflineUtils.saveFingerprint(c, mapName, wifiList);
     }
 
     class WifiReceiver extends BroadcastReceiver {
@@ -128,7 +129,7 @@ public class ShowWifiFragment extends ListFragment {
         public void onReceive(Context c, Intent intent) {
 
             wifiList = mainWifi.getScanResults();
-            for (ScanResult result:wifiList) {
+            for (ScanResult result : wifiList) {
                 final HashMap<String, Object> item = new HashMap<String, Object>();
                 item.put("ssid", result.SSID);
                 item.put("bssid", result.BSSID);
@@ -138,8 +139,8 @@ public class ShowWifiFragment extends ListFragment {
                 mModel.add(item);
             }
             mAdapter.notifyDataSetChanged();
-            progressBar=(ProgressBar)getActivity().findViewById(R.id.wifi_search_progress);
-            textView=(TextView)getActivity().findViewById(R.id.search_wifi_text_view);
+            progressBar = (ProgressBar) getActivity().findViewById(R.id.wifi_search_progress);
+            textView = (TextView) getActivity().findViewById(R.id.search_wifi_text_view);
             progressBar.setVisibility(View.INVISIBLE);
             textView.setVisibility(View.INVISIBLE);
             getListView().setAdapter(mAdapter);

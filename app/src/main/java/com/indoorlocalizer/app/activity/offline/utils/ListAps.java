@@ -17,27 +17,27 @@ import com.indoorlocalizer.app.activity.common.db.DbManager;
 
 import java.sql.SQLException;
 
-public class ListAps extends ListActivity{
-    private static final String[] FROM = {  DatabaseHelper.KEY_MAP_NAME,DatabaseHelper.KEY_REFERENCE_POINT_ID,
-                                            DatabaseHelper.KEY_ID,DatabaseHelper.KEY_SSID,
-                                            DatabaseHelper.KEY_BSSID,DatabaseHelper.KEY_CAPABILITIES, DatabaseHelper.KEY_LEVEL,
-                                            DatabaseHelper.KEY_FREQUENCY,DatabaseHelper.KEY_HITS};
+public class ListAps extends ListActivity {
+    private static final String[] FROM = {DatabaseHelper.KEY_MAP_NAME, DatabaseHelper.KEY_REFERENCE_POINT_ID,
+            DatabaseHelper.KEY_ID, DatabaseHelper.KEY_SSID,
+            DatabaseHelper.KEY_BSSID, DatabaseHelper.KEY_CAPABILITIES, DatabaseHelper.KEY_LEVEL,
+            DatabaseHelper.KEY_FREQUENCY, DatabaseHelper.KEY_HITS};
 
-    private static final int[] TO = {R.id.map,R.id.reference_point,R.id.ssid, R.id.bssid, R.id.capabilities,R.id.level,R.id.frequency,R.id.hits};
+    private static final int[] TO = {R.id.map, R.id.reference_point, R.id.ssid, R.id.bssid, R.id.capabilities, R.id.level, R.id.frequency, R.id.hits};
     private Cursor mCursor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_aps);
-        Intent intent=getIntent();
-        final String mapName=intent.getExtras().getString("mapName");
-        final TextView emptyListMsg=(TextView)findViewById(R.id.empty_list_message);
-        final DbManager dbManager=new DbManager(getApplicationContext());
-        try{
+        Intent intent = getIntent();
+        final String mapName = intent.getExtras().getString("mapName");
+        final TextView emptyListMsg = (TextView) findViewById(R.id.empty_list_message);
+        final DbManager dbManager = new DbManager(getApplicationContext());
+        try {
             dbManager.open();
             mCursor = dbManager.getAccessPointByMap(mapName);
-            if(mCursor.getCount()>0) {
+            if (mCursor.getCount() > 0) {
                 SimpleCursorAdapter mAdapter = new SimpleCursorAdapter(this, R.layout.wifi_list_item, mCursor, FROM, TO, 0);
                 mAdapter.setViewBinder(new SimpleCursorAdapter.ViewBinder() {
 
@@ -54,14 +54,14 @@ public class ListAps extends ListActivity{
                             case R.id.reference_point:
                                 Integer rp = cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.KEY_REFERENCE_POINT_ID));
                                 String rpName = "";
-                                try{
+                                try {
                                     dbManager.open();
                                     rpName = dbManager.getRpName(mapName, rp);
                                     // dbManager.close();
-                                } catch (SQLException e){
+                                } catch (SQLException e) {
                                     e.printStackTrace();
                                 }
-                                outputTextView.setText(getResources().getString(R.string.rp_value_pattern, rp,rpName));
+                                outputTextView.setText(getResources().getString(R.string.rp_value_pattern, rp, rpName));
                                 break;
                             case R.id.ssid:
                                 String ssid = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.KEY_SSID));
@@ -95,7 +95,7 @@ public class ListAps extends ListActivity{
             } else {
                 emptyListMsg.setVisibility(View.VISIBLE);
             }
-        } catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
@@ -114,7 +114,7 @@ public class ListAps extends ListActivity{
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.action_settings) {
-            Intent intent=new Intent(this, SettingsActivity.class);
+            Intent intent = new Intent(this, SettingsActivity.class);
             startActivity(intent);
         }
         return super.onOptionsItemSelected(item);

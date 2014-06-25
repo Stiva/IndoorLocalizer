@@ -24,7 +24,7 @@ import java.util.Map;
  */
 public class OfflineOptionsListMainMenu extends ListActivity {
 
-    private static final String[] FROM = {"option_name","option_description"};
+    private static final String[] FROM = {"option_name", "option_description"};
     private static final int[] TO = {R.id.option_name, R.id.option_description};
     private List<Map<String, Object>> mModel = new LinkedList<Map<String, Object>>();
 
@@ -54,16 +54,17 @@ public class OfflineOptionsListMainMenu extends ListActivity {
         });
         try {
             getActionBar().setDisplayHomeAsUpEnabled(true);
-        }catch (NullPointerException e){
+        } catch (NullPointerException e) {
             e.printStackTrace();
         }
         getListView().setAdapter(mAdapter);
     }
+
     @Override
     public boolean onMenuItemSelected(int featureId, MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_settings:
-                Intent intent=new Intent(this, SettingsActivity.class);
+                Intent intent = new Intent(this, SettingsActivity.class);
                 startActivity(intent);
             case R.id.get_stored_fingerprint_option:
                 showFingerPrints();
@@ -91,23 +92,23 @@ public class OfflineOptionsListMainMenu extends ListActivity {
     }
 
     private void showWifiFragment() {
-        Intent showWifiFragment=new Intent(this.getApplicationContext(),ShowWifiList.class);
+        Intent showWifiFragment = new Intent(this.getApplicationContext(), ShowWifiList.class);
         startActivity(showWifiFragment);
     }
 
-    private void showFingerPrints(){
-        Intent showMaps=new Intent(this,ShowSavedMaps.class);
+    private void showFingerPrints() {
+        Intent showMaps = new Intent(this, ShowSavedMaps.class);
         startActivity(showMaps);
     }
 
-    private void createRP(){
-        Intent createRP=new Intent(this,DataRetriever.class);
+    private void createRP() {
+        Intent createRP = new Intent(this, DataRetriever.class);
         startActivity(createRP);
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater menuInflater=getMenuInflater();
-        menuInflater.inflate(R.menu.wifi_scanner,menu);
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.wifi_scanner, menu);
         return true;
     }
 

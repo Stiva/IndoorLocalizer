@@ -29,35 +29,34 @@ import java.sql.SQLException;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class ShowSavedMaps extends ListActivity {
-    private  Cursor mCursor;
+    private static final String[] FROM = {DatabaseHelper.KEY_MAP_NAME, DatabaseHelper.KEY_ID,
+            DatabaseHelper.KEY_NUMBER_OF_RP,
+            DatabaseHelper.KEY_MAP_IMAGE_PATH};
+    private static final int[] TO = {R.id.map_image_button, R.id.map_title};
+    private Cursor mCursor;
     private CopyOnWriteArrayList<InfrastructureMap> savedMaps;
-    private static final String[] FROM = {  DatabaseHelper.KEY_MAP_NAME, DatabaseHelper.KEY_ID,
-                                            DatabaseHelper.KEY_NUMBER_OF_RP,
-                                            DatabaseHelper.KEY_MAP_IMAGE_PATH};
-
-    private static final int[] TO = {R.id.map_image_button,R.id.map_title};
-
     private SimpleCursorAdapter mAdapter;
     private MultiItemRowListAdapter wrapperAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_saved_maps);
-        final TextView emptyListMsg=(TextView)findViewById(R.id.empty_map_list_message);
-        DbManager dbManager=new DbManager(getApplicationContext());
+        final TextView emptyListMsg = (TextView) findViewById(R.id.empty_map_list_message);
+        DbManager dbManager = new DbManager(getApplicationContext());
         try {
             getActionBar().setDisplayHomeAsUpEnabled(true);
-        }catch (NullPointerException e){
+        } catch (NullPointerException e) {
             e.printStackTrace();
         }
-        try{
+        try {
             dbManager.open();
             mCursor = dbManager.getMapNameList();
-            if(mCursor.getCount()>0) {
+            if (mCursor.getCount() > 0) {
                 createMapFromCursor(mCursor);
-                int spacing = (int)getResources().getDimension(R.dimen.spacing);
+                int spacing = (int) getResources().getDimension(R.dimen.spacing);
                 int itemsPerRow = getResources().getInteger(R.integer.items_per_row);
-                mAdapter= new SimpleCursorAdapter(this, R.layout.map_selector_item, mCursor, FROM, TO, 0);
+                mAdapter = new SimpleCursorAdapter(this, R.layout.map_selector_item, mCursor, FROM, TO, 0);
                 wrapperAdapter = new MultiItemRowListAdapter(this, mAdapter, itemsPerRow, spacing);
                 mAdapter.setViewBinder(new SimpleCursorAdapter.ViewBinder() {
                     @Override
@@ -65,16 +64,16 @@ public class ShowSavedMaps extends ListActivity {
                         emptyListMsg.setVisibility(View.INVISIBLE);
                         switch (view.getId()) {
                             case R.id.map_image_button:
-                                final ImageView outputImageView=(ImageView) view;
+                                final ImageView outputImageView = (ImageView) view;
                                 Bitmap resizedImage;
                                 final String map_icon_id = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.KEY_MAP_IMAGE_PATH));
-                                Bitmap image=BitmapFactory.decodeFile(map_icon_id);
-                                if(image!=null) {
+                                Bitmap image = BitmapFactory.decodeFile(map_icon_id);
+                                if (image != null) {
                                     resizedImage = Bitmap.createScaledBitmap(image, 340, 340, true);
                                     outputImageView.setImageBitmap(resizedImage);
                                 } else {
                                     try {
-                                        Drawable dr=Drawable.createFromStream(getAssets().open("map_default_icon.png"),null);
+                                        Drawable dr = Drawable.createFromStream(getAssets().open("map_default_icon.png"), null);
                                         Bitmap bitmap = ((BitmapDrawable) dr).getBitmap();
                                         Drawable d = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(bitmap, 340, 340, true));
                                         outputImageView.setImageDrawable(d);
@@ -119,7 +118,7 @@ public class ShowSavedMaps extends ListActivity {
                                 break;
                             case R.id.map_title:
                                 final TextView outputTextView = (TextView) view;
-                                final String mapName=cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.KEY_MAP_NAME));
+                                final String mapName = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.KEY_MAP_NAME));
                                 outputTextView.setText(getResources().getString(R.string.map_value_pattern, mapName));
                                 break;
                         }
@@ -130,15 +129,15 @@ public class ShowSavedMaps extends ListActivity {
             } else {
                 emptyListMsg.setVisibility(View.VISIBLE);
             }
-        } catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
     private void createMapFromCursor(Cursor mCursor) {
-        savedMaps=new CopyOnWriteArrayList<InfrastructureMap>();
+        savedMaps = new CopyOnWriteArrayList<InfrastructureMap>();
         while (mCursor.moveToNext()) {
-            savedMaps.add(new InfrastructureMap(mCursor.getString(1),mCursor.getInt(2),mCursor.getString(3)));
+            savedMaps.add(new InfrastructureMap(mCursor.getString(1), mCursor.getInt(2), mCursor.getString(3)));
         }
         mCursor.moveToFirst();
     }
@@ -156,51 +155,51 @@ public class ShowSavedMaps extends ListActivity {
         return id == R.id.action_settings || super.onOptionsItemSelected(item);
     }
 
-    private String selectMapName(String map_path){
-        for(InfrastructureMap map:savedMaps){
-            if(map.getMapImagePath().equals(map_path))
+    private String selectMapName(String map_path) {
+        for (InfrastructureMap map : savedMaps) {
+            if (map.getMapImagePath().equals(map_path))
                 return map.getMapName();
         }
         return null;
     }
 
-    private void deleteDialog(final String map_icon_id){
+    private void deleteDialog(final String map_icon_id) {
         AlertDialog.Builder builder = new AlertDialog.Builder(ShowSavedMaps.this);
         builder.setMessage(R.string.delete_map_message)
                 .setTitle(R.string.delete_map_title);
-        builder.setPositiveButton(R.string.ok,new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                String mapname=selectMapName(map_icon_id);
+                String mapname = selectMapName(map_icon_id);
                 cancelMap(mapname);
             }
         });
-        builder.setNegativeButton(R.string.cancel,new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
 
             }
         });
-        AlertDialog dialog=builder.create();
+        AlertDialog dialog = builder.create();
         dialog.show();
     }
 
-    private void cancelMap(String mapName){
+    private void cancelMap(String mapName) {
         //Remove the map from the dynamic ArrayList of savedMaps
-        for(InfrastructureMap map:savedMaps)
-            if(map.getMapName().equals(mapName))
+        for (InfrastructureMap map : savedMaps)
+            if (map.getMapName().equals(mapName))
                 savedMaps.remove(map);
         //Remove the map from DB
-        DbManager dbManager=new DbManager(getApplicationContext());
-        try{
+        DbManager dbManager = new DbManager(getApplicationContext());
+        try {
             dbManager.open();
             dbManager.deleteMapByName(mapName);
             dbManager.deleteApByMapName(mapName);
             dbManager.deleteRpByMapName(mapName);
-            mCursor= dbManager.getMapNameList();
+            mCursor = dbManager.getMapNameList();
             mAdapter.swapCursor(mCursor);
             mAdapter.notifyDataSetChanged();
-        } catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
